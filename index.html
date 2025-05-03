@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typable Box</title>
+  <style>
+    @font-face {
+      font-family: 'FC Friday';
+      src: url('font/FCFriday-Regular.woff2') format('woff2'),
+           url('font/FCFriday-Regular.woff') format('woff'),
+           url('font/FCFriday-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      height: 56.5vw; /* Increase height to allow scrolling */
+      background: linear-gradient(to bottom, #0f0034, #98137c);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Align content to the top */
+      font-family: 'FC Friday', sans-serif; /* Set FC Friday as the default font */
+      overflow-y: auto; /* Enable vertical scrolling */
+    }
+
+    .tb {
+      position: absolute; /* Use fixed positioning to keep it consistent across screen sizes */
+      top: 3vw; /* Position relative to the viewport height */
+      left: 2vw; /* Position relative to the viewport width */
+      min-width: auto;
+      min-height: auto;
+      background-color: gray;
+      color: black;
+      padding: 0.2vw 1vw; /* Use relative padding */
+      box-sizing: border-box;
+      overflow: hidden;
+      font-size: 2.5vw; /* Font size relative to viewport width */
+      font-weight: bold;
+      font-family: 'FC Friday', sans-serif;
+    }
+    .shadow-div {
+    position: absolute;
+    top: 0vw; /* Center vertically */
+    left: 50vw; /* Center horizontally */
+    width: 100vw; /* Full viewport width */
+    height: 56.5vw; /* Set height */
+    transform: translate(-50%, 0vw); /* Adjust position to center */  
+    background-image: url('shadow/shadow.png'); /* Set the background image */
+    box-sizing: border-box; /* Include padding and border in size */
+    background-size: cover; /* Ensure the image covers the entire div */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image repetition */
+    z-index: -1;
+  }
+    .tb[data-placeholder]:empty::before {
+      content: attr(data-placeholder); /* Use the placeholder text */
+      color: rgba(255, 255, 255, 0.5); /* Faint text color */
+      pointer-events: none; /* Prevent interaction with the placeholder */
+    }
+
+    .hexagon {
+      width: 6.8vw; /* Reduced width by 5px */
+      height: 3.8vw; /* Reduced height by 5px */
+      background-color: #031120; /* Hexagon color */
+      position: relative;
+      margin: 0.3vw; /* Space between hexagons */
+      display: inline-block;
+    }
+
+    .hexagon:before,
+    .hexagon:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      border-left: 3.4vw solid transparent; /* Adjusted for reduced hexagon size */
+      border-right: 3.4vw solid transparent; /* Adjusted for reduced hexagon size */
+    }
+
+    .hexagon:before {
+      bottom: 100%;
+      border-bottom: 2vw solid #031120; /* Adjusted for reduced hexagon size */
+    }
+
+    .hexagon:after {
+      top: 100%;
+      border-top: 2vw solid #031120; /* Adjusted for reduced hexagon size */
+    }
+
+    .comp {
+  position: absolute;
+  top: 5vw; /* Move it under the .tb element */
+  left: 3vw; /* Adjust the left position */
+  width: 57vw;
+  height: 29.5vw;
+  background-color: #0d2b50; /* Set the color */
+  color: white;
+  box-sizing: border-box;
+  font-size: 0vw;
+  font-family: 'FC Friday', sans-serif; /* Apply FC Friday font */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: flex-start; /* Align items to the top */
+  row-gap: 0px; /* Reduce vertical space between rows */
+  padding-left: 0.7vw; /* Reduce left padding */
+  padding-top: 3vw; /* Adjust padding to fit the design */
+  padding-bottom: 1vw;
+}
+
+.hex-row {
+  margin-left: 0; /* Remove any extra left margin */
+}
+    .hex-row.offset {
+  margin-left: 3.7vw; /* Adjust this value to control the shift */
+}
+
+    .top-right-text {
+      position: absolute;
+      top: 2vw;
+      right: 11.5vw;
+      color: #c7b200;
+      font-size: 3.5vw;
+      font-weight: bold;
+      font-family: 'FC Friday', sans-serif; /* Apply FC Friday font */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
+    }
+
+    .cd {
+      position: absolute;
+      top: 2vw;
+      left: 49vw;
+      display: flex;
+      gap: 1vw; /* Space between buttons */
+    }
+
+    .diffbut {
+      width: 3vw; /* Set square width */
+      height: 3vw; /* Set square height */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'FC Friday', sans-serif;
+      font-size: 1vw;
+      font-weight: bold;
+      color: white; /* Text color */
+      border-radius: 5px; /* Slightly rounded corners */
+      cursor: pointer; /* Pointer cursor for interactivity */
+    }
+
+    #diffbut1 {
+      background-color: #00ff00; /* Green for Easy */
+    }
+
+    #diffbut2 {
+      background-color: #ffff00; /* Yellow for Medium */
+      color: black; /* Adjust text color for better contrast */
+    }
+
+    #diffbut3 {
+      background-color: #ff0000; /* Red for Hard */
+    }
+
+    .ii {
+      position: absolute;
+      top: 7vw; /* Adjust position relative to viewport width */
+      right: 4.5vw; /* Align to the top-right corner */
+      width: 30vw; /* Set width */
+      height: 6vw; /* Adjust height to fit squares */
+      background-color: rgba(255, 87, 34, 0); /* Orange background with 50% transparency */
+      color: white; /* Text color */
+      font-family: 'FC Friday', sans-serif;
+      font-size: 10vw;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-around; /* Space between squares */
+    }
+
+    .square {
+      width: 5vw; /* Set square width */
+      height: 5vw; /* Set square height */
+      background-color: rgba(255, 255, 255, 0.3); /* Green background color */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white; /* Text color */
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px; /* Slightly rounded corners */
+      background-size: cover; /* Ensure the image covers the square */
+      background-position: center; /* Center the image */
+      background-repeat: no-repeat; /* Prevent image repetition */
+    }
+
+    .square:nth-child(1) {
+      background-image: url(); /* Replace with the path to your first image */
+    }
+
+    .square:nth-child(2) {
+      background-image: url(); /* Replace with the path to your second image */
+    }
+
+    .square:nth-child(3) {
+      background-image: url(); /* Replace with the path to your third image */
+    }
+
+    .square:nth-child(4) {
+      background-image: url(); /* Replace with the path to your fourth image */
+    }
+
+    /* Style for the ss area */
+#ss {
+  position: fixed;
+  top: 7vw;
+  left: 35vw;
+  width: 30vw;
+  height: 20vw;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none; /* Initially hidden */
+  flex-wrap: wrap;
+  gap: 2vw 1vw;
+  justify-content: center;
+  align-items: center;
+  padding: 2vw;
+  padding-top: 3vw;
+  padding-bottom: 3vw;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-radius: 1vw;
+  z-index: 2000; /* Increase z-index to ensure it appears in front */
+
+}
+
+/* Style for images in the ss area */
+#ss img {
+  width: 5vw;
+  height: 5vw;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 0.5vw;
+  transition: transform 0.2s ease;
+}
+
+#ss img:hover {
+  transform: scale(1.1);
+}
+
+/* Highlight selected square */
+.square.selected {
+  border: 0.5vw solid #ffffff;
+  box-sizing: border-box;
+}
+
+#draggable-container {
+  position: absolute;
+  top: 10vw; /* Initial position */
+  left: 10vw; /* Initial position */
+  width: 10vw; /* Set container width */
+  height: auto; /* Maintain aspect ratio */
+  cursor: grab; /* Indicate draggable behavior */
+}
+
+#draggable-image {
+  width: 100%; /* Make the image fill the container */
+  height: auto; /* Maintain aspect ratio */
+  user-select: none; /* Prevent text selection while dragging */
+}
+
+#cmpa {
+  position: absolute;
+  top: 13vw; /* Position it vertically */
+  left: 63vw; /* Position it on the right side */
+  width: 16.5vw; /* Set the width */
+  height: 42vw; /* Set the height */
+  background-color: rgba(255, 255, 255, 0); /* Light background color */
+  display: flex;
+  flex-direction: column; /* Arrange squares vertically */
+  justify-content: space-around; /* Space between squares */
+  align-items: center; /* Center squares horizontally */
+  padding: 1vw; /* Add padding inside the container */
+  box-sizing: border-box;
+  border-radius: 1vw; /* Add rounded corners */
+  padding-top: 3vw; /* Adjust padding to fit the design */
+  gap: 3vw;
+}
+
+.cmp-square {
+  width: 14vw; /* Set square width */
+  height: 11vw; /* Set square height */
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background color */
+  background-size: contain; /* Ensure the image fits within the square */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent image repetition */
+}
+
+#cmpi {
+  position: absolute;
+  top: 13vw; /* Align vertically with cmpa */
+  left: 81vw; /* Position it to the right of cmpa */
+  width: 16.5vw; /* Set the width */
+  height: 42vw; /* Set the height */
+  background-color: rgba(255, 255, 255, 0); /* Light background color */
+  display: flex;
+  flex-direction: column; /* Arrange squares vertically */
+  justify-content: space-around; /* Space between squares */
+  align-items: center; /* Center squares horizontally */
+  padding: 1vw; /* Add padding inside the container */
+  box-sizing: border-box;
+  border-radius: 1vw; /* Add rounded corners */
+  padding-top: 3vw; /* Adjust padding to fit the design */
+  gap: 3vw;
+}
+
+#cmpi .cmii {
+  width: 17vw; /* Set square width */
+  height: 11vw; /* Set square height */
+  background-color: rgba(0, 0, 0, 0); /* Dark background color */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent image repetition */
+}
+
+.inner-square {
+  width: 4vw; /* Set the width of each inner square */
+  height: 4vw; /* Set the height of each inner square */
+  background-color: rgba(255, 255, 255, 0.3); /* Light background color */
+  margin: 0.4vw; /* Add spacing between squares */
+  display: inline-block; /* Align squares horizontally */
+  background-size: cover; /* Ensure the image covers the square */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  padding-top: 0.2vw; /* Adjust padding to fit the design */
+
+}
+
+#ci {
+  position: absolute; /* Change to absolute for precise positioning */
+  top: 15vw; /* Adjust vertical position to align with si1 */
+  left: 23vw; /* Move ci closer to si1 */
+  width: 40vw; /* Reduced width */
+  height: 40vw; /* Reduced height */
+  background-color: rgba(0, 0, 0, 0.9);
+  display: none; /* Initially hidden */
+  flex-wrap: wrap;
+  gap: 0.8vw; /* Space between images */
+  justify-content: center;
+  align-items: flex-start; /* Align images to the top */
+  padding: 2vw; /* Increased padding to add space at the top */
+  box-sizing: border-box;
+  z-index: 1000;
+  overflow-y: auto;
+  border-radius: 1vw;
+}
+
+/* Style for images in the ci area */
+#ci img {
+  width: 6vw; /* Reduced image width */
+  height: 6vw; /* Reduced image height */
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 0.5vw;
+  transition: transform 0.2s ease;
+}
+
+#ci img:hover {
+  transform: scale(1.1);
+}
+
+.inner-square.selected {
+  border: 0.5vw solid #ffffff; /* White border */
+  box-sizing: border-box; /* Ensure the border doesn't affect the square's size */
+}
+
+.bottom-left-text {
+  position: absolute;
+  top: 36vw; /* Position it near the bottom */
+  left: 23vw; /* Position it near the left */
+  color: #c7b200; /* Gold color */
+  font-size: 4vw; /* Adjust font size */
+  font-weight: bold; /* Bold text */
+  font-family: 'FC Friday', sans-serif; /* Use the same font */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
+}
+
+.aug {
+    position: absolute;
+    top: 40.5vw; /* Position it at the specified top value */
+    left: 42.5vw; /* Position it at the specified left value */
+    width: 14vw; /* Set the width */
+    height: 15vw; /* Set the height */
+    background-color: rgba(0, 0, 0, 0); /* Dark background color */
+    background-size: contain; /* Ensure the image fits within the square */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image repetition */
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+  }
+
+  .aug .inner-aug {
+    width: 13.4vw; /* Set the width of each inner square */
+    height: 4.141vw; /* Set the height of each inner square */
+    background-color: rgba(0, 0, 0, 0.5); /* Light background color */
+    margin: 0.5vw; /* Add spacing between squares */
+    display: inline-block; /* Align squares horizontally */
+    background-size: cover; /* Stretch the image to cover the square */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image repetition */
+  }
+
+.bottom-left-augment {
+  position: absolute;
+  top: 35.9vw; /* Align with the bottom-left text */
+  left: 43vw; /* Position it to the right of the bottom-left text */
+  color: #c7b200; /* Gold color */
+  font-size: 4vw; /* Adjust font size */
+  font-weight: bold; /* Bold text */
+  font-family: 'FC Friday', sans-serif; /* Use the same font */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
+}
+
+.bottom-left-square {
+  position: absolute;
+  top: 41vw; /* Position it below the bottom-left text */
+  left: 23vw; /* Align it with the bottom-left text */
+  width: 14vw; /* Set square width */
+  height: 10.5vw; /* Set square height */
+  background-color: rgba(0, 0, 0, 0.5); /* Dark background color */
+  background-size: contain; /* Ensure the image fits within the square */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Prevent image repetition */
+}
+.bottom-left-blue-square {
+  position: absolute;
+  top: 36.5vw; /* Adjust distance from the bottom */
+  left: 4vw; /* Adjust distance from the left */
+  width: 16.5vw; /* Set the width of the square */
+  height: 19vw; /* Set the height of the square */
+  background-color: #0d2b50; /* Set the color to blue */
+  border-radius: 0.5vw; /* Optional: Add rounded corners */
+  padding-left: 1vw; /* Add space between the text and the edges */
+  padding-top: 1vw;
+  box-sizing: border-box; /* Ensure padding doesn't affect the size */
+  color: white; /* Ensure text is visible */
+  font-size: 1.8vw; /* Adjust font size */
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+  .itt {
+    position: absolute;
+    top: 49vw; /* Position it below the bottom-left text */
+    left: 23vw; /* Align it with the bottom-left text */
+    width: 14vw; /* Set square width */
+    height: 5vw; /* Set square height */
+    background-color: rgba(0, 0, 0, 0); /* Dark background color */
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center the squares horizontally */
+    align-items: center; /* Center the squares vertically */
+    gap: 0.5vw; /* Add spacing between squares */
+  }
+.itt-square {
+    width: 4vw; /* Set square width */
+    height: 4vw; /* Set square height */
+    background-color: rgba(255, 255, 255, 0.3); /* Light background color */
+    margin: 0.5vw; /* Add spacing between squares */
+    display: inline-block; /* Align squares horizontally */
+    background-size: cover; /* Ensure the image covers the square */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image repetition */
+    border-radius: 0.5vw; /* Slightly rounded corners */
+  }
+
+  </style>
+</head>
+<body>
+  <div class="cd">
+  <div class="diffbut" id="diffbut1">Easy</div>
+  <div class="diffbut" id="diffbut2">Medium</div>
+  <div class="diffbut" id="diffbut3">Hard</div>
+</div>
+<div class="shadow-div"></div>
+<div class="comp">
+  <!-- Row 1 -->
+  <div class="hex-row">
+    <div class="hexagon" id="hex1"></div>
+    <div class="hexagon" id="hex2"></div>
+    <div class="hexagon" id="hex3"></div>
+    <div class="hexagon" id="hex4"></div>
+    <div class="hexagon" id="hex5"></div>
+    <div class="hexagon" id="hex6"></div>
+    <div class="hexagon" id="hex7"></div>
+  </div>
+
+  <!-- Row 2 (Shifted to the right) -->
+  <div class="hex-row offset">
+    <div class="hexagon" id="hex8"></div>
+    <div class="hexagon" id="hex9"></div>
+    <div class="hexagon" id="hex10"></div>
+    <div class="hexagon" id="hex11"></div>
+    <div class="hexagon" id="hex12"></div>
+    <div class="hexagon" id="hex13"></div>
+    <div class="hexagon" id="hex14"></div>
+  </div>
+
+  <!-- Row 3 -->
+  <div class="hex-row">
+    <div class="hexagon" id="hex15"></div>
+    <div class="hexagon" id="hex16"></div>
+    <div class="hexagon" id="hex17"></div>
+    <div class="hexagon" id="hex18"></div>
+    <div class="hexagon" id="hex19"></div>
+    <div class="hexagon" id="hex20"></div>
+    <div class="hexagon" id="hex21"></div>
+  </div>
+
+  <!-- Row 4 (Shifted to the right) -->
+  <div class="hex-row offset">
+    <div class="hexagon" id="hex22"></div>
+    <div class="hexagon" id="hex23"></div>
+    <div class="hexagon" id="hex24"></div>
+    <div class="hexagon" id="hex25"></div>
+    <div class="hexagon" id="hex26"></div>
+    <div class="hexagon" id="hex27"></div>
+    <div class="hexagon" id="hex28"></div>
+  </div>
+</div>
+  <div class="tb" contenteditable="true" data-placeholder="Insert comp name"></div>
+  <div class="top-right-text">ชิ้นส่วนสำคัญ</div>
+  <div class="ii">
+  <div class="square"></div>
+  <div class="square"></div>
+  <div class="square"></div>
+  <div class="square"></div>
+</div>
+<div id="cmpa">
+  <div class="cmp-square" id="cmp1"></div>
+  <div class="cmp-square" id="cmp2"></div>
+  <div class="cmp-square" id="cmp3"></div>
+</div>
+<div id="cmpi">
+  <div class="cmii" id="si1">
+    <div class="inner-square" id="sq1"></div>
+    <div class="inner-square" id="sq2"></div>
+    <div class="inner-square" id="sq3"></div>
+    <div class="inner-square" id="sq4"></div>
+    <div class="inner-square" id="sq5"></div>
+    <div class="inner-square" id="sq6"></div>
+  </div>
+  <div class="cmii" id="si2">
+    <div class="inner-square" id="sqq1"></div>
+    <div class="inner-square" id="sqq2"></div>
+    <div class="inner-square" id="sqq3"></div>
+    <div class="inner-square" id="sqq4"></div>
+    <div class="inner-square" id="sqq5"></div>
+    <div class="inner-square" id="sqq6"></div>
+  </div>
+  <div class="cmii" id="si3">
+    <div class="inner-square" id="sqqq1"></div>
+    <div class="inner-square" id="sqqq2"></div>
+    <div class="inner-square" id="sqqq3"></div>
+    <div class="inner-square" id="sqqq4"></div>
+    <div class="inner-square" id="sqqq5"></div>
+    <div class="inner-square" id="sqqq6"></div>
+  </div>
+</div>
+<div id="ci"></div>
+<div class="bottom-left-text">ตัวถือของ</div>
+<div class="bottom-left-augment">Augment</div>
+<div class="bottom-left-square"></div>
+<div class="bottom-left-blue-square"></div>
+<div class="itt">
+  <div class="itt-square" id="itt1"></div>
+  <div class="itt-square" id="itt2"></div>
+</div>
+<div class="aug">
+  <div class="inner-aug" id="ag1"></div>
+  <div class="inner-aug" id="ag2"></div>
+  <div class="inner-aug" id="ag3"></div>
+</div>
+
+<script>
+const championTraits = {
+  "Alistar": ["Golden Ox", "Bruiser"],
+  "DrMundo": ["Street Demon", "Bruiser", "Slayer"],
+  "Jax": ["Bastion", "Exotech"],
+  "Kindred": ["Rapidfire", "Marksman", "Nitro"],
+  "Kog'Maw": ["BoomBot", "Rapidfire"],
+  "Morgana": ["Divinicorp", "Dynamo"],
+  "Nidalee": ["AMP", "Nitro"],
+  "Poppy": ["Bastion", "Cyberboss"],
+  "Seraphine": ["Anima Squad", "Techie"],
+  "Shaco": ["Syndicate", "Slayer"],
+  "Sylas": ["Anima Squad", "Vanguard"],
+  "Vi": ["Cypher", "Vanguard"],
+  "Zyra": ["Street Demon", "Techie"],
+  "Darius": ["Syndicate", "Bruiser"],
+  "Ekko": ["Street Demon", "Strategist"],
+  "Graves": ["Golden Ox", "Executioner"],
+  "Illaoi": ["Anima Squad", "Bastion"],
+  "Jhin": ["Exotech", "Marksman", "Dynamo"],
+  "LeBlanc": ["Cypher", "Strategist"],
+  "Naafiri": ["Exotech", "AMP"],
+  "Rhaast": ["Divinicorp", "Vanguard"],
+  "Shyvana": ["Nitro", "Bastion", "Techie"],
+  "Skarner": ["BoomBot", "Vanguard"],
+  "Twisted Fate": ["Syndicate", "Rapidfire"],
+  "Vayne": ["Anima Squad", "Slayer"],
+  "Veigar": ["Cyberboss", "Techie"],
+  "Braum": ["Syndicate", "Vanguard"],
+  "Draven": ["Cypher", "Rapidfire"],
+  "Elise": ["Nitro", "Dynamo"],
+  "Fiddlesticks": ["BoomBot", "Techie"],
+  "Galio": ["Cypher", "Bastion"],
+  "Gragas": ["Divinicorp", "Bruiser"],
+  "Jarvan IV": ["Golden Ox", "Vanguard", "Slayer"],
+  "Jinx": ["Street Demon", "Marksman"],
+  "Mordekaiser": ["Exotech", "Bruiser", "Techie"],
+  "Rengar": ["Street Demon", "Executioner"],
+  "Senna": ["Divinicorp", "Slayer"],
+  "Varus": ["Exotech", "Executioner"],
+  "Yuumi": ["Anima Squad", "AMP", "Strategist"],
+  "Annie": ["Golden Ox", "AMP"],
+  "Aphelios": ["Golden Ox", "Marksman"],
+  "Brand": ["Street Demon", "Techie"],
+  "Cho'Gath": ["BoomBot", "Bruiser"],
+  "Leona": ["Anima Squad", "Vanguard"],
+  "Miss Fortune": ["Syndicate", "Dynamo"],
+  "Neeko": ["Street Demon", "Strategist"],
+  "Sejuani": ["Bastion", "Exotech"],
+  "Vex": ["Divinicorp", "Executioner"],
+  "Xayah": ["Anima Squad", "Marksman"],
+  "Zed": ["Cypher", "Slayer"],
+  "Zeri": ["Exotech", "Rapidfire"],
+  "Ziggs": ["Cyberboss", "Strategist"],
+  "Aurora": ["Anima Squad", "Dynamo"],
+  "Garen": ["God of the Net"],
+  "Kobuko": ["Cyberboss", "Bruiser"],
+  "Renekton": ["Overlord", "Bastion", "Divinicorp"],
+  "Samira": ["AMP", "Street Demon"],
+  "Urgot": ["BoomBot", "Executioner"],
+  "Viego": ["Golden Ox", "Techie", "Soul Killer"],
+  "Zac": ["Virus"]
+};
+
+const hexagonsInComp = document.querySelectorAll('.comp .hexagon');
+
+// Create the cmpp area dynamically
+const cmpp = document.createElement('div');
+cmpp.id = 'cmpp';
+cmpp.style.position = 'absolute';
+cmpp.style.top = '5vw'; // Adjust vertical position
+cmpp.style.left = '60vw'; // Adjust horizontal position
+cmpp.style.width = '35vw'; // Set width
+cmpp.style.height = '40vw'; // Set height
+cmpp.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+cmpp.style.display = 'none'; // Initially hidden
+cmpp.style.flexWrap = 'wrap';
+cmpp.style.gap = '0.8vw'; // Space between images
+cmpp.style.justifyContent = 'center';
+cmpp.style.alignItems = 'flex-start'; // Align images to the top
+cmpp.style.padding = '2vw';
+cmpp.style.boxSizing = 'border-box';
+cmpp.style.zIndex = '1000';
+cmpp.style.overflowY = 'auto';
+cmpp.style.borderRadius = '1vw';
+document.body.appendChild(cmpp);
+
+// Create and add the close button to the cmpp area
+const cmppCloseButton = document.createElement('button');
+cmppCloseButton.textContent = 'Close';
+cmppCloseButton.style.position = 'fixed';
+cmppCloseButton.style.top = '5vw';
+cmppCloseButton.style.right = '7vw';
+cmppCloseButton.style.padding = '0.5vw 1vw';
+cmppCloseButton.style.fontSize = '1vw';
+cmppCloseButton.style.backgroundColor = '#ff0000';
+cmppCloseButton.style.color = '#ffffff';
+cmppCloseButton.style.border = 'none';
+cmppCloseButton.style.borderRadius = '0.5vw';
+cmppCloseButton.style.cursor = 'pointer';
+cmppCloseButton.addEventListener('click', () => {
+  cmpp.style.display = 'none'; // Hide the cmpp area when the button is clicked
+});
+cmpp.appendChild(cmppCloseButton);
+
+// Create a container for the search box
+const cmppSearchContainer = document.createElement('div');
+cmppSearchContainer.style.display = 'flex';
+cmppSearchContainer.style.justifyContent = 'center';
+cmppSearchContainer.style.alignItems = 'center';
+cmppSearchContainer.style.marginBottom = '1vw';
+cmppSearchContainer.style.width = '100%'; // Ensure it spans the full width
+cmppSearchContainer.style.boxSizing = 'border-box';
+
+// Create the search input
+const cmppSearchInput = document.createElement('input');
+cmppSearchInput.type = 'text';
+cmppSearchInput.placeholder = 'Search by name or trait...';
+cmppSearchInput.style.width = '20vw';
+cmppSearchInput.style.padding = '0.5vw';
+cmppSearchInput.style.fontSize = '1vw';
+cmppSearchInput.style.borderRadius = '0.5vw';
+cmppSearchInput.style.border = '1px solid #ccc';
+
+cmppSearchContainer.appendChild(cmppSearchInput);
+cmpp.appendChild(cmppSearchContainer); // Add the search container to cmpp
+
+// Create a container for the images
+const cmppImagesContainer = document.createElement('div');
+cmppImagesContainer.style.display = 'flex';
+cmppImagesContainer.style.flexWrap = 'wrap';
+cmppImagesContainer.style.gap = '0.8vw'; // Space between images
+cmppImagesContainer.style.justifyContent = 'center';
+cmppImagesContainer.style.alignItems = 'flex-start';
+cmppImagesContainer.style.width = '100%'; // Ensure it spans the full width
+cmppImagesContainer.style.boxSizing = 'border-box';
+cmpp.appendChild(cmppImagesContainer); // Add the images container to cmpp
+
+// Add search functionality
+cmppSearchInput.addEventListener('input', () => {
+  const searchTerm = cmppSearchInput.value.toLowerCase();
+  const images = cmppImagesContainer.querySelectorAll('img');
+
+  images.forEach((img, index) => {
+    const champName = champNames[index].toLowerCase();
+    const champTraits = (championTraits[champNames[index]] || []).join(' ').toLowerCase();
+
+    if (champName.includes(searchTerm) || champTraits.includes(searchTerm) || searchTerm === '') {
+      img.style.display = 'block'; // Show matching images
+    } else {
+      img.style.display = 'none'; // Hide non-matching images
+    }
+  });
+});
+
+// Populate the cmppImagesContainer with images from the champ folder
+for (let i = 1; i <= 60; i++) {
+  const img = document.createElement('img');
+  img.src = `champ/${i}.png`; // Path to the images
+  img.alt = `Image ${i}`;
+  img.style.width = '8vw'; // Set image width
+  img.style.height = '6vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    console.log(`Image ${i} clicked`);
+    // Add any additional logic for image clicks here
+  });
+  cmppImagesContainer.appendChild(img); // Add images to the images container
+}
+
+// Add click event to each hexagon in the .comp area
+hexagonsInComp.forEach((hexagon) => {
+  hexagon.addEventListener('click', () => {
+    cmpp.style.display = 'flex'; // Show the cmpp area
+  });
+});
+
+
+  document.getElementById('diffbut1').addEventListener('click', () => {
+  const tb = document.querySelector('.tb');
+  tb.style.backgroundColor = '#00ff00'; // Green for Easy
+  tb.textContent = tb.textContent.replace(/\(.*\)$/, '').trim() + ' (ง่าย)'; // Add suffix
+});
+
+document.getElementById('diffbut2').addEventListener('click', () => {
+  const tb = document.querySelector('.tb');
+  tb.style.backgroundColor = '#ffff00'; // Yellow for Medium
+  tb.textContent = tb.textContent.replace(/\(.*\)$/, '').trim() + ' (ปานกลาง)'; // Add suffix
+});
+
+document.getElementById('diffbut3').addEventListener('click', () => {
+  const tb = document.querySelector('.tb');
+  tb.style.backgroundColor = '#ff0000'; // Red for Hard
+  tb.textContent = tb.textContent.replace(/\(.*\)$/, '').trim() + ' (ยาก)'; // Add suffix
+});
+
+  // Prevent deletion of the suffix and ensure it stays at the end
+  const tb = document.querySelector('.tb');
+  tb.addEventListener('input', () => {
+  const suffixMatch = tb.textContent.match(/\(.*\)$/);
+  const suffix = suffixMatch ? suffixMatch[0] : '';
+  const contentWithoutSuffix = suffix ? tb.textContent.slice(0, tb.textContent.length - suffix.length) : tb.textContent;
+  tb.textContent = contentWithoutSuffix + suffix;
+});
+
+const squares = document.querySelectorAll('.ii .square');
+let selectedSquareIndex = 0; // Start with the first square
+
+// Create the ss area dynamically
+const ss = document.createElement('div');
+ss.id = 'ss';
+document.body.appendChild(ss);
+
+// Create and add the close button to the ss area
+const closeButton = document.createElement('button');
+closeButton.textContent = 'Close';
+closeButton.style.position = 'absolute';
+closeButton.style.top = '1vw';
+closeButton.style.right = '1vw';
+closeButton.style.padding = '0.5vw 1vw';
+closeButton.style.fontSize = '1vw';
+closeButton.style.backgroundColor = '#ff0000';
+closeButton.style.color = '#ffffff';
+closeButton.style.border = 'none';
+closeButton.style.borderRadius = '0.5vw';
+closeButton.style.cursor = 'pointer';
+closeButton.addEventListener('click', () => {
+  ss.style.display = 'none'; // Hide the ss area when the button is clicked
+
+  // Remove the border from all squares
+  squares.forEach(square => square.classList.remove('selected'));
+});
+ss.appendChild(closeButton);
+
+// Populate the ss area with images
+for (let i = 1; i <= 8; i++) {
+  const img = document.createElement('img');
+  img.src = `mati/${i}.png`; // Path to the images
+  img.alt = `Image ${i}`;
+  img.addEventListener('click', () => {
+    if (selectedSquareIndex < squares.length) {
+      // Set the selected image as the background of the current square
+      const currentSquare = squares[selectedSquareIndex];
+      currentSquare.style.backgroundImage = `url(${img.src})`;
+      currentSquare.classList.remove('selected'); // Remove border from the current square
+
+      // Move to the next square if it's not a re-selection
+      if (selectedSquareIndex < squares.length - 1) {
+        selectedSquareIndex++;
+        squares[selectedSquareIndex].classList.add('selected'); // Add border to the next square
+      } else {
+        ss.style.display = 'none'; // Close the ss area if all squares are filled
+      }
+    }
+  });
+  ss.appendChild(img);
+}
+
+// Add click event to the squares to start the process
+squares.forEach((square, index) => {
+  square.addEventListener('click', () => {
+    // Allow re-selection of a square
+    selectedSquareIndex = index;
+
+    // Highlight the current square
+    squares.forEach(sq => sq.classList.remove('selected')); // Remove border from all squares
+    square.classList.add('selected'); // Add border to the clicked square
+
+    // Show the ss area
+    ss.style.display = 'flex';
+  });
+});
+
+const siSquares = document.querySelectorAll('#si1 .inner-square, #si2 .inner-square, #si3 .inner-square');
+let selectedSquare = null;
+
+// Create the ci area dynamically
+const ci = document.createElement('div');
+ci.id = 'ci';
+document.body.appendChild(ci);
+
+// Create and add the close button to the ci area
+const ciCloseButton = document.createElement('button');
+ciCloseButton.textContent = 'Close';
+ciCloseButton.style.position = 'absolute';
+ciCloseButton.style.top = '0.2vw';
+ciCloseButton.style.right = '1vw';
+ciCloseButton.style.padding = '0.5vw 1vw';
+ciCloseButton.style.fontSize = '1vw';
+ciCloseButton.style.backgroundColor = '#ff0000';
+ciCloseButton.style.color = '#ffffff';
+ciCloseButton.style.border = 'none';
+ciCloseButton.style.borderRadius = '0.5vw';
+ciCloseButton.style.cursor = 'pointer';
+ciCloseButton.addEventListener('click', () => {
+  ci.style.display = 'none'; // Hide the ci area when the button is clicked
+});
+ci.appendChild(ciCloseButton);
+
+// Select all squares in si1
+const si1Squares = document.querySelectorAll('#si1 .inner-square'); // Select all squares in si1
+let selectedSi1SquareIndex = 0; // Start with the first square in si1
+
+// Add click event to each square in si1
+si1Squares.forEach((square, index) => {
+  square.addEventListener('click', () => {
+    // Remove the border from all squares in si1
+    si1Squares.forEach(sq => sq.classList.remove('selected'));
+
+    // Add a border to the clicked square
+    square.classList.add('selected');
+
+    // Set the clicked square as the selected square
+    selectedSi1SquareIndex = index;
+
+    // Show the ci area
+    ci.style.display = 'flex';
+  });
+});
+
+// Populate the ci area with images
+for (let i = 1; i <= 36; i++) {
+  const img = document.createElement('img');
+  img.src = `image/${i}.jpg`; // Path to the images
+  img.alt = `Image ${i}`;
+  img.style.width = '6vw'; // Reduced image width
+  img.style.height = '6vw'; // Reduced image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    if (selectedSi1SquareIndex < si1Squares.length) {
+      // Set the selected image as the background of the current square
+      const currentSquare = si1Squares[selectedSi1SquareIndex];
+      currentSquare.style.backgroundImage = `url(${img.src})`;
+      currentSquare.classList.remove('selected'); // Remove border from the current square
+
+      // Move to the next square
+      selectedSi1SquareIndex++;
+      if (selectedSi1SquareIndex < si1Squares.length) {
+        si1Squares[selectedSi1SquareIndex].classList.add('selected'); // Add border to the next square
+      } else {
+        ci.style.display = 'none'; // Close the ci area if all squares are filled
+      }
+    }
+  });
+  ci.appendChild(img);
+}
+
+// Initialize by adding a border to the first square
+
+  // Create the ci2 area dynamically
+  const ci2 = document.createElement('div');
+  ci2.id = 'ci2';
+  ci2.style.position = 'absolute';
+  ci2.style.top = '15vw'; // Adjust vertical position
+  ci2.style.left = '23vw'; // Adjust horizontal position
+  ci2.style.width = '40vw'; // Set width
+  ci2.style.height = '40vw'; // Set height
+  ci2.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  ci2.style.display = 'none'; // Initially hidden
+  ci2.style.flexWrap = 'wrap';
+  ci2.style.gap = '0.8vw'; // Space between images
+  ci2.style.justifyContent = 'center';
+  ci2.style.alignItems = 'flex-start'; // Align images to the top
+  ci2.style.padding = '2vw';
+  ci2.style.boxSizing = 'border-box';
+  ci2.style.zIndex = '1000';
+  ci2.style.overflowY = 'auto';
+  ci2.style.borderRadius = '1vw';
+  document.body.appendChild(ci2);
+
+  // Create and add the close button to the ci2 area
+  const ci2CloseButton = document.createElement('button');
+  ci2CloseButton.textContent = 'Close';
+  ci2CloseButton.style.position = 'absolute';
+  ci2CloseButton.style.top = '0.2vw';
+  ci2CloseButton.style.right = '1vw';
+  ci2CloseButton.style.padding = '0.5vw 1vw';
+  ci2CloseButton.style.fontSize = '1vw';
+  ci2CloseButton.style.backgroundColor = '#ff0000';
+  ci2CloseButton.style.color = '#ffffff';
+  ci2CloseButton.style.border = 'none';
+  ci2CloseButton.style.borderRadius = '0.5vw';
+  ci2CloseButton.style.cursor = 'pointer';
+  ci2CloseButton.addEventListener('click', () => {
+    ci2.style.display = 'none'; // Hide the ci2 area when the button is clicked
+  });
+  ci2.appendChild(ci2CloseButton);
+
+  // Select all squares in si2
+  const si2Squares = document.querySelectorAll('#si2 .inner-square');
+  let selectedSi2SquareIndex = 0; // Start with the first square in si2
+
+  // Add click event to each square in si2
+  si2Squares.forEach((square, index) => {
+    square.addEventListener('click', () => {
+      // Remove the border from all squares in si2
+      si2Squares.forEach(sq => sq.classList.remove('selected'));
+
+      // Add a border to the clicked square
+      square.classList.add('selected');
+
+      // Set the clicked square as the selected square
+      selectedSi2SquareIndex = index;
+
+      // Show the ci2 area
+      ci2.style.display = 'flex';
+    });
+  });
+
+  // Populate the ci2 area with images
+  for (let i = 1; i <= 36; i++) {
+    const img = document.createElement('img');
+    img.src = `image/${i}.jpg`; // Path to the images
+    img.alt = `Image ${i}`;
+    img.style.width = '6vw'; // Reduced image width
+    img.style.height = '6vw'; // Reduced image height
+    img.style.objectFit = 'cover';
+    img.style.cursor = 'pointer';
+    img.style.borderRadius = '0.5vw';
+    img.style.transition = 'transform 0.2s ease';
+    img.addEventListener('mouseover', () => {
+      img.style.transform = 'scale(1.1)';
+    });
+    img.addEventListener('mouseout', () => {
+      img.style.transform = 'scale(1)';
+    });
+    img.addEventListener('click', () => {
+      if (selectedSi2SquareIndex < si2Squares.length) {
+        // Set the selected image as the background of the current square
+        const currentSquare = si2Squares[selectedSi2SquareIndex];
+        currentSquare.style.backgroundImage = `url(${img.src})`;
+        currentSquare.classList.remove('selected'); // Remove border from the current square
+
+        // Move to the next square
+        selectedSi2SquareIndex++;
+        if (selectedSi2SquareIndex < si2Squares.length) {
+          si2Squares[selectedSi2SquareIndex].classList.add('selected'); // Add border to the next square
+        } else {
+          ci2.style.display = 'none'; // Close the ci2 area if all squares are filled
+        }
+      }
+    });
+    ci2.appendChild(img);
+  }
+
+  // Create the ci3 area dynamically
+  const ci3 = document.createElement('div');
+  ci3.id = 'ci3';
+  ci3.style.position = 'absolute';
+  ci3.style.top = '15vw'; // Adjust vertical position
+  ci3.style.left = '23vw'; // Adjust horizontal position
+  ci3.style.width = '40vw'; // Set width
+  ci3.style.height = '40vw'; // Set height
+  ci3.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  ci3.style.display = 'none'; // Initially hidden
+  ci3.style.flexWrap = 'wrap';
+  ci3.style.gap = '0.8vw'; // Space between images
+  ci3.style.justifyContent = 'center';
+  ci3.style.alignItems = 'flex-start'; // Align images to the top
+  ci3.style.padding = '2vw';
+  ci3.style.boxSizing = 'border-box';
+  ci3.style.zIndex = '1000';
+  ci3.style.overflowY = 'auto';
+  ci3.style.borderRadius = '1vw';
+  document.body.appendChild(ci3);
+
+  // Create and add the close button to the ci3 area
+  const ci3CloseButton = document.createElement('button');
+  ci3CloseButton.textContent = 'Close';
+  ci3CloseButton.style.position = 'absolute';
+  ci3CloseButton.style.top = '0.2vw';
+  ci3CloseButton.style.right = '1vw';
+  ci3CloseButton.style.padding = '0.5vw 1vw';
+  ci3CloseButton.style.fontSize = '1vw';
+  ci3CloseButton.style.backgroundColor = '#ff0000';
+  ci3CloseButton.style.color = '#ffffff';
+  ci3CloseButton.style.border = 'none';
+  ci3CloseButton.style.borderRadius = '0.5vw';
+  ci3CloseButton.style.cursor = 'pointer';
+  ci3CloseButton.addEventListener('click', () => {
+    ci3.style.display = 'none'; // Hide the ci3 area when the button is clicked
+  });
+  ci3.appendChild(ci3CloseButton);
+
+  // Select all squares in si3
+  const si3Squares = document.querySelectorAll('#si3 .inner-square');
+  let selectedSi3SquareIndex = 0; // Start with the first square in si3
+
+  // Add click event to each square in si3
+  si3Squares.forEach((square, index) => {
+    square.addEventListener('click', () => {
+      // Remove the border from all squares in si3
+      si3Squares.forEach(sq => sq.classList.remove('selected'));
+
+      // Add a border to the clicked square
+      square.classList.add('selected');
+
+      // Set the clicked square as the selected square
+      selectedSi3SquareIndex = index;
+
+      // Show the ci3 area
+      ci3.style.display = 'flex';
+    });
+  });
+
+  // Populate the ci3 area with images
+  for (let i = 1; i <= 36; i++) {
+    const img = document.createElement('img');
+    img.src = `image/${i}.jpg`; // Path to the images
+    img.alt = `Image ${i}`;
+    img.style.width = '6vw'; // Reduced image width
+    img.style.height = '6vw'; // Reduced image height
+    img.style.objectFit = 'cover';
+    img.style.cursor = 'pointer';
+    img.style.borderRadius = '0.5vw';
+    img.style.transition = 'transform 0.2s ease';
+    img.addEventListener('mouseover', () => {
+      img.style.transform = 'scale(1.1)';
+    });
+    img.addEventListener('mouseout', () => {
+      img.style.transform = 'scale(1)';
+    });
+    img.addEventListener('click', () => {
+      if (selectedSi3SquareIndex < si3Squares.length) {
+        // Set the selected image as the background of the current square
+        const currentSquare = si3Squares[selectedSi3SquareIndex];
+        currentSquare.style.backgroundImage = `url(${img.src})`;
+        currentSquare.classList.remove('selected'); // Remove border from the current square
+
+        // Move to the next square
+        selectedSi3SquareIndex++;
+        if (selectedSi3SquareIndex < si3Squares.length) {
+          si3Squares[selectedSi3SquareIndex].classList.add('selected'); // Add border to the next square
+        } else {
+          ci3.style.display = 'none'; // Close the ci3 area if all squares are filled
+        }
+      }
+    });
+    ci3.appendChild(img);
+  }
+
+  // Create the ca area dynamically
+  const ca = document.createElement('div');
+  ca.id = 'ca';
+  ca.style.position = 'absolute';
+  ca.style.top = '15vw'; // Adjust vertical position
+  ca.style.left = '13vw'; // Adjust horizontal position
+  ca.style.width = '50vw'; // Set width
+  ca.style.height = '40vw'; // Set height
+  ca.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  ca.style.display = 'none'; // Initially hidden
+  ca.style.flexWrap = 'wrap';
+  ca.style.gap = '0.8vw'; // Space between images
+  ca.style.justifyContent = 'center';
+  ca.style.alignItems = 'flex-start'; // Align images to the top
+  ca.style.padding = '2vw';
+  ca.style.boxSizing = 'border-box';
+  ca.style.zIndex = '1000';
+  ca.style.overflowY = 'auto';
+  ca.style.borderRadius = '1vw';
+  document.body.appendChild(ca);
+
+  // Create and add the close button to the ca area
+  const caCloseButton = document.createElement('button');
+  caCloseButton.textContent = 'Close';
+  caCloseButton.style.position = 'absolute';
+  caCloseButton.style.top = '0.2vw';
+  caCloseButton.style.right = '1vw';
+  caCloseButton.style.padding = '0.5vw 1vw';
+  caCloseButton.style.fontSize = '1vw';
+  caCloseButton.style.backgroundColor = '#ff0000';
+  caCloseButton.style.color = '#ffffff';
+  caCloseButton.style.border = 'none';
+  caCloseButton.style.borderRadius = '0.5vw';
+  caCloseButton.style.cursor = 'pointer';
+  caCloseButton.addEventListener('click', () => {
+    ca.style.display = 'none'; // Hide the ca area when the button is clicked
+  });
+  ca.appendChild(caCloseButton);
+
+  // Select all cmp-squares in cmpa
+  const cmpSquares = document.querySelectorAll('#cmpa .cmp-square');
+  let selectedCmpSquareIndex = 0; // Start with the first cmp-square
+
+  // Add click event to each cmp-square in cmpa
+  cmpSquares.forEach((square, index) => {
+    square.addEventListener('click', () => {
+      // Remove the border from all cmp-squares
+      cmpSquares.forEach(sq => sq.classList.remove('selected'));
+
+      // Add a border to the clicked cmp-square
+      square.classList.add('selected');
+
+      // Set the clicked cmp-square as the selected square
+      selectedCmpSquareIndex = index;
+
+      // Show the ca area
+      ca.style.display = 'flex';
+    });
+  });
+
+  // Populate the ca area with images
+  for (let i = 1; i <= 60; i++) {
+    const img = document.createElement('img');
+    img.src = `champ/${i}.png`; // Path to the images
+    img.alt = `Image ${i}`;
+    img.style.width = '8vw'; // Set image width
+    img.style.height = '6vw'; // Set image height
+    img.style.objectFit = 'cover';
+    img.style.cursor = 'pointer';
+    img.style.borderRadius = '0.5vw';
+    img.style.transition = 'transform 0.2s ease';
+    img.addEventListener('mouseover', () => {
+      img.style.transform = 'scale(1.1)';
+    });
+    img.addEventListener('mouseout', () => {
+      img.style.transform = 'scale(1)';
+    });
+    img.addEventListener('click', () => {
+      if (selectedCmpSquareIndex < cmpSquares.length) {
+        // Set the selected image as the background of the current cmp-square
+        const currentSquare = cmpSquares[selectedCmpSquareIndex];
+        currentSquare.style.backgroundImage = `url(${img.src})`;
+
+        // Adjust the width of the square to match the image's width
+        const imgWidth = img.naturalWidth; // Get the natural width of the image
+        const imgHeight = img.naturalHeight; // Get the natural height of the image
+        const aspectRatio = imgWidth / imgHeight; // Calculate the aspect ratio
+        currentSquare.style.width = `${aspectRatio * parseFloat(currentSquare.style.height)}vw`; // Adjust width
+
+        currentSquare.style.opacity = '1'; // Ensure the square is visible
+        currentSquare.classList.remove('selected'); // Remove border from the current square
+
+        // Hide the ca area after selecting an image
+        ca.style.display = 'none';
+      }
+    });
+    ca.appendChild(img);
+  }
+
+// Select the bottom-left-square
+const bottomLeftSquare = document.querySelector('.bottom-left-square');
+
+// Create the ca2 area dynamically
+const ca2 = document.createElement('div');
+ca2.id = 'ca2';
+ca2.style.position = 'absolute';
+ca2.style.top = '15vw'; // Adjust vertical position
+ca2.style.left = '40vw'; // Adjust horizontal position
+ca2.style.width = '50vw'; // Set width
+ca2.style.height = '40vw'; // Set height
+ca2.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+ca2.style.display = 'none'; // Initially hidden
+ca2.style.flexWrap = 'wrap';
+ca2.style.gap = '0.8vw'; // Space between images
+ca2.style.justifyContent = 'center';
+ca2.style.alignItems = 'flex-start'; // Align images to the top
+ca2.style.padding = '2vw';
+ca2.style.boxSizing = 'border-box';
+ca2.style.zIndex = '1000';
+ca2.style.overflowY = 'auto';
+ca2.style.borderRadius = '1vw';
+document.body.appendChild(ca2);
+
+// Create and add the close button to the ca2 area
+const ca2CloseButton = document.createElement('button');
+ca2CloseButton.textContent = 'Close';
+ca2CloseButton.style.position = 'absolute';
+ca2CloseButton.style.top = '0.2vw';
+ca2CloseButton.style.right = '1vw';
+ca2CloseButton.style.padding = '0.5vw 1vw';
+ca2CloseButton.style.fontSize = '1vw';
+ca2CloseButton.style.backgroundColor = '#ff0000';
+ca2CloseButton.style.color = '#ffffff';
+ca2CloseButton.style.border = 'none';
+ca2CloseButton.style.borderRadius = '0.5vw';
+ca2CloseButton.style.cursor = 'pointer';
+ca2CloseButton.addEventListener('click', () => {
+  ca2.style.display = 'none'; // Hide the ca2 area when the button is clicked
+});
+ca2.appendChild(ca2CloseButton);
+
+// Add click event to the bottom-left-square to open ca2
+bottomLeftSquare.addEventListener('click', () => {
+  ca2.style.display = 'flex'; // Show the ca2 area
+});
+
+// Populate the ca2 area with images from the champ folder
+for (let i = 1; i <= 60; i++) {
+  const img = document.createElement('img');
+  img.src = `champ/${i}.png`; // Path to the images
+  img.alt = `Image ${i}`;
+  img.style.width = '8vw'; // Set image width
+  img.style.height = '6vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    // Set the selected image as the background of the bottom-left-square
+    bottomLeftSquare.style.backgroundImage = `url(${img.src})`;
+    bottomLeftSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+    bottomLeftSquare.style.backgroundPosition = 'center'; // Center the image
+    bottomLeftSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+    // Hide the ca2 area after selecting an image
+    ca2.style.display = 'none';
+  });
+  ca2.appendChild(img);
+}
+  // Select all squares in the itt container
+const ittSquares = document.querySelectorAll('.itt-square');
+
+// Create the ittImageArea dynamically
+const ittImageArea = document.createElement('div');
+ittImageArea.id = 'ittImageArea';
+ittImageArea.style.position = 'absolute';
+ittImageArea.style.top = '15vw'; // Adjust vertical position
+ittImageArea.style.left = '23vw'; // Adjust horizontal position
+ittImageArea.style.width = '40vw'; // Set width
+ittImageArea.style.height = '40vw'; // Set height
+ittImageArea.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+ittImageArea.style.display = 'none'; // Initially hidden
+ittImageArea.style.flexWrap = 'wrap';
+ittImageArea.style.gap = '0.8vw'; // Space between images
+ittImageArea.style.justifyContent = 'center';
+ittImageArea.style.alignItems = 'flex-start'; // Align images to the top
+ittImageArea.style.padding = '2vw';
+ittImageArea.style.boxSizing = 'border-box';
+ittImageArea.style.zIndex = '1000';
+ittImageArea.style.overflowY = 'auto';
+ittImageArea.style.borderRadius = '1vw';
+document.body.appendChild(ittImageArea);
+
+// Create and add the close button to the ittImageArea
+const ittCloseButton = document.createElement('button');
+ittCloseButton.textContent = 'Close';
+ittCloseButton.style.position = 'absolute';
+ittCloseButton.style.top = '0.2vw';
+ittCloseButton.style.right = '1vw';
+ittCloseButton.style.padding = '0.5vw 1vw';
+ittCloseButton.style.fontSize = '1vw';
+ittCloseButton.style.backgroundColor = '#ff0000';
+ittCloseButton.style.color = '#ffffff';
+ittCloseButton.style.border = 'none';
+ittCloseButton.style.borderRadius = '0.5vw';
+ittCloseButton.style.cursor = 'pointer';
+ittCloseButton.addEventListener('click', () => {
+  ittImageArea.style.display = 'none'; // Hide the ittImageArea when the button is clicked
+});
+ittImageArea.appendChild(ittCloseButton);
+
+// Populate the ittImageArea with images from the image folder
+for (let i = 1; i <= 36; i++) {
+  const img = document.createElement('img');
+  img.src = `image/${i}.jpg`; // Path to the images
+  img.alt = `Image ${i}`;
+  img.style.width = '6vw'; // Set image width
+  img.style.height = '6vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    if (selectedIttSquare) {
+      // Set the selected image as the background of the clicked square
+      selectedIttSquare.style.backgroundImage = `url(${img.src})`;
+      selectedIttSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+      selectedIttSquare.style.backgroundPosition = 'center'; // Center the image
+      selectedIttSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+      // Hide the ittImageArea after selecting an image
+      ittImageArea.style.display = 'none';
+    }
+  });
+  ittImageArea.appendChild(img);
+};
+
+// Add click event to each square in the itt container
+let selectedIttSquare = null;
+ittSquares.forEach((square) => {
+  square.addEventListener('click', () => {
+    selectedIttSquare = square; // Set the clicked square as the selected square
+    ittImageArea.style.display = 'flex'; // Show the ittImageArea
+  });
+});
+
+// Add click event to make images in cmpp draggable and use images from the cpd folder
+// Mapping of image numbers to names
+const champNames = [
+  "Alistar", "DrMundo", "Jax", "Kindred", "Kog'Maw", "Morgana", "Nidalee", "Poppy", "Seraphine", "Shaco",
+  "Sylas", "Vi", "Zyra", "Darius", "Ekko", "Graves", "Illaoi", "Jhin", "LeBlanc", "Naafiri",
+  "Rhaast", "Shyvana", "Skarner", "Twisted Fate", "Vayne", "Veigar", "Braum", "Draven", "Elise", "Fiddlesticks",
+  "Galio", "Gragas", "Jarvan IV", "Jinx", "Mordekaiser", "Rengar", "Senna", "Varus", "Yuumi", "Annie",
+  "Aphelios", "Brand", "Cho'Gath", "Leona", "Miss Fortune", "Neeko", "Sejuani", "Vex", "Xayah", "Zed",
+  "Zeri", "Ziggs", "Aurora", "Garen", "Kobuko", "Renekton", "Samira", "Urgot", "Viego", "Zac"
+];
+
+cmpp.addEventListener('click', (event) => {
+  if (event.target.tagName === 'IMG') {
+    const img = event.target;
+
+    // Extract the image number from the clicked image's src
+    const imgNumber = parseInt(img.src.match(/(\d+)\.png$/)[1], 10); // Extract the number from the filename
+    const champName = champNames[imgNumber - 1]; // Get the corresponding name
+
+    // Create the draggable container
+    const draggableContainer = document.createElement('div');
+    draggableContainer.style.position = 'absolute';
+    draggableContainer.style.width = `6.7vw`; // Slightly larger than the hexagon width
+    draggableContainer.style.height = `7.8vw`; // Slightly larger than the hexagon height
+    draggableContainer.style.zIndex = '998'; // Set z-index lower than the image
+    draggableContainer.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+    draggableContainer.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+    draggableContainer.style.display = 'flex'; // Use flexbox to center the child
+    draggableContainer.style.justifyContent = 'center'; // Center horizontally
+    draggableContainer.style.alignItems = 'center'; // Center vertically
+if (imgNumber >= 1 && imgNumber <= 13) {
+      draggableContainer.style.backgroundColor = 'gray';
+    } else if (imgNumber >= 14 && imgNumber <= 26) {
+      draggableContainer.style.backgroundColor = 'green';
+    } else if (imgNumber >= 27 && imgNumber <= 39) {
+      draggableContainer.style.backgroundColor = '#4b80d6';
+    } else if (imgNumber >= 40 && imgNumber <= 52) {
+      draggableContainer.style.backgroundColor = 'purple';
+    } else if (imgNumber >= 53 && imgNumber <= 60) {
+      draggableContainer.style.backgroundColor = 'gold';
+    }
+
+    // Create the draggable hexagonal object
+    const draggable = document.createElement('div');
+    draggable.style.width = `6vw`; // Match the hexagon width
+    draggable.style.height = `7vw`; // Match the hexagon height
+    draggable.style.backgroundImage = `url(cpd/${imgNumber}.jpg)`; // Use the corresponding image from the cpd folder
+    draggable.style.backgroundSize = 'cover';
+    draggable.style.backgroundPosition = 'center';
+    draggable.style.backgroundRepeat = 'no-repeat';
+    draggable.style.cursor = 'grab';
+    draggable.style.zIndex = '999'; // Set z-index higher than the stroke
+    draggable.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+    draggable.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+
+    // Add the draggable hexagon to the container
+    draggableContainer.appendChild(draggable);
+
+// Add a label to display the champion name
+const label = document.createElement('div');
+label.textContent = champName;
+label.style.position = 'absolute';
+label.style.top = '50%';
+label.style.left = '50%';
+label.style.transform = 'translate(-50%, -50%)';
+label.style.color = 'white';
+label.style.textShadow = `1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black`; // Create an outer stroke effect
+label.style.pointerEvents = 'none'; // Prevent interaction with the label
+label.style.whiteSpace = 'nowrap'; // Ensure the text stays on the same line
+
+// Adjust font size based on the length of the text
+if (champName.length > 9) {
+  label.style.fontSize = '1vw'; // Smaller font size for longer names
+} else {
+  label.style.fontSize = '1.5vw'; // Default font size for shorter names
+}
+
+draggable.appendChild(label);
+
+// Append the draggable container to the document body
+document.body.appendChild(draggableContainer);
+
+    // Add dragging functionality to the container
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+
+// Call updateSharedTraits where necessary
+cmpp.addEventListener('click', (event) => {
+  if (event.target.tagName === 'IMG') {
+    setTimeout(updateSharedTraits, 100); // Delay to ensure draggable is added
+  }
+});
+
+document.addEventListener('contextmenu', (event) => {
+  if (event.target.closest('div[style*="cpd/"]')) {
+    setTimeout(updateSharedTraits, 100); // Delay to ensure draggable is removed
+  }
+});
+
+    // Find the nearest hexagon in the .comp area
+    let closestHexagon = null;
+    let closestDistance = Infinity;
+
+    const hexagons = document.querySelectorAll('.comp .hexagon');
+    hexagons.forEach((hexagon) => {
+      const hexRect = hexagon.getBoundingClientRect();
+      const hexCenterX = hexRect.left + hexRect.width / 2;
+      const hexCenterY = hexRect.top + hexRect.height / 2;
+
+      const imgRect = img.getBoundingClientRect();
+      const imgCenterX = imgRect.left + imgRect.width / 2;
+      const imgCenterY = imgRect.top + imgRect.height / 2;
+
+      const distance = Math.sqrt(
+        Math.pow(imgCenterX - hexCenterX, 2) +
+        Math.pow(imgCenterY - hexCenterY, 2)
+      );
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestHexagon = hexagon;
+      }
+    });
+
+    // Set the draggable container's initial position to the center of the nearest hexagon
+    if (closestHexagon) {
+      const closestRect = closestHexagon.getBoundingClientRect();
+      const hexCenterX = closestRect.left + closestRect.width / 2;
+      const hexCenterY = closestRect.top + closestRect.height / 2;
+
+      // Adjust the draggable container's position to center it on the hexagon
+      draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+      draggableContainer.style.top = `${hexCenterY - draggableContainer.offsetHeight / 2}px`;
+    }
+
+    // Snap the draggable container to the nearest hexagon after dragging
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        draggable.style.cursor = 'grab';
+
+        // Find the nearest hexagon again after dragging
+        let closestHexagon = null;
+        let closestDistance = Infinity;
+
+        hexagons.forEach((hexagon) => {
+          const hexRect = hexagon.getBoundingClientRect();
+          const hexCenterX = hexRect.left + hexRect.width / 2;
+          const hexCenterY = hexRect.top + hexRect.height / 2;
+
+          const draggableRect = draggableContainer.getBoundingClientRect();
+          const draggableCenterX = draggableRect.left + draggableRect.width / 2;
+          const draggableCenterY = draggableRect.top + draggableRect.height / 2;
+
+          const distance = Math.sqrt(
+            Math.pow(draggableCenterX - hexCenterX, 2) +
+            Math.pow(draggableCenterY - hexCenterY, 2)
+          );
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestHexagon = hexagon;
+          }
+        });
+
+        // Snap the draggable container to the center of the nearest hexagon
+        if (closestHexagon) {
+          const closestRect = closestHexagon.getBoundingClientRect();
+          const hexCenterX = closestRect.left + closestRect.width / 2;
+          const hexCenterY = closestRect.top + closestRect.height / 2;
+
+          draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+          draggableContainer.style.top = `${hexCenterY - draggableContainer.offsetHeight / 2}px`;
+        }
+      }
+    });
+
+
+    draggableContainer.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      offsetX = e.clientX - draggableContainer.getBoundingClientRect().left;
+      offsetY = e.clientY - draggableContainer.getBoundingClientRect().top;
+      draggable.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        draggableContainer.style.left = `${e.clientX - offsetX}px`;
+        draggableContainer.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        draggable.style.cursor = 'grab';
+      }
+    });
+
+    // Right-click to remove the draggable container
+    draggableContainer.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      draggableContainer.remove();
+    });
+  }
+});
+
+function updateSharedTraits() {
+  const displayedChampions = new Set(); // Store displayed champions on the screen
+  const sharedTraits = {}; // Store shared traits and their counts
+  const traitChampionMap = {}; // Map to track unique champions for each trait
+
+  // Define the required levels for each trait
+  const traitLevels = {
+
+    "Anima Squad": [3, 5, 7, 10],
+    "AMP": [2, 3, 5],
+    "Bastion": [2, 4, 6],
+    "BoomBot": [2, 4, 6],
+    "Bruiser": [2, 4, 6],
+    "Cyberboss": [2, 3, 4],
+    "Cypher": [3, 4, 5],
+    "Divinicorp": [1, 2, 5],
+    "Dynamo": [2, 3, 4],
+    "Executioner": [2, 3,5],
+    "Exotech": [3, 5, 7, 10],
+    "Golden Ox": [2, 4, 6],
+    "Marksman": [2, 4],
+    "Nitro": [3, 4],
+    "Rapidfire": [2, 4, 6],
+    "Slayer": [2, 4, 6],
+    "Street Demon": [3, 5, 7, 10],
+    "Strategist": [2, 3, 5],
+    "Syndicate": [3, 5, 7],
+    "Techie": [2, 4, 6],
+    "Vanguard": [2, 4, 6],
+    "God of the Net": [1],
+    "Overlord": [1],
+    "Soul Killer": [1],
+    "Virus": [1]
+  };
+  // Find all draggable containers on the screen
+  const draggableContainers = document.querySelectorAll('div[style*="cpd/"]');
+  draggableContainers.forEach((container) => {
+    const backgroundImage = container.style.backgroundImage;
+    const match = backgroundImage.match(/cpd\/(\d+)\.jpg/); // Extract the image number
+    if (match) {
+      const imgNumber = parseInt(match[1], 10);
+      const champName = champNames[imgNumber - 1];
+      displayedChampions.add(champName);
+
+      // Add traits of the champion to the sharedTraits object
+      const traits = championTraits[champName] || [];
+      traits.forEach((trait) => {
+        if (!traitChampionMap[trait]) {
+          traitChampionMap[trait] = new Set(); // Initialize a set for each trait
+        }
+        traitChampionMap[trait].add(champName); // Add the champion to the trait's set
+      });
+    }
+  });
+
+  // Count unique champions for each trait
+  Object.entries(traitChampionMap).forEach(([trait, champions]) => {
+    sharedTraits[trait] = champions.size; // Count the unique champions for each trait
+  });
+
+  // Filter traits that meet or exceed the minimum required level
+  const filteredTraits = Object.entries(sharedTraits)
+    .filter(([trait, count]) => {
+      const levels = traitLevels[trait] || [];
+      return levels.some(level => count >= level); // Check if the count meets or exceeds any level
+    })
+    .map(([trait, count]) => {
+      const levels = traitLevels[trait] || [];
+      let levelIndex = levels.findIndex(level => count < level) - 1;
+      if (levelIndex === -2) levelIndex = levels.length - 1; // If count exceeds all levels, use the highest level
+
+      // Determine the level image
+      let levelImageSrc = '';
+      if (trait === "God of the Net" || trait === "Overlord" || trait === "Soul Killer" || trait === "Virus") {
+        levelImageSrc = 'level/un.png'; // Use "un.png" for these traits
+      } else if ((trait === "Nitro" || trait === "Marksman") && levelIndex === 1) {
+        levelImageSrc = 'level/gold.png'; // Use "gold.png" for Nitro and Marksman at level 2
+      } else {
+        if (levelIndex === 0) levelImageSrc = 'level/bronze.png';
+        else if (levelIndex === 1) levelImageSrc = 'level/silver.png';
+        else if (levelIndex === 2) levelImageSrc = 'level/gold.png';
+        else if (levelIndex >= 3) levelImageSrc = 'level/pris.png';
+      }
+
+      // Determine the trait logo image
+      const traitLogoSrc = `trait/${trait}.png`;
+
+      // Replace "AMP" with "A.M.P" for display
+      const displayTrait = trait === "AMP" ? "A.M.P" : trait;
+
+      return { trait: displayTrait, count, levelImageSrc, traitLogoSrc };
+    });
+
+  // Sort traits by priority, count, and level
+  filteredTraits.sort((a, b) => {
+    const priorityTraits = ["God of the Net", "Overlord", "Soul Killer", "Virus"];
+    const aPriority = priorityTraits.includes(a.trait) ? 1 : 0;
+    const bPriority = priorityTraits.includes(b.trait) ? 1 : 0;
+
+    if (aPriority !== bPriority) {
+      return bPriority - aPriority; // Priority traits come first
+    }
+
+    if (b.count !== a.count) {
+      return b.count - a.count; // Sort by count in descending order
+    }
+
+    // If counts are equal, sort by level (higher level first)
+    const levelOrder = ["bronze.png", "silver.png", "gold.png", "pris.png", "un.png"];
+    const aLevelIndex = levelOrder.indexOf(a.levelImageSrc.split('/').pop());
+    const bLevelIndex = levelOrder.indexOf(b.levelImageSrc.split('/').pop());
+    return bLevelIndex - aLevelIndex; // Higher level comes first
+  });
+
+  // Update the bottom-left blue square with shared traits, one per row
+  const blueSquare = document.querySelector('.bottom-left-blue-square');
+  if (filteredTraits.length > 0) {
+    // Adjust font size and image size dynamically
+    const fontSize = filteredTraits.length >= 8 ? '1.2vw' : '1.8vw';
+    const imageSize = filteredTraits.length >= 8 ? '1.5vw' : '2vw';
+    const logoSize = filteredTraits.length >= 8 ? '1.05vw' : '1.4vw';
+
+    blueSquare.innerHTML = filteredTraits.map(({ trait, count, levelImageSrc, traitLogoSrc }) => `
+      <div style="display: flex; align-items: center; margin-bottom: 0.5vw;">
+        <div style="position: relative; width: ${imageSize}; height: ${imageSize}; margin-right: 0.5vw;">
+          <img src="${levelImageSrc}" alt="Level" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+          <img src="${traitLogoSrc}" alt="${trait}" style="width: ${logoSize}; height: ${logoSize}; position: absolute; top: 15%; left: 15%;">
+        </div>
+        <span style="font-size: ${fontSize};">${count} ${trait}</span>
+      </div>
+    `).join('');
+
+    // Apply the font size to the blue square
+    blueSquare.style.fontSize = fontSize;
+  } else {
+    blueSquare.innerHTML = ''; // Clear the content if no shared traits
+  }
+}
+// Select all squares in the aug container
+const augSquares = document.querySelectorAll('.aug .inner-aug');
+
+// Create the ags area dynamically
+const ags = document.createElement('div');
+ags.id = 'ags';
+ags.style.position = 'absolute';
+ags.style.top = '15vw'; // Adjust vertical position
+ags.style.left = '58vw'; // Adjust horizontal position
+ags.style.width = '40vw'; // Set width
+ags.style.height = '40vw'; // Set height
+ags.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+ags.style.display = 'none'; // Initially hidden
+ags.style.flexWrap = 'wrap';
+ags.style.gap = '0.8vw'; // Space between images
+ags.style.justifyContent = 'center';
+ags.style.alignItems = 'flex-start'; // Align images to the top
+ags.style.padding = '2vw';
+ags.style.boxSizing = 'border-box';
+ags.style.zIndex = '1000';
+ags.style.overflowY = 'auto';
+ags.style.borderRadius = '1vw';
+document.body.appendChild(ags);
+
+// Create and add the close button to the ags area
+const agsCloseButton = document.createElement('button');
+agsCloseButton.textContent = 'Close';
+agsCloseButton.style.position = 'absolute';
+agsCloseButton.style.top = '0.2vw';
+agsCloseButton.style.right = '1vw';
+agsCloseButton.style.padding = '0.5vw 1vw';
+agsCloseButton.style.fontSize = '1vw';
+agsCloseButton.style.backgroundColor = '#ff0000';
+agsCloseButton.style.color = '#ffffff';
+agsCloseButton.style.border = 'none';
+agsCloseButton.style.borderRadius = '0.5vw';
+agsCloseButton.style.cursor = 'pointer';
+agsCloseButton.addEventListener('click', () => {
+  ags.style.display = 'none'; // Hide the ags area when the button is clicked
+});
+ags.appendChild(agsCloseButton);
+
+// Create a container for the search box
+const agsSearchContainer = document.createElement('div');
+agsSearchContainer.style.display = 'flex';
+agsSearchContainer.style.justifyContent = 'center';
+agsSearchContainer.style.alignItems = 'center';
+agsSearchContainer.style.marginBottom = '1vw';
+agsSearchContainer.style.width = '100%'; // Ensure it spans the full width
+agsSearchContainer.style.boxSizing = 'border-box';
+
+// Create the search input
+const agsSearchInput = document.createElement('input');
+agsSearchInput.type = 'text';
+agsSearchInput.placeholder = 'Search images...';
+agsSearchInput.style.width = '20vw';
+agsSearchInput.style.padding = '0.5vw';
+agsSearchInput.style.fontSize = '1vw';
+agsSearchInput.style.borderRadius = '0.5vw';
+agsSearchInput.style.border = '1px solid #ccc';
+
+agsSearchContainer.appendChild(agsSearchInput);
+ags.appendChild(agsSearchContainer); // Add the search container to ags
+
+// Create a container for the images
+const agsImagesContainer = document.createElement('div');
+agsImagesContainer.style.display = 'flex';
+agsImagesContainer.style.flexWrap = 'wrap';
+agsImagesContainer.style.gap = '0.8vw'; // Space between images
+agsImagesContainer.style.justifyContent = 'center';
+agsImagesContainer.style.alignItems = 'flex-start';
+agsImagesContainer.style.width = '100%'; // Ensure it spans the full width
+agsImagesContainer.style.boxSizing = 'border-box';
+ags.appendChild(agsImagesContainer); // Add the images container to ags
+
+// Add search functionality
+agsSearchInput.addEventListener('input', () => {
+  const searchTerm = agsSearchInput.value.toLowerCase();
+  const images = agsImagesContainer.querySelectorAll('img');
+
+  images.forEach((img) => {
+    const altText = img.alt.toLowerCase();
+    if (altText.includes(searchTerm) || searchTerm === '') {
+      img.style.display = 'block'; // Show matching images
+    } else {
+      img.style.display = 'none'; // Hide non-matching images
+    }
+  });
+});
+
+// Populate the ags area with images from Tier1, Tier2, and Tier3 folders
+const tiers = [
+{ folder: 'Tier3', count: 127 },
+  { folder: 'Tier2', count: 151 },
+  { folder: 'Tier1', count: 69 }
+];
+
+tiers.forEach(({ folder, count }) => {
+  for (let i = 1; i <= count; i++) {
+    const img = document.createElement('img');
+    img.src = `${folder}/${i}.png`; // Path to the images
+    img.alt = `Image ${i}`;
+    img.style.width = '10vw'; // Set image width
+    img.style.height = '3vw'; // Set image height
+    img.style.objectFit = 'cover';
+    img.style.cursor = 'pointer';
+    img.style.borderRadius = '0.5vw';
+    img.style.transition = 'transform 0.2s ease';
+    img.addEventListener('mouseover', () => {
+      img.style.transform = 'scale(1.1)';
+    });
+    img.addEventListener('mouseout', () => {
+      img.style.transform = 'scale(1)';
+    });
+    img.addEventListener('click', () => {
+      if (selectedAugSquare) {
+        // Set the selected image as the background of the clicked square
+        selectedAugSquare.style.backgroundImage = `url(${img.src})`;
+        selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+        selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
+        selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+        // Hide the ags area after selecting an image
+        ags.style.display = 'none';
+      }
+    });
+    agsImagesContainer.appendChild(img);
+  }
+});
+
+// Names for Tier1 images
+const tier1Names = [
+  "Adaptive Strikes", "AFK", "Backup", "Band of Thieves I", "Big Friend I", "Blistering Strikes",
+  "Branching Out", "Branching Out+", "Bulky Buddies I", "Button Mash", "Called Shot", "Caretaker's Ally",
+  "Cease and Desist", "Climb The Ladder I", "Component Buffet", "Corrosion", "Crafted Crafting",
+  "Delayed Start", "Diversified Portfolio", "Diversified Portfolio+", "Dummify", "Eye For An Eye",
+  "Eye For An Eye+", "Find Your Center", "Firesale", "Glass Cannon I", "Good for Something I",
+  "Healing Orbs I", "Health is Wealth I", "Iron Assets", "Item Collector I", "Item Grab Bag I",
+  "Kingslayer", "Lategame Specialist", "Latent Forge", "Lineup", "Lunch Money", "Manaflow I",
+  "Mentorship I", "Missed Connections", "One For All I", "One, Two, Five!", "One, Twos, Three",
+  "Over Encumbered", "Pandora's Bench", "Pandora's Items", "Patience Is a Virtue", "Placebo",
+  "Placebo+", "Preparation l", "Pumping Up I", "Recombobulator", "Restart Mission", "Rigged Shop",
+  "Rigged Shop+", "Risky Moves", "Rolling for Days I", "Silver Spoon", "Spoils of War I",
+  "Stand United I", "Support Mining", "Support Mining+", "Survivor", "Team Building", "Teaming Up I",
+  "Titanic Titan", "Underdogs", "Wolf Unchained", "Young and Wild and Free"
+];
+
+// Populate the ags area with Tier1 images
+tier1Names.forEach((name, index) => {
+  const img = document.createElement('img');
+  img.src = `Tier1/${index + 1}.png`; // Path to the images
+  img.alt = name; // Use the name for search functionality
+  img.style.width = '10vw'; // Set image width
+  img.style.height = '3vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    if (selectedAugSquare) {
+      // Set the selected image as the background of the clicked square
+      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
+      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
+      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+      // Hide the ags area after selecting an image
+      ags.style.display = 'none';
+    }
+  });
+  agsImagesContainer.appendChild(img);
+});
+
+// Names for Tier2 images
+const tier2Names = [
+  "10,000 IQ", "10,000 IQ+", "A Golden Find", "All That Shimmers", "All That Shimmers+", "Alter Ego",
+  "A Magic Roll", "Anima Squad Crest", "Ascension", "Bad Luck Protection", "Bastion Crest",
+  "Big Friend II", "Big Grab Bag", "Blazing Soul I", "Board of Directors", "BoomBots Crest", "BRB",
+  "Bronze For Life I", "Bruiser Crest", "Bulky Buddies II", "Calculated Loss", "Capacitor",
+  "Caretaker's Favor", "Category 5", "Clear Mind", "Climb The Ladder II", "Clockwork Accelerator",
+  "Cloning Facility", "Cluttered Mind", "Cognitive Implant", "Cooking Pot", "Cower, Weaklings!",
+  "Crown Guarded", "Crown's Will", "Cutpurse", "Cyberdeck", "Cybernetic Bulk II",
+  "Cybernetic Implants II", "Cybernetic Uplink II", "Cypher Crest", "Divine Ascension",
+  "Divinicorp Crest", "Dummy With A Gun", "Duo Queue", "Dynamo Crest", "Epoch", "Epoch+",
+  "Executioner Crest", "Exotech Crest", "Expensive Taste", "Expensive Taste+", "Flatline",
+  "Forward Thinking", "Freestyling", "Glass Cannon II", "Golden Ox Crest", "Gold For Dummies",
+  "Golemify", "Healing Orbs II", "Health is Wealth II", "Heroic Grab Bag", "Heroic Grab Bag+",
+  "Heroic Grab Bag++", "High Voltage", "Hostile Takeover", "Hunter Killer Missile", "Hustler",
+  "Inspiring Epitaph", "Investment Strategy I", "Item Collector II", "Keep Your Friends Close",
+  "Last Stand", "Lethal Rerouting", "Little Buddies", "Long Distance Pals", "Mace's Will",
+  "Malicious Monetization", "Manaflow II", "Marksman Crest", "Memory Bank", "Mentorship II",
+  "Moonlight", "New High Score", "Noble Sacrifice", "NO SCOUT NO PIVOT", "Not Today", "One For All II",
+  "Overclocked", "Overheal", "Pair of Fours", "Pandora's Items II", "Patient Study", "Piercing Lotus I",
+  "Pilfer", "Polished Chrome", "Portable Forge", "Power Leveling", "Preparation II", "Prizefighter",
+  "Pumping Up II", "Pyromaniac", "Raining Gold", "Raining Gold+", "Rapidfire Crest", "Reactive Shell",
+  "Reinforcing Skeleture", "ReinFOURcement", "Replication", "Salvage Bin", "Salvage Bin+",
+  "Sated Spellweaver", "Scapegoat", "Scavenger", "Scoreboard Scrapper", "Self-Destruct", "Shop Glitch",
+  "Slammin", "Slammin+", "Slayer Crest", "Spare Parts", "Spear's Will", "Speed Kills", "Spirit Link",
+  "Spoils of War II", "Starry Night", "Starry Night+", "Strategist Crest", "Street Demon Crest",
+  "Support Cache", "Support Spire", "Syndicate Crest", "Tagging Spree", "Teaming Up II", "Techie Crest",
+  "The Chug Bug", "The Chug Bug+", "Thorn-Plated Armor", "Tomb Raider I", "Tower Defense",
+  "Trade Sector", "Trait Tracker", "Transference", "Transistor", "Trial Run", "Trifecta I",
+  "Two Much Value", "Vampiric Vitality", "Vanguard Crest", "Wandering Trainer I", "Warpath",
+  "Worth the Wait I"
+];
+
+// Populate the ags area with Tier2 images
+tier2Names.forEach((name, index) => {
+  const img = document.createElement('img');
+  img.src = `Tier2/${index + 1}.png`; // Path to the images
+  img.alt = name; // Use the name for search functionality
+  img.style.width = '10vw'; // Set image width
+  img.style.height = '3vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    if (selectedAugSquare) {
+      // Set the selected image as the background of the clicked square
+      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
+      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
+      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+      // Hide the ags area after selecting an image
+      ags.style.display = 'none';
+    }
+  });
+  agsImagesContainer.appendChild(img);
+});
+
+// Names for Tier3 images
+const tier3Names = [
+  "An Exalted Adventure", "Anger Issues", "Anima Squad Circlet", "Anima Squad Circlet", "Axiom Arc III",
+  "Bastion Circlet", "Bastion Crown", "Belt Overflow", "Binary Airdrop", "Birthday Present",
+  "Blazing Soul II", "Blinding Speed", "Blue Battery III", "BoomBots Circlet", "BoomBots Crown",
+  "Bronze For Life II", "Bruiser Circlet", "Bruiser Crown", "Build a Bud!", "Bulky Buddies III",
+  "Buried Treasures III", "Calculated Enhancement", "Call to Chaos", "Caretaker's Chosen",
+  "Chemtech Overdrive", "Coronation", "Cruel Pact", "Cursed Crown", "Cybernetic Bulk III",
+  "Cybernetic Implants III", "Cybernetic Uplink III", "Cypher Crown", "Dark Alley Dealings",
+  "Divinicorp Circlet", "Divinicorp Crown", "Dominance", "Double Trouble III", "Dual Purpose",
+  "Dynamo Circlet", "Dynamo Crown", "Endless Horde+", "Endless Hordes", "Executioner Circlet",
+  "Executioner Crown", "Exotech Circlet", "Exotech Crown", "Expected Unexpectedness",
+  "Final Ascension", "Final Polish", "Final Reserves", "Flexible", "Flurry of Blows",
+  "Future Sight II", "Gargantuan Resolve", "Going Long", "Golden Ox Circlet", "Golden Ox Crown",
+  "Greater Moonlight", "Hard Commit", "Hedge Fund", "High End Shopping II", "Immovable Object",
+  "I'm the Carry now", "Invested+", "Invested++", "Investment Strategy II", "Level Up!",
+  "Lifelong Learning", "Living Forge", "Lucky Gloves", "Lucky Gloves+", "Luden's Echo III",
+  "Marksman Circlet", "Marksman Crown", "Max Cap", "One Buff, Two Buff", "Pandora's Items III",
+  "Phreaky Friday", "Phreaky Friday+", "Piercing Lotus II", "Pirates", "Prismatic Pipeline",
+  "Prismatic Ticket", "Pumping Up III", "Quality Over Quantity", "Radiant Refactor", "Radiant Relics",
+  "Rapidfire Circlet", "Rapidfire Crown", "Roll The Dice", "Scoped Weapons II", "Share the Spotlight",
+  "Shimmerscale Essence", "Shock Treatment", "Shock Treatment+", "Shopping Spree", "Slayer Circlet",
+  "Slayer Crown", "Spoils of War III", "Sponging", "Strategist Circlet", "Strategist Crown",
+  "Street Demon Circlet", "Street Demon Crown", "Subscription Service", "Sword Overflow",
+  "Syndicate Circlet", "Syndicate Crown", "Tactician's Kitchen", "Techie Circlet", "Techie Crown",
+  "The Golden Egg", "Think Fast", "Tiniest Titan", "Tiniest Titan+", "Tomb Raider II", "Trifecta II",
+  "Unstable Evolution", "Upward Mobility", "Vanguard Circlet", "Vanguard Crown", "Void Swarm",
+  "Wandering Trainer II", "Wand Overflow", "Wise Spending", "Woodland Charm", "Worth the Wait II"
+];
+
+// Populate the ags area with Tier3 images
+tier3Names.forEach((name, index) => {
+  const img = document.createElement('img');
+  img.src = `Tier3/${index + 1}.png`; // Path to the images
+  img.alt = name; // Use the name for search functionality
+  img.style.width = '10vw'; // Set image width
+  img.style.height = '3vw'; // Set image height
+  img.style.objectFit = 'cover';
+  img.style.cursor = 'pointer';
+  img.style.borderRadius = '0.5vw';
+  img.style.transition = 'transform 0.2s ease';
+  img.addEventListener('mouseover', () => {
+    img.style.transform = 'scale(1.1)';
+  });
+  img.addEventListener('mouseout', () => {
+    img.style.transform = 'scale(1)';
+  });
+  img.addEventListener('click', () => {
+    if (selectedAugSquare) {
+      // Set the selected image as the background of the clicked square
+      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
+      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
+      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
+      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
+
+      // Hide the ags area after selecting an image
+      ags.style.display = 'none';
+    }
+  });
+  agsImagesContainer.appendChild(img);
+});
+
+// Add click event to each square in the aug container
+let selectedAugSquare = null;
+augSquares.forEach((square) => {
+  square.addEventListener('click', () => {
+    selectedAugSquare = square; // Set the clicked square as the selected square
+    ags.style.display = 'flex'; // Show the ags area
+  });
+});
+</script>
+
+</body>
+</html>
