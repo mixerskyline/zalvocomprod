@@ -474,6 +474,7 @@
   </style>
 </head>
 <body>
+  <div id="hideButton" style="position: absolute; top: 1vw; right: 1vw; padding: 0.5vw 1vw; font-size: 1vw; background-color: #007bff; color: white; border: none; border-radius: 0.5vw; cursor: pointer; z-index: 2000;">Hide</div>
   <div class="cd">
   <div class="diffbut" id="diffbut1">Easy</div>
   <div class="diffbut" id="diffbut2">Medium</div>
@@ -2056,6 +2057,35 @@ augSquares.forEach((square) => {
     selectedAugSquare = square; // Set the clicked square as the selected square
     ags.style.display = 'flex'; // Show the ags area
   });
+});
+
+// Select the hide button and the .cd element
+const hideButton = document.getElementById('hideButton');
+const cdElement = document.querySelector('.cd');
+
+// Function to hide the button and .cd
+hideButton.addEventListener('click', () => {
+  hideButton.style.display = 'none'; // Hide the button
+  cdElement.style.display = 'none'; // Hide the .cd element
+});
+
+// Function to bring back the button and .cd when something is edited
+function bringBackUI() {
+  hideButton.style.display = 'block'; // Show the button
+  cdElement.style.display = 'flex'; // Show the .cd element
+}
+
+// Add event listeners for interactions that bring back the UI
+document.addEventListener('mousemove', (event) => {
+  if (event.target.closest('div[style*="cpd/"]')) {
+    bringBackUI(); // Bring back the UI when a draggable image is moved
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (event.target.closest('.ags img')) {
+    bringBackUI(); // Bring back the UI when an image in ags is selected
+  }
 });
 </script>
 
