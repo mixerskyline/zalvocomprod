@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zalvo's คอมพ์รอด</title>
+  <title>Typable Box</title>
   <style>
     @font-face {
-      font-family: 'FC Friday';
-      src: url('font/FCFriday-Regular.woff2') format('woff2'),
-           url('font/FCFriday-Regular.woff') format('woff'),
-           url('font/FCFriday-Regular.ttf') format('truetype');
+      font-family: 'CustomFont';
+      src: url('font/font.ttf') format('truetype');
       font-weight: normal;
       font-style: normal;
     }
@@ -21,13 +19,13 @@
       display: flex;
       justify-content: center;
       align-items: flex-start; /* Align content to the top */
-      font-family: 'FC Friday', sans-serif; /* Set FC Friday as the default font */
+      font-family: 'CustomFont', sans-serif; /* Use the new font */
       overflow-y: auto; /* Enable vertical scrolling */
     }
 
     .tb {
       position: absolute; /* Use fixed positioning to keep it consistent across screen sizes */
-      top: 3vw; /* Position relative to the viewport height */
+      top: 2.5vw; /* Position relative to the viewport height */
       left: 2vw; /* Position relative to the viewport width */
       min-width: auto;
       min-height: auto;
@@ -38,7 +36,7 @@
       overflow: hidden;
       font-size: 2.5vw; /* Font size relative to viewport width */
       font-weight: bold;
-      font-family: 'FC Friday', sans-serif;
+      font-family: 'CustomFont', sans-serif;
     }
     .shadow-div {
     position: absolute;
@@ -98,7 +96,7 @@
   color: white;
   box-sizing: border-box;
   font-size: 0vw;
-  font-family: 'FC Friday', sans-serif; /* Apply FC Friday font */
+  font-family: 'CustomFont', sans-serif; /* Apply FC Friday font */
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
@@ -123,7 +121,7 @@
       color: #c7b200;
       font-size: 3.5vw;
       font-weight: bold;
-      font-family: 'FC Friday', sans-serif; /* Apply FC Friday font */
+      font-family: 'CustomFont', sans-serif; /* Apply FC Friday font */
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
     }
 
@@ -141,7 +139,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'FC Friday', sans-serif;
+      font-family: 'CustomFont', sans-serif;
       font-size: 1vw;
       font-weight: bold;
       color: white; /* Text color */
@@ -170,7 +168,7 @@
       height: 6vw; /* Adjust height to fit squares */
       background-color: rgba(255, 87, 34, 0); /* Orange background with 50% transparency */
       color: white; /* Text color */
-      font-family: 'FC Friday', sans-serif;
+      font-family: 'CustomFont', sans-serif;
       font-size: 10vw;
       font-weight: bold;
       display: flex;
@@ -379,7 +377,7 @@
   color: #c7b200; /* Gold color */
   font-size: 4vw; /* Adjust font size */
   font-weight: bold; /* Bold text */
-  font-family: 'FC Friday', sans-serif; /* Use the same font */
+  font-family: 'CustomFont', sans-serif; /* Use the same font */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
 }
 
@@ -417,7 +415,7 @@
   color: #c7b200; /* Gold color */
   font-size: 4vw; /* Adjust font size */
   font-weight: bold; /* Bold text */
-  font-family: 'FC Friday', sans-serif; /* Use the same font */
+  font-family: 'CustomFont', sans-serif; /* Use the same font */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
 }
 
@@ -446,6 +444,7 @@
   color: white; /* Ensure text is visible */
   font-size: 1.8vw; /* Adjust font size */
   overflow-y: auto; /* Add scroll if content overflows */
+  font-family: 'CustomFont', sans-serif;
 }
   .itt {
     position: absolute;
@@ -458,6 +457,7 @@
     justify-content: center; /* Center the squares horizontally */
     align-items: center; /* Center the squares vertically */
     gap: 0.5vw; /* Add spacing between squares */
+    font-family: 'CustomFont', sans-serif;
   }
 .itt-square {
     width: 4vw; /* Set square width */
@@ -1612,6 +1612,7 @@ function updateSharedTraits() {
   const traitChampionMap = {}; // Map to track unique champions for each trait
 
   // Define the required levels for each trait
+
   const traitLevels = {
 
     "Anima Squad": [3, 5, 7, 10],
