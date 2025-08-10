@@ -387,7 +387,7 @@
   position: absolute;
   top: 35.9vw; /* Align with the bottom-left text */
   left: 41vw; /* Position it to the right of the bottom-left text */
-  color: #0d2b50; /* Gold color */
+  color: #c7b200; /* Gold color */
   font-size: 4vw; /* Adjust font size */
   font-weight: bold; /* Bold text */
   font-family: 'CustomFont', sans-serif; /* Use the same font */
@@ -770,7 +770,7 @@ function renderEmblemPickerList() {
         
           // Emblem image
           const dragImg = document.createElement('img');
-          dragImg.src = `emblempic/${idx + 1}.png`;
+          dragImg.src = `emblem/${idx + 1}.png`;
           dragImg.alt = name;
           dragImg.style.width = '90%';
           dragImg.style.height = '90%';
@@ -1112,8 +1112,8 @@ function renderPowerSnaxOptions(filter = '') {
         if (powerSnaxDiv.currentPs) {
           // ตั้งค่าเนื้อหา ps
           powerSnaxDiv.currentPs.textContent = name;
-          powerSnaxDiv.currentPs.style.backgroundColor = '#d4d446';
-          powerSnaxDiv.currentPs.style.color = '#222';
+          powerSnaxDiv.currentPs.style.backgroundColor = '#0d2b50';
+          powerSnaxDiv.currentPs.style.color = '#ffffff';
           powerSnaxDiv.currentPs.style.fontSize = '2vw';
           powerSnaxDiv.currentPs.style.fontWeight = 'bold';
   
