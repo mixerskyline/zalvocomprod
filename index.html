@@ -733,7 +733,7 @@ function renderEmblemPickerList() {
     div.setAttribute('data-name', name);
 
     const img = document.createElement('img');
-    img.src = `Emblem/${idx + 1}.png`;
+    img.src = `emblem/${idx + 1}.png`;
     img.alt = name;
     img.style.width = '100%';
     img.style.height = '8vw';
@@ -2073,15 +2073,15 @@ cmpp.addEventListener('click', (event) => {
     draggableContainer.style.display = 'flex'; // Use flexbox to center the child
     draggableContainer.style.justifyContent = 'center'; // Center horizontally
     draggableContainer.style.alignItems = 'center'; // Center vertically
-if (imgNumber >= 1 && imgNumber <= 13) {
+if (imgNumber >= 1 && imgNumber <= 14) {
       draggableContainer.style.backgroundColor = 'gray';
-    } else if (imgNumber >= 14 && imgNumber <= 26) {
+    } else if (imgNumber >= 15 && imgNumber <= 27) {
       draggableContainer.style.backgroundColor = 'green';
-    } else if (imgNumber >= 27 && imgNumber <= 39) {
+    } else if (imgNumber >= 28 && imgNumber <= 43) {
       draggableContainer.style.backgroundColor = '#4b80d6';
-    } else if (imgNumber >= 40 && imgNumber <= 52) {
+    } else if (imgNumber >= 44 && imgNumber <= 56) {
       draggableContainer.style.backgroundColor = 'purple';
-    } else if (imgNumber >= 53 && imgNumber <= 64) {
+    } else if (imgNumber >= 57 && imgNumber <= 64) {
       draggableContainer.style.backgroundColor = 'gold';
     }
 
@@ -2268,12 +2268,12 @@ function updateSharedTraits() {
     // ตรวจสอบ Duelist emblem
     if (img.src.match(/emblem\/1\.png$/)) {
       if (!traitChampionMap["Duelist"]) traitChampionMap["Duelist"] = new Set();
-      traitChampionMap["Duelist"].add("Emblem");
+      traitChampionMap["Duelist"].add("emblem");
     }
     // ตรวจสอบ Star Guardian emblem (emblem/16.png)
     if (img.src.match(/emblem\/16\.png$/)) {
       if (!traitChampionMap["Star Guardian"]) traitChampionMap["Star Guardian"] = new Set();
-      traitChampionMap["Star Guardian"].add("Emblem");
+      traitChampionMap["Star Guardian"].add("emblem");
     }
     // เพิ่ม logic mapping index เป็น trait ได้ตามต้องการ
   });
@@ -2333,7 +2333,7 @@ function updateSharedTraits() {
     // นับจำนวน champion + จำนวน Emblem (ถ้ามี)
     let count = 0;
     champions.forEach(name => {
-      if (name === "Emblem") count += 1;
+      if (name === "emblem") count += 1;
       else count += 1;
     });
     sharedTraits[trait] = count;
