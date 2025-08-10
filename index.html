@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Typable Box</title>
+  <title>Zalvo's คอมพ์รอด</title>
   <style>
     @font-face {
       font-family: 'CustomFont';
@@ -381,37 +381,12 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
 }
 
-.aug {
-    position: absolute;
-    top: 40.5vw; /* Position it at the specified top value */
-    left: 42.5vw; /* Position it at the specified left value */
-    width: 14vw; /* Set the width */
-    height: 15vw; /* Set the height */
-    background-color: rgba(0, 0, 0, 0); /* Dark background color */
-    background-size: contain; /* Ensure the image fits within the square */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent image repetition */
-    display: flex; /* Enable flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    flex-wrap: wrap; /* Allow wrapping if needed */
-  }
 
-  .aug .inner-aug {
-    width: 13.4vw; /* Set the width of each inner square */
-    height: 4.141vw; /* Set the height of each inner square */
-    background-color: rgba(0, 0, 0, 0.5); /* Light background color */
-    margin: 0.5vw; /* Add spacing between squares */
-    display: inline-block; /* Align squares horizontally */
-    background-size: cover; /* Stretch the image to cover the square */
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Prevent image repetition */
-  }
 
-.bottom-left-augment {
+.power-snax {
   position: absolute;
   top: 35.9vw; /* Align with the bottom-left text */
-  left: 43vw; /* Position it to the right of the bottom-left text */
+  left: 41vw; /* Position it to the right of the bottom-left text */
   color: #c7b200; /* Gold color */
   font-size: 4vw; /* Adjust font size */
   font-weight: bold; /* Bold text */
@@ -419,13 +394,34 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 10); /* Add shadow under the text */
 }
 
+.ps-rect {
+  position: absolute;
+  left: 41vw;
+  width: 18vw;
+  height: 4.5vw;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 0.5vw;
+  margin-top: 0.7vw;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  font-size: 2vw; /* เพิ่มขนาด font ตามต้องการ */
+  font-weight: bold;
+}
+#ps1 { top: 40vw; }
+#ps2 { top: 45vw; }
+#ps3 { top: 50vw; }
+
+
 .bottom-left-square {
   position: absolute;
   top: 41vw; /* Position it below the bottom-left text */
   left: 23vw; /* Align it with the bottom-left text */
   width: 14vw; /* Set square width */
   height: 10.5vw; /* Set square height */
-  background-color: rgba(0, 0, 0, 0.5); /* Dark background color */
+  background-color: rgba(0, 0, 0, 0.2); /* Dark background color */
   background-size: contain; /* Ensure the image fits within the square */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Prevent image repetition */
@@ -471,15 +467,68 @@
     border-radius: 0.5vw; /* Slightly rounded corners */
   }
 
+.cppu {
+    position: absolute;
+    right: 0.5vw;
+    bottom: 0.3vw;
+    width: 2vw;
+    height: 1vw;
+    background: #e0e0e0;
+    border-radius: 0.2vw;
+    font-size: 0.8vw;
+    text-align: center;
+    line-height: 1vw;
+    z-index: 10; /* เปลี่ยนจาก 1 เป็น 10 */
+}
+
+.ps-circles {
+  position: absolute;
+  left: 40vw; /* อยู่หน้า ps1 ps2 ps3 */
+  top: 40.7vw;  /* วงบนตรงกับ ps1 */
+  width: 3vw;
+  height: 14.8vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+.ps-circle {
+  width: 4.1vw;
+  height: 4.1vw;
+  background: #c0c0c0;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #fff2;
+}
+
+#psc1, #psc2, #psc3 {
+  border: 0.3vw solid #fff;
+  box-shadow: 0 0 1vw #fff5;
+}
+
+#emblemBut {
+  background-color: #888; /* สีเทา */
+  color: #fff;
+}
+
+
   </style>
 </head>
 <body>
   <div id="hideButton" style="position: absolute; top: 1vw; right: 1vw; padding: 0.5vw 1vw; font-size: 1vw; background-color: #007bff; color: white; border: none; border-radius: 0.5vw; cursor: pointer; z-index: 2000;">Hide</div>
+  <!-- วางไว้ก่อน <div class="cd"> -->
+  <div class="ps-circles">
+    <div class="ps-circle" id="psc1"></div>
+    <div class="ps-circle" id="psc2"></div>
+    <div class="ps-circle" id="psc3"></div>
+  </div>
   <div class="cd">
-  <div class="diffbut" id="diffbut1">Easy</div>
-  <div class="diffbut" id="diffbut2">Medium</div>
-  <div class="diffbut" id="diffbut3">Hard</div>
-</div>
+    <div class="diffbut" id="emblemBut">emblem</div>
+    <div class="diffbut" id="diffbut1">Easy</div>
+    <div class="diffbut" id="diffbut2">Medium</div>
+    <div class="diffbut" id="diffbut3">Hard</div>
+  </div>
+
 <div class="shadow-div"></div>
 <div class="comp">
   <!-- Row 1 -->
@@ -567,82 +616,858 @@
 </div>
 <div id="ci"></div>
 <div class="bottom-left-text">ตัวถือของ</div>
-<div class="bottom-left-augment">Augment</div>
-<div class="bottom-left-square"></div>
+<div class="power-snax">Power Snax</div>
+<div class="ps-rect" id="ps1"></div>
+<div class="ps-rect" id="ps2"></div>
+<div class="ps-rect" id="ps3"></div>
+<div class="bottom-left-square" id="itemp"></div>
 <div class="bottom-left-blue-square"></div>
 <div class="itt">
   <div class="itt-square" id="itt1"></div>
   <div class="itt-square" id="itt2"></div>
 </div>
-<div class="aug">
-  <div class="inner-aug" id="ag1"></div>
-  <div class="inner-aug" id="ag2"></div>
-  <div class="inner-aug" id="ag3"></div>
+<!-- ปรับ style ของ searchbox ใน div#psca -->
+<div id="psca" style="display:none; position:fixed; top:15vw; left:60vw; width:30vw; height:30vw; background:rgba(0,0,0,0.95); z-index:4000; border-radius:1vw; overflow-y:auto; padding:2vw;">
+  <button id="psca-close" style="position:absolute; top:1vw; right:1vw; padding:0.5vw 1vw; font-size:1vw; background:#ff0000; color:#fff; border:none; border-radius:0.5vw; cursor:pointer;">Close</button>
+  <div style="display:flex; justify-content:center; align-items:center; margin-bottom:1vw;">
+    <input id="psca-search" type="text" placeholder="ค้นหาแชมป์..." style="width:70%; margin:0; padding:0.5vw; font-size:1vw; border-radius:0.5vw; border:1px solid #ccc;">
+  </div>
+  <div id="psca-list" style="display:flex; flex-wrap:wrap; gap:1vw; justify-content:center;"></div>
 </div>
 
 <script>
-const championTraits = {
-  "Alistar": ["Golden Ox", "Bruiser"],
-  "DrMundo": ["Street Demon", "Bruiser", "Slayer"],
-  "Jax": ["Bastion", "Exotech"],
-  "Kindred": ["Rapidfire", "Marksman", "Nitro"],
-  "Kog'Maw": ["BoomBot", "Rapidfire"],
-  "Morgana": ["Divinicorp", "Dynamo"],
-  "Nidalee": ["AMP", "Nitro"],
-  "Poppy": ["Bastion", "Cyberboss"],
-  "Seraphine": ["Anima Squad", "Techie"],
-  "Shaco": ["Syndicate", "Slayer"],
-  "Sylas": ["Anima Squad", "Vanguard"],
-  "Vi": ["Cypher", "Vanguard"],
-  "Zyra": ["Street Demon", "Techie"],
-  "Darius": ["Syndicate", "Bruiser"],
-  "Ekko": ["Street Demon", "Strategist"],
-  "Graves": ["Golden Ox", "Executioner"],
-  "Illaoi": ["Anima Squad", "Bastion"],
-  "Jhin": ["Exotech", "Marksman", "Dynamo"],
-  "LeBlanc": ["Cypher", "Strategist"],
-  "Naafiri": ["Exotech", "AMP"],
-  "Rhaast": ["Divinicorp", "Vanguard"],
-  "Shyvana": ["Nitro", "Bastion", "Techie"],
-  "Skarner": ["BoomBot", "Vanguard"],
-  "Twisted Fate": ["Syndicate", "Rapidfire"],
-  "Vayne": ["Anima Squad", "Slayer"],
-  "Veigar": ["Cyberboss", "Techie"],
-  "Braum": ["Syndicate", "Vanguard"],
-  "Draven": ["Cypher", "Rapidfire"],
-  "Elise": ["Nitro", "Dynamo"],
-  "Fiddlesticks": ["BoomBot", "Techie"],
-  "Galio": ["Cypher", "Bastion"],
-  "Gragas": ["Divinicorp", "Bruiser"],
-  "Jarvan IV": ["Golden Ox", "Vanguard", "Slayer"],
-  "Jinx": ["Street Demon", "Marksman"],
-  "Mordekaiser": ["Exotech", "Bruiser", "Techie"],
-  "Rengar": ["Street Demon", "Executioner"],
-  "Senna": ["Divinicorp", "Slayer"],
-  "Varus": ["Exotech", "Executioner"],
-  "Yuumi": ["Anima Squad", "AMP", "Strategist"],
-  "Annie": ["Golden Ox", "AMP"],
-  "Aphelios": ["Golden Ox", "Marksman"],
-  "Brand": ["Street Demon", "Techie"],
-  "Cho'Gath": ["BoomBot", "Bruiser"],
-  "Leona": ["Anima Squad", "Vanguard"],
-  "Miss Fortune": ["Syndicate", "Dynamo"],
-  "Neeko": ["Street Demon", "Strategist"],
-  "Sejuani": ["Bastion", "Exotech"],
-  "Vex": ["Divinicorp", "Executioner"],
-  "Xayah": ["Anima Squad", "Marksman"],
-  "Zed": ["Cypher", "Slayer"],
-  "Zeri": ["Exotech", "Rapidfire"],
-  "Ziggs": ["Cyberboss", "Strategist"],
-  "Aurora": ["Anima Squad", "Dynamo"],
-  "Garen": ["God of the Net"],
-  "Kobuko": ["Cyberboss", "Bruiser"],
-  "Renekton": ["Overlord", "Bastion", "Divinicorp"],
-  "Samira": ["AMP", "Street Demon"],
-  "Urgot": ["BoomBot", "Executioner"],
-  "Viego": ["Golden Ox", "Techie", "Soul Killer"],
-  "Zac": ["Virus"]
+
+
+// --- Emblem Picker ---
+const emblemNames = [
+  "Duelist",
+  "Strategist",
+  "Protector",
+  "Luchador",
+  "Executioner",
+  "Battle Academia",
+  "Prodigy",
+  "Supreme Cells",
+  "Bastion",
+  "Heavyweight",
+  "Soul Fighter",
+  "Sorcerer",
+  "Crystal Gambit",
+  "Sniper",
+  "Juggernaut",
+  "Wraith",
+  "Star Guardian",
+  "Edgelord"
+];
+
+const emblemPicker = document.createElement('div');
+emblemPicker.id = 'emblem-picker';
+emblemPicker.style.position = 'fixed';
+emblemPicker.style.top = '5vw';
+emblemPicker.style.left = '30vw';
+emblemPicker.style.width = '40vw';
+emblemPicker.style.height = '30vw';
+emblemPicker.style.background = 'rgba(0,0,0,0.95)';
+emblemPicker.style.zIndex = '5000';
+emblemPicker.style.borderRadius = '1vw';
+emblemPicker.style.overflowY = 'auto';
+emblemPicker.style.display = 'none';
+emblemPicker.style.flexDirection = 'column';
+emblemPicker.style.alignItems = 'center';
+emblemPicker.style.padding = '2vw';
+
+// ปุ่มปิด
+const emblemPickerClose = document.createElement('button');
+emblemPickerClose.textContent = 'Close';
+emblemPickerClose.style.position = 'absolute';
+emblemPickerClose.style.top = '1vw';
+emblemPickerClose.style.right = '1vw';
+emblemPickerClose.style.padding = '0.5vw 1vw';
+emblemPickerClose.style.fontSize = '1vw';
+emblemPickerClose.style.backgroundColor = '#ff0000';
+emblemPickerClose.style.color = '#fff';
+emblemPickerClose.style.border = 'none';
+emblemPickerClose.style.borderRadius = '0.5vw';
+emblemPickerClose.style.cursor = 'pointer';
+emblemPickerClose.onclick = () => emblemPicker.style.display = 'none';
+emblemPicker.appendChild(emblemPickerClose);
+
+// Search box
+const emblemPickerSearch = document.createElement('input');
+emblemPickerSearch.type = 'text';
+emblemPickerSearch.placeholder = 'ค้นหา Emblem...';
+emblemPickerSearch.style.width = '70%';
+emblemPickerSearch.style.margin = '2vw 0 1vw 0';
+emblemPickerSearch.style.padding = '0.5vw';
+emblemPickerSearch.style.fontSize = '1vw';
+emblemPickerSearch.style.borderRadius = '0.5vw';
+emblemPickerSearch.style.border = '1px solid #ccc';
+emblemPicker.appendChild(emblemPickerSearch);
+
+// Container สำหรับ emblem images
+const emblemPickerList = document.createElement('div');
+emblemPickerList.style.display = 'flex';
+emblemPickerList.style.flexWrap = 'wrap';
+emblemPickerList.style.gap = '1vw';
+emblemPickerList.style.justifyContent = 'center';
+emblemPicker.appendChild(emblemPickerList);
+
+document.body.appendChild(emblemPicker);
+
+function renderEmblemPickerList() {
+  const filter = emblemPickerSearch.value.toLowerCase();
+  emblemPickerList.innerHTML = '';
+  emblemNames.forEach((name, idx) => {
+    if (!name.toLowerCase().includes(filter)) return;
+    const div = document.createElement('div');
+    div.style.width = '4vw';
+    div.style.height = '6vw';
+    div.style.display = 'flex';
+    div.style.flexDirection = 'column';
+    div.style.alignItems = 'center';
+    div.style.justifyContent = 'center';
+    div.style.background = '#888'; // พื้นหลังสีเทา
+    div.style.borderRadius = '0.5vw';
+    div.style.cursor = 'pointer';
+    div.style.overflow = 'hidden';
+    div.setAttribute('data-name', name);
+
+    const img = document.createElement('img');
+    img.src = `emblem/${idx + 1}.png`;
+    img.alt = name;
+    img.style.width = '100%';
+    img.style.height = '8vw';
+    img.style.objectFit = 'cover';
+
+    const label = document.createElement('div');
+    label.textContent = name;
+    label.style.color = '#fff';
+    label.style.fontSize = '1vw';
+    label.style.marginTop = '0.3vw';
+    label.style.textAlign = 'center';
+    label.style.textShadow = '1px 1px 2px #000';
+
+    div.appendChild(img);
+    div.appendChild(label);
+
+        
+        div.addEventListener('click', () => {
+          emblemPicker.style.display = 'none';
+        
+          // Create draggable container (ลดขนาดกรอบ)
+          const draggableContainer = document.createElement('div');
+          draggableContainer.style.position = 'absolute';
+          draggableContainer.style.left = '50vw';
+          draggableContainer.style.top = '20vw';
+          draggableContainer.style.width = '2vw';
+          draggableContainer.style.height = '2vw';
+          draggableContainer.style.zIndex = '1000';
+          draggableContainer.style.display = 'flex';
+          draggableContainer.style.justifyContent = 'center';
+          draggableContainer.style.alignItems = 'center';
+          draggableContainer.style.background = '#ffffff';
+          draggableContainer.style.boxShadow = '0 0 1vw #0008';
+        
+          // Emblem image
+          const dragImg = document.createElement('img');
+          dragImg.src = `emblem/${idx + 1}.png`;
+          dragImg.alt = name;
+          dragImg.style.width = '90%';
+          dragImg.style.height = '90%';
+          dragImg.style.objectFit = 'contain';
+          dragImg.style.pointerEvents = 'none';
+        
+          // Emblem label
+          const dragLabel = document.createElement('div');
+          draggableContainer.appendChild(dragImg);
+          draggableContainer.appendChild(dragLabel);
+          document.body.appendChild(draggableContainer);
+        
+          // --- SNAP LOGIC: set initial position to nearest hexagon ---
+          let closestHexagon = null;
+          let closestDistance = Infinity;
+          const hexagons = document.querySelectorAll('.comp .hexagon');
+          hexagons.forEach((hexagon) => {
+            const hexRect = hexagon.getBoundingClientRect();
+            const hexCenterX = hexRect.left + hexRect.width / 2;
+            const hexCenterY = hexRect.top + hexRect.height / 2;
+            // Use window center for emblem initial position
+            const emblemCenterX = window.innerWidth * 0.5;
+            const emblemCenterY = window.innerWidth * 0.2;
+            const distance = Math.sqrt(
+              Math.pow(emblemCenterX - hexCenterX, 2) +
+              Math.pow(emblemCenterY - hexCenterY, 2)
+            );
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestHexagon = hexagon;
+            }
+          });
+          if (closestHexagon) {
+            const closestRect = closestHexagon.getBoundingClientRect();
+            const hexCenterX = closestRect.left + closestRect.width / 2;
+            const hexCenterY = closestRect.top + closestRect.height / 2;
+            draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+            draggableContainer.style.top = `${hexCenterY - draggableContainer.offsetHeight / 2}px`;
+          }
+          // --- END SNAP LOGIC ---
+        
+          // Drag logic
+          let isDragging = false;
+          let offsetX = 0;
+          let offsetY = 0;
+        
+          draggableContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - draggableContainer.getBoundingClientRect().left;
+            offsetY = e.clientY - draggableContainer.getBoundingClientRect().top;
+            draggableContainer.style.cursor = 'grabbing';
+          });
+        
+          document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+              draggableContainer.style.left = `${e.clientX - offsetX}px`;
+              draggableContainer.style.top = `${e.clientY - offsetY}px`;
+            }
+          });
+        
+          document.addEventListener('mouseup', () => {
+            if (isDragging) {
+              isDragging = false;
+              draggableContainer.style.cursor = 'grab';
+        
+              // --- SNAP LOGIC: snap to nearest hexagon after drag ---
+              let closestHexagon = null;
+              let closestDistance = Infinity;
+              hexagons.forEach((hexagon) => {
+                const hexRect = hexagon.getBoundingClientRect();
+                const hexCenterX = hexRect.left + hexRect.width / 2;
+                const hexCenterY = hexRect.top + hexRect.height / 2;
+                const draggableRect = draggableContainer.getBoundingClientRect();
+                const draggableCenterX = draggableRect.left + draggableRect.width / 2;
+                const draggableCenterY = draggableRect.top + draggableRect.height / 2;
+                const distance = Math.sqrt(
+                  Math.pow(draggableCenterX - hexCenterX, 2) +
+                  Math.pow(draggableCenterY - hexCenterY, 2)
+                );
+                if (distance < closestDistance) {
+                  closestDistance = distance;
+                  closestHexagon = hexagon;
+                }
+              });
+              if (closestHexagon) {
+                const closestRect = closestHexagon.getBoundingClientRect();
+                const hexCenterX = closestRect.left + closestRect.width / 2;
+                const hexCenterY = closestRect.top + closestRect.height / 2;
+                // เพิ่ม offset ขึ้นบน เช่น 1vw (หรือปรับเป็น px ตามต้องการ)
+                draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+                draggableContainer.style.top = `calc(${hexCenterY - draggableContainer.offsetHeight / 2}px - 3vw)`;
+              }
+
+              // --- END SNAP LOGIC ---
+            }
+          });
+        
+          // Right-click to remove
+          draggableContainer.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            draggableContainer.remove();
+          });
+        });
+        
+    emblemPickerList.appendChild(div);
+  });
+}
+renderEmblemPickerList();
+
+// Search event
+emblemPickerSearch.addEventListener('input', renderEmblemPickerList);
+
+// เปิด emblem picker เมื่อกดปุ่ม emblem
+document.getElementById('emblemBut').addEventListener('click', () => {
+  emblemPicker.style.display = 'flex';
+  emblemPickerSearch.value = '';
+  renderEmblemPickerList();
+});
+
+
+const champNames = [
+  "Aatrox",
+  "Ezreal",
+  "Garen",
+  "Gnar",
+  "Kalista",
+  "Kayle",
+  "Kennen",
+  "Lucian",
+  "Malphite",
+  "Naafiri",
+  "Rell",
+  "Sivir",
+  "Syndra",
+  "Zac",
+  "Gangplank",
+  "Janna",
+  "Jhin",
+  "Kaisa",
+  "Katarina",
+  "Kobuko",
+  "Lux",
+  "Mundo",
+  "Rakan",
+  "Shen",
+  "Vi",
+  "Xayah",
+  "Xin Zhao",
+  "Ahri",
+  "Cait",
+  "Darius",
+  "Jayce",
+  "Lulu",
+  "Kogmaw",
+  "Rammus",
+  "Smolder",
+  "Malzahar",
+  "Neeko",
+  "Senna",
+  "Swain",
+  "Udyr",
+  "Viego",
+  "Yasuo",
+  "Ziggs",
+  "Akali",
+  "Ashe",
+  "Jarvan",
+  "Jinx",
+  "K'sante",
+  "Karma",
+  "Leona",
+  "Poppy",
+  "Ryze",
+  "Samira",
+  "Sett",
+  "Volibear",
+  "Yuumi",
+  "Braum",
+  "Gwen",
+  "Leesin",
+  "Seraphine",
+  "Twisted Fate",
+  "Varus",
+  "Yone",
+  "Zyra"
+];
+const pscaList = document.getElementById('psca-list');
+pscaList.innerHTML = '';
+for (let i = 1; i <= champNames.length; i++) {
+  const div = document.createElement('div');
+  div.className = 'psca-item';
+  div.setAttribute('data-name', champNames[i-1]);
+  div.style.width = '8vw';
+  div.style.height = '6vw';
+  div.style.borderRadius = '0.5vw';
+  div.style.overflow = 'hidden';
+  div.style.display = 'flex';
+  div.style.alignItems = 'center';
+  div.style.justifyContent = 'center';
+  div.style.background = '#222';
+  div.style.cursor = 'pointer';
+  const img = document.createElement('img');
+  img.src = `champ/${i}.png`;
+  img.alt = champNames[i-1];
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'cover';
+  div.appendChild(img);
+  pscaList.appendChild(div);
+}
+
+
+// ฟังก์ชันค้นหาใน psca
+document.getElementById('psca-search').addEventListener('input', function() {
+  const val = this.value.toLowerCase();
+  document.querySelectorAll('.psca-item').forEach(item => {
+    const name = item.getAttribute('data-name').toLowerCase();
+    item.style.display = name.includes(val) ? 'flex' : 'none';
+  });
+});
+
+// ปุ่มปิด
+document.getElementById('psca-close').onclick = () => {
+  document.getElementById('psca').style.display = 'none';
 };
+
+
+let currentPsc = null;
+
+// เปิด psca เมื่อกด psc1, psc2, psc3 และจำ psc ที่เลือก
+['psc1','psc2','psc3'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      document.getElementById('psca').style.display = 'block';
+      currentPsc = el; // จำ psc ที่เลือก
+    });
+  }
+});
+
+
+// เมื่อเลือก item ใน psca ให้แสดงภาพจาก cpd ด้วยเลขเดียวกันใน psc ที่เลือก
+document.querySelectorAll('.psca-item').forEach(item => {
+  item.addEventListener('click', function() {
+    if (currentPsc) {
+      const img = this.querySelector('img');
+      // ดึงเลขไฟล์จาก src เช่น champ/1.png
+      const match = img.src.match(/(\d+)\.png$/);
+      if (match) {
+        const num = match[1];
+        currentPsc.style.backgroundImage = `url('cpd/${num}.png')`;
+        currentPsc.style.backgroundSize = 'cover';
+        currentPsc.style.backgroundPosition = 'center';
+        currentPsc.style.backgroundRepeat = 'no-repeat';
+        document.getElementById('psca').style.display = 'none';
+      }
+    }
+  });
+});
+// 1. สร้าง div power_snax และซ่อนเริ่มต้น
+const powerSnaxDiv = document.createElement('div');
+powerSnaxDiv.id = 'power_snax';
+powerSnaxDiv.style.position = 'fixed';
+powerSnaxDiv.style.top = '16vw';
+powerSnaxDiv.style.left = '60vw';
+powerSnaxDiv.style.width = '30vw';
+powerSnaxDiv.style.height = '30vw';
+powerSnaxDiv.style.background = 'rgba(0,0,0,0.95)';
+powerSnaxDiv.style.zIndex = '3000';
+powerSnaxDiv.style.display = 'none';
+powerSnaxDiv.style.flexDirection = 'column';
+powerSnaxDiv.style.alignItems = 'center';
+powerSnaxDiv.style.padding = '2vw';
+powerSnaxDiv.style.borderRadius = '1vw';
+powerSnaxDiv.style.overflowY = 'auto';
+
+// 2. ปุ่มปิด
+const powerSnaxClose = document.createElement('button');
+powerSnaxClose.textContent = 'Close';
+powerSnaxClose.style.position = 'absolute';
+powerSnaxClose.style.top = '1vw';
+powerSnaxClose.style.right = '1vw';
+powerSnaxClose.style.padding = '0.5vw 1vw';
+powerSnaxClose.style.fontSize = '1vw';
+powerSnaxClose.style.backgroundColor = '#ff0000';
+powerSnaxClose.style.color = '#fff';
+powerSnaxClose.style.border = 'none';
+powerSnaxClose.style.borderRadius = '0.5vw';
+powerSnaxClose.style.cursor = 'pointer';
+powerSnaxClose.onclick = () => powerSnaxDiv.style.display = 'none';
+powerSnaxDiv.appendChild(powerSnaxClose);
+
+// 3. Search box
+const powerSnaxSearch = document.createElement('input');
+powerSnaxSearch.type = 'text';
+powerSnaxSearch.placeholder = 'Search Power Snax...';
+powerSnaxSearch.style.width = '80%';
+powerSnaxSearch.style.margin = '2vw 0 1vw 0';
+powerSnaxSearch.style.padding = '0.5vw';
+powerSnaxSearch.style.fontSize = '1vw';
+powerSnaxSearch.style.borderRadius = '0.5vw';
+powerSnaxSearch.style.border = '1px solid #ccc';
+powerSnaxDiv.appendChild(powerSnaxSearch);
+
+// 4. List ตัวเลือก
+const powerSnaxList = [
+  "100 Push Ups","Adaptive Skin","All Out","Annihilation","Artistic KO","Atomic","Attack Expert","Best Defense","Bestest Boy","Bladenado","Blink Attack","Blood Brothers","Bludgeoner","Body Change","Bonus Bloom","Bullet Hell","Caretaker","Classy","Colossal","Corrosive","Crimson Veil","Critical Threat","Cyclone Rush","Dark Amulet","Demolitionist","Desperado","Doom Barrage","Doublestrike","Efficient","Essence Share","Fairy Tail","Fan Service","Final Ascent","Final Boss","Final Form","Finalist","Frost Touch","Fusion Dance","Gather Force","Gem Core","Golden Edge","Hat Trick","Heart of Gold","Hemorrhage","Hero's Arc","Hungry Hero","Hyperactive","Ice Bender","Inner Fire","Kahunahuna","Keen Eye","Killer Instinct","Living Wall","Mage","Magic Expert","Mana Rush","Mastermind","Max Arcana","Max Attack","Max Speed","Max Vitality","Mechador","Mech Pilot","Midas Touch","Mind Battery","Needlework","Not Done Yet","On The Edge","Ordinary","Over 9000","Pack Tactics","Power Font","Precision","Pure Heart","Pursuit","Ramping Rage","Rare Treat","Regenerative","Resistant","Rising Chaos","Robo Ranger","Round Two","Selfish","Serious Slam","Shadow Clone","Singularity","Sky Piercer","Socialite","Solar Breath","S.O.L.E. Fighter","Soul Chipper","Space Ace","Spiky Shell","Spirit Sword","Stand Alone","Stand United","Star Sailor","Star Student","Storm Bender","Stretchy Arms","Strong Spark","Super Genius","Supremacy","Surge 66","Tank-zilla","Thrillseeker","Tiny Terror","Trickster","Ultra Stance","Undefeated","Unflinching","Unstoppable","Warming Up","Weights"
+];
+
+// 5. Container สำหรับตัวเลือก
+const powerSnaxOptions = document.createElement('div');
+powerSnaxOptions.style.display = 'flex';
+powerSnaxOptions.style.flexDirection = 'column';
+powerSnaxOptions.style.width = '100%';
+powerSnaxOptions.style.maxHeight = '22vw';
+powerSnaxOptions.style.overflowY = 'auto';
+powerSnaxDiv.appendChild(powerSnaxOptions);
+
+// 6. ฟังก์ชัน render ตัวเลือก
+function renderPowerSnaxOptions(filter = '') {
+  powerSnaxOptions.innerHTML = '';
+  powerSnaxList
+    .filter(name => name.toLowerCase().includes(filter.toLowerCase()))
+    .forEach(name => {
+      const btn = document.createElement('button');
+      btn.textContent = name;
+      btn.style.margin = '0.2vw 0';
+      btn.style.padding = '0.5vw 1vw';
+      btn.style.fontSize = '1vw';
+      btn.style.borderRadius = '0.5vw';
+      btn.style.border = 'none';
+      btn.style.background = '#222';
+      btn.style.color = '#fff';
+      btn.style.cursor = 'pointer';
+      btn.onmouseover = () => btn.style.background = '#444';
+      btn.onmouseout = () => btn.style.background = '#222';
+      btn.onclick = () => {
+        if (powerSnaxDiv.currentPs) {
+          // ตั้งค่าเนื้อหา ps
+          powerSnaxDiv.currentPs.textContent = name;
+          powerSnaxDiv.currentPs.style.backgroundColor = '#d4d446';
+          powerSnaxDiv.currentPs.style.color = '#222';
+          powerSnaxDiv.currentPs.style.fontSize = '2vw';
+          powerSnaxDiv.currentPs.style.fontWeight = 'bold';
+  
+        }
+        powerSnaxDiv.style.display = 'none';
+      };
+      powerSnaxOptions.appendChild(btn);
+    });
+}
+renderPowerSnaxOptions();
+
+// 7. Event search
+powerSnaxSearch.addEventListener('input', () => {
+  renderPowerSnaxOptions(powerSnaxSearch.value);
+});
+
+// 8. ใส่ power_snax div ใน body
+document.body.appendChild(powerSnaxDiv);
+
+// 9. Event เปิด power_snax เมื่อคลิก ps1, ps2, ps3
+['ps1', 'ps2', 'ps3'].forEach(id => {
+  const ps = document.getElementById(id);
+  if (ps) {
+    ps.style.cursor = 'pointer';
+    ps.addEventListener('click', () => {
+      powerSnaxDiv.style.display = 'flex';
+      powerSnaxDiv.currentPs = ps;
+    });
+  }
+});
+
+// 1. สร้าง div สำหรับเลือกแชมป์เปี้ยน (cmp-picker)
+const cmpPicker = document.createElement('div');
+cmpPicker.id = 'cmp-picker';
+cmpPicker.style.position = 'fixed';
+cmpPicker.style.top = '15vw';
+cmpPicker.style.left = '23vw';
+cmpPicker.style.width = '36vw';
+cmpPicker.style.height = '30vw';
+cmpPicker.style.background = 'rgba(0,0,0,0.95)';
+cmpPicker.style.zIndex = '4000';
+cmpPicker.style.borderRadius = '1vw';
+cmpPicker.style.overflowY = 'auto';
+cmpPicker.style.display = 'none';
+cmpPicker.style.flexDirection = 'column';
+cmpPicker.style.alignItems = 'center';
+cmpPicker.style.padding = '2vw';
+
+// ปุ่มปิด
+const cmpPickerClose = document.createElement('button');
+cmpPickerClose.textContent = 'Close';
+cmpPickerClose.style.position = 'absolute';
+cmpPickerClose.style.top = '1vw';
+cmpPickerClose.style.right = '1vw';
+cmpPickerClose.style.padding = '0.5vw 1vw';
+cmpPickerClose.style.fontSize = '1vw';
+cmpPickerClose.style.backgroundColor = '#ff0000';
+cmpPickerClose.style.color = '#fff';
+cmpPickerClose.style.border = 'none';
+cmpPickerClose.style.borderRadius = '0.5vw';
+cmpPickerClose.style.cursor = 'pointer';
+cmpPickerClose.onclick = () => cmpPicker.style.display = 'none';
+cmpPicker.appendChild(cmpPickerClose);
+
+// Search box
+const cmpPickerSearch = document.createElement('input');
+cmpPickerSearch.type = 'text';
+cmpPickerSearch.placeholder = 'ค้นหาแชมป์...';
+cmpPickerSearch.style.width = '60%';
+cmpPickerSearch.style.margin = '0vw 0 1vw 0';
+cmpPickerSearch.style.padding = '0.5vw';
+cmpPickerSearch.style.fontSize = '1vw';
+cmpPickerSearch.style.borderRadius = '0.5vw';
+cmpPickerSearch.style.border = '1px solid #ccc';
+cmpPicker.appendChild(cmpPickerSearch);
+
+// Container สำหรับรูป
+const cmpPickerList = document.createElement('div');
+cmpPickerList.style.display = 'flex';
+cmpPickerList.style.flexWrap = 'wrap';
+cmpPickerList.style.gap = '1vw';
+cmpPickerList.style.justifyContent = 'center';
+cmpPicker.appendChild(cmpPickerList);
+
+document.body.appendChild(cmpPicker);
+
+let currentCmpSquare = null;
+
+// 2. Event เปิด cmp-picker เมื่อคลิก cmp1, cmp2, cmp3
+['cmp1', 'cmp2', 'cmp3'].forEach(id => {
+  const cmp = document.getElementById(id);
+  if (cmp) {
+    cmp.style.cursor = 'pointer';
+    cmp.addEventListener('click', () => {
+      cmpPicker.style.display = 'flex';
+      currentCmpSquare = cmp;
+      cmpPickerSearch.value = '';
+      renderCmpPickerList();
+    });
+  }
+});
+
+function renderCmpPickerList() {
+  const filter = cmpPickerSearch.value.toLowerCase();
+  cmpPickerList.innerHTML = '';
+  champNames.forEach((name, idx) => {
+    if (!name.toLowerCase().includes(filter)) return;
+    const div = document.createElement('div');
+    div.style.width = '8vw';
+    div.style.height = '6vw';
+    div.style.display = 'flex';
+    div.style.alignItems = 'center';
+    div.style.justifyContent = 'center';
+    div.style.background = '#222';
+    div.style.borderRadius = '0.5vw';
+    div.style.cursor = 'pointer';
+    div.style.overflow = 'hidden';
+
+    const img = document.createElement('img');
+    img.src = `champ/${idx + 1}.png`;
+    img.alt = name;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+
+    div.appendChild(img);
+
+    div.addEventListener('click', () => {
+      if (currentCmpSquare) {
+        currentCmpSquare.style.backgroundImage = `url(champ/${idx + 1}.png)`;
+        currentCmpSquare.style.backgroundSize = 'contain';
+        currentCmpSquare.style.backgroundPosition = 'center';
+        currentCmpSquare.style.backgroundRepeat = 'no-repeat';
+        cmpPicker.style.display = 'none';
+      }
+    });
+
+    cmpPickerList.appendChild(div);
+  });
+}
+
+// 4. Event ค้นหา
+cmpPickerSearch.addEventListener('input', renderCmpPickerList);
+
+
+
+// --- ITEM PICKER FOR itemp ---
+
+// 1. สร้าง div สำหรับเลือกแชมป์เปี้ยน (itemp-picker)
+const itempPicker = document.createElement('div');
+itempPicker.id = 'itemp-picker';
+itempPicker.style.position = 'fixed';
+itempPicker.style.top = '15vw';
+itempPicker.style.left = '38vw';
+itempPicker.style.width = '35vw';
+itempPicker.style.height = '30vw';
+itempPicker.style.background = 'rgba(0,0,0,0.95)';
+itempPicker.style.zIndex = '4000';
+itempPicker.style.borderRadius = '1vw';
+itempPicker.style.overflowY = 'auto';
+itempPicker.style.display = 'none';
+itempPicker.style.flexDirection = 'column';
+itempPicker.style.alignItems = 'center';
+itempPicker.style.padding = '2vw';
+
+// ปุ่มปิด
+const itempPickerClose = document.createElement('button');
+itempPickerClose.textContent = 'Close';
+itempPickerClose.style.position = 'absolute';
+itempPickerClose.style.top = '1vw';
+itempPickerClose.style.right = '1vw';
+itempPickerClose.style.padding = '0.5vw 1vw';
+itempPickerClose.style.fontSize = '1vw';
+itempPickerClose.style.backgroundColor = '#ff0000';
+itempPickerClose.style.color = '#fff';
+itempPickerClose.style.border = 'none';
+itempPickerClose.style.borderRadius = '0.5vw';
+itempPickerClose.style.cursor = 'pointer';
+itempPickerClose.onclick = () => itempPicker.style.display = 'none';
+itempPicker.appendChild(itempPickerClose);
+
+// Search box
+const itempPickerSearch = document.createElement('input');
+itempPickerSearch.type = 'text';
+itempPickerSearch.placeholder = 'ค้นหาแชมป์...';
+itempPickerSearch.style.width = '80%';
+itempPickerSearch.style.margin = '2vw 0 1vw 0';
+itempPickerSearch.style.padding = '0.5vw';
+itempPickerSearch.style.fontSize = '1vw';
+itempPickerSearch.style.borderRadius = '0.5vw';
+itempPickerSearch.style.border = '1px solid #ccc';
+itempPicker.appendChild(itempPickerSearch);
+
+// Container สำหรับรูป
+const itempPickerList = document.createElement('div');
+itempPickerList.style.display = 'flex';
+itempPickerList.style.flexWrap = 'wrap';
+itempPickerList.style.gap = '1vw';
+itempPickerList.style.justifyContent = 'center';
+itempPicker.appendChild(itempPickerList);
+
+document.body.appendChild(itempPicker);
+
+// 2. Event เปิด itemp-picker เมื่อคลิก itemp
+const itempDiv = document.getElementById('itemp');
+if (itempDiv) {
+  itempDiv.style.cursor = 'pointer';
+  itempDiv.addEventListener('click', () => {
+    itempPicker.style.display = 'flex';
+    itempPickerSearch.value = '';
+    renderItempPickerList();
+  });
+}
+
+// 3. ฟังก์ชัน render รายการแชมป์เปี้ยน
+function renderItempPickerList() {
+  const filter = itempPickerSearch.value.toLowerCase();
+  itempPickerList.innerHTML = '';
+  champNames.forEach((name, idx) => {
+    if (!name.toLowerCase().includes(filter)) return;
+    const div = document.createElement('div');
+    div.style.width = '8vw';
+    div.style.height = '6vw';
+    div.style.display = 'flex';
+    div.style.alignItems = 'center';
+    div.style.justifyContent = 'center';
+    div.style.background = '#222';
+    div.style.borderRadius = '0.5vw';
+    div.style.cursor = 'pointer';
+    div.style.overflow = 'hidden';
+
+    const img = document.createElement('img');
+    img.src = `champ/${idx + 1}.png`;
+    img.alt = name;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+
+    div.appendChild(img);
+
+    div.addEventListener('click', () => {
+      // ตั้งเป็น background ของ itemp
+      itempDiv.style.backgroundImage = `url(champ/${idx + 1}.png)`;
+      itempDiv.style.backgroundSize = 'contain';
+      itempDiv.style.backgroundPosition = 'center';
+      itempDiv.style.backgroundRepeat = 'no-repeat';
+      itempPicker.style.display = 'none';
+    });
+
+    itempPickerList.appendChild(div);
+  });
+}
+
+// 4. Event ค้นหา
+itempPickerSearch.addEventListener('input', renderItempPickerList);
+
+// Select the hide button and the .cd element
+const hideButton = document.getElementById('hideButton');
+const cdElement = document.querySelector('.cd');
+
+// Function to hide the button and .cd
+hideButton.addEventListener('click', () => {
+  hideButton.style.display = 'none'; // Hide the button
+  cdElement.style.display = 'none'; // Hide the .cd element
+});
+
+// Function to bring back the button and .cd when something is edited
+function bringBackUI() {
+  hideButton.style.display = 'block'; // Show the button
+  cdElement.style.display = 'flex'; // Show the .cd element
+}
+
+// Add event listeners for interactions that bring back the UI
+document.addEventListener('mousemove', (event) => {
+  if (event.target.closest('div[style*="cpd/"]')) {
+    bringBackUI(); // Bring back the UI when a draggable image is moved
+  }
+});
+
+document.addEventListener('click', (event) => {
+  if (event.target.closest('.ags img')) {
+    bringBackUI(); // Bring back the UI when an image in ags is selected
+  }
+});
+
+  
+const championTraits = {
+  "Aatrox": ["Mighty Mech", "Juggernaut", "Heavyweight"],
+  "Ezreal": ["Battle Academia", "Protector"],
+  "Garen": ["Battle Academia", "Bastion"],
+  "Gnar": ["Luchador", "Sniper"],
+  "Kalista": ["Soul Fighter", "Executioner"],
+  "Kayle": ["Wraith", "Duelist"],
+  "Kennen": ["Supreme Cells", "Sorcerer"],
+  "Lucian": ["Mighty Mech", "Sorcerer"],
+  "Malphite": ["The Crew", "Protector"],
+  "Naafiri": ["Soul Fighter", "Juggernaut"],
+  "Rell": ["Star Guardian", "Bastion"],
+  "Sivir": ["The Crew", "Sniper"],
+  "Syndra": ["Crystal Gambit", "Star Guardian", "Prodigy"],
+  "Zac": ["Wraith", "Heavyweight"],
+  "Gangplank": ["Mighty Mech", "Duelist"],
+  "Janna": ["Crystal Gambit", "Protector", "Strategist"],
+  "Jhin": ["Wraith", "Sniper"],
+  "Kaisa": ["Supreme Cells", "Duelist"],
+  "Katarina": ["Battle Academia", "Executioner"],
+  "Kobuko": ["Mentor", "Heavyweight"],
+  "Lux": ["Soul Fighter", "Sorcerer"],
+  "Mundo": ["Luchador", "Juggernaut"],
+  "Rakan": ["Battle Academia", "Protector"],
+  "Shen": ["The Crew", "Bastion"],
+  "Vi": ["Crystal Gambit", "Juggernaut"],
+  "Xayah": ["Star Guardian", "Edgelord"],
+  "Xin Zhao": ["Soul Fighter", "Bastion"],
+  "Ahri": ["Star Guardian", "Sorcerer"],
+  "Cait": ["Battle Academia", "Sniper"],
+  "Darius": ["Supreme Cells", "Heavyweight"],
+  "Jayce": ["Battle Academia", "Heavyweight"],
+  "Kogmaw": ["Monster Trainer"],
+  "Lulu": ["Monster Trainer"],
+  "Malzahar": ["Wraith", "Prodigy"],
+  "Neeko": ["Star Guardian", "Protector"],
+  "Rammus": ["Monster Trainer"],
+  "Senna": ["Mighty Mech", "Executioner"],
+  "Smolder": ["Monster Trainer"],
+  "Swain": ["Crystal Gambit", "Bastion", "Sorcerer"],
+  "Udyr": ["Mentor", "Juggernaut", "Duelist"],
+  "Viego": ["Soul Fighter", "Duelist"],
+  "Yasuo": ["Mentor", "Edgelord"],
+  "Ziggs": ["The Crew", "Strategist"],
+  "Akali": ["Supreme Cells", "Executioner"],
+  "Ashe": ["Crystal Gambit", "Duelist"],
+  "Jarvan": ["Mighty Mech", "Strategist"],
+  "Jinx": ["Star Guardian", "Sniper"],
+  "Karma": ["Mighty Mech", "Sorcerer"],
+  "Ksante": ["Wraith", "Protector"],
+  "Leona": ["Battle Academia", "Bastion"],
+  "Poppy": ["Star Guardian", "Heavyweight"],
+  "Ryze": ["Mentor", "Executioner", "Strategist"],
+  "Samira": ["Soul Fighter", "Edgelord"],
+  "Sett": ["Soul Fighter", "Juggernaut"],
+  "Volibear": ["Luchador", "Edgelord"],
+  "Yuumi": ["Battle Academia", "Prodigy"],
+  "Braum": ["The Champ", "Luchador", "Bastion"],
+  "Gwen": ["Soul Fighter", "Sorcerer"],
+  "Leesin": ["Stance Master"],
+  "Seraphine": ["Star Guardian", "Prodigy"],
+  "Twisted Fate": ["Rogue Captain", "The Crew"],
+  "Varus": ["Wraith", "Sniper"],
+  "Yone": ["Mighty Mech", "Edgelord"],
+  "Zyra": ["Crystal Gambit", "Rosemother"]
+};
+
+
 
 const hexagonsInComp = document.querySelectorAll('.comp .hexagon');
 
@@ -736,7 +1561,7 @@ cmppSearchInput.addEventListener('input', () => {
 });
 
 // Populate the cmppImagesContainer with images from the champ folder
-for (let i = 1; i <= 60; i++) {
+for (let i = 1; i <= 64; i++) {
   const img = document.createElement('img');
   img.src = `champ/${i}.png`; // Path to the images
   img.alt = `Image ${i}`;
@@ -884,7 +1709,8 @@ ciCloseButton.style.border = 'none';
 ciCloseButton.style.borderRadius = '0.5vw';
 ciCloseButton.style.cursor = 'pointer';
 ciCloseButton.addEventListener('click', () => {
-  ci.style.display = 'none'; // Hide the ci area when the button is clicked
+ci.style.display = 'none'; // Hide the ci area when the button is clicked
+si1Squares.forEach(sq => sq.classList.remove('selected'));
 });
 ci.appendChild(ciCloseButton);
 
@@ -982,8 +1808,9 @@ for (let i = 1; i <= 36; i++) {
   ci2CloseButton.style.borderRadius = '0.5vw';
   ci2CloseButton.style.cursor = 'pointer';
   ci2CloseButton.addEventListener('click', () => {
-    ci2.style.display = 'none'; // Hide the ci2 area when the button is clicked
-  });
+  ci2.style.display = 'none'; // Hide the ci2 area when the button is clicked
+  si2Squares.forEach(sq => sq.classList.remove('selected'));  
+});
   ci2.appendChild(ci2CloseButton);
 
   // Select all squares in si2
@@ -1078,8 +1905,9 @@ for (let i = 1; i <= 36; i++) {
   ci3CloseButton.style.borderRadius = '0.5vw';
   ci3CloseButton.style.cursor = 'pointer';
   ci3CloseButton.addEventListener('click', () => {
-    ci3.style.display = 'none'; // Hide the ci3 area when the button is clicked
-  });
+  ci3.style.display = 'none'; // Hide the ci3 area when the button is clicked
+  si3Squares.forEach(sq => sq.classList.remove('selected'));
+});
   ci3.appendChild(ci3CloseButton);
 
   // Select all squares in si3
@@ -1139,181 +1967,7 @@ for (let i = 1; i <= 36; i++) {
     ci3.appendChild(img);
   }
 
-  // Create the ca area dynamically
-  const ca = document.createElement('div');
-  ca.id = 'ca';
-  ca.style.position = 'absolute';
-  ca.style.top = '15vw'; // Adjust vertical position
-  ca.style.left = '13vw'; // Adjust horizontal position
-  ca.style.width = '50vw'; // Set width
-  ca.style.height = '40vw'; // Set height
-  ca.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-  ca.style.display = 'none'; // Initially hidden
-  ca.style.flexWrap = 'wrap';
-  ca.style.gap = '0.8vw'; // Space between images
-  ca.style.justifyContent = 'center';
-  ca.style.alignItems = 'flex-start'; // Align images to the top
-  ca.style.padding = '2vw';
-  ca.style.boxSizing = 'border-box';
-  ca.style.zIndex = '1000';
-  ca.style.overflowY = 'auto';
-  ca.style.borderRadius = '1vw';
-  document.body.appendChild(ca);
 
-  // Create and add the close button to the ca area
-  const caCloseButton = document.createElement('button');
-  caCloseButton.textContent = 'Close';
-  caCloseButton.style.position = 'absolute';
-  caCloseButton.style.top = '0.2vw';
-  caCloseButton.style.right = '1vw';
-  caCloseButton.style.padding = '0.5vw 1vw';
-  caCloseButton.style.fontSize = '1vw';
-  caCloseButton.style.backgroundColor = '#ff0000';
-  caCloseButton.style.color = '#ffffff';
-  caCloseButton.style.border = 'none';
-  caCloseButton.style.borderRadius = '0.5vw';
-  caCloseButton.style.cursor = 'pointer';
-  caCloseButton.addEventListener('click', () => {
-    ca.style.display = 'none'; // Hide the ca area when the button is clicked
-  });
-  ca.appendChild(caCloseButton);
-
-  // Select all cmp-squares in cmpa
-  const cmpSquares = document.querySelectorAll('#cmpa .cmp-square');
-  let selectedCmpSquareIndex = 0; // Start with the first cmp-square
-
-  // Add click event to each cmp-square in cmpa
-  cmpSquares.forEach((square, index) => {
-    square.addEventListener('click', () => {
-      // Remove the border from all cmp-squares
-      cmpSquares.forEach(sq => sq.classList.remove('selected'));
-
-      // Add a border to the clicked cmp-square
-      square.classList.add('selected');
-
-      // Set the clicked cmp-square as the selected square
-      selectedCmpSquareIndex = index;
-
-      // Show the ca area
-      ca.style.display = 'flex';
-    });
-  });
-
-  // Populate the ca area with images
-  for (let i = 1; i <= 60; i++) {
-    const img = document.createElement('img');
-    img.src = `champ/${i}.png`; // Path to the images
-    img.alt = `Image ${i}`;
-    img.style.width = '8vw'; // Set image width
-    img.style.height = '6vw'; // Set image height
-    img.style.objectFit = 'cover';
-    img.style.cursor = 'pointer';
-    img.style.borderRadius = '0.5vw';
-    img.style.transition = 'transform 0.2s ease';
-    img.addEventListener('mouseover', () => {
-      img.style.transform = 'scale(1.1)';
-    });
-    img.addEventListener('mouseout', () => {
-      img.style.transform = 'scale(1)';
-    });
-    img.addEventListener('click', () => {
-      if (selectedCmpSquareIndex < cmpSquares.length) {
-        // Set the selected image as the background of the current cmp-square
-        const currentSquare = cmpSquares[selectedCmpSquareIndex];
-        currentSquare.style.backgroundImage = `url(${img.src})`;
-
-        // Adjust the width of the square to match the image's width
-        const imgWidth = img.naturalWidth; // Get the natural width of the image
-        const imgHeight = img.naturalHeight; // Get the natural height of the image
-        const aspectRatio = imgWidth / imgHeight; // Calculate the aspect ratio
-        currentSquare.style.width = `${aspectRatio * parseFloat(currentSquare.style.height)}vw`; // Adjust width
-
-        currentSquare.style.opacity = '1'; // Ensure the square is visible
-        currentSquare.classList.remove('selected'); // Remove border from the current square
-
-        // Hide the ca area after selecting an image
-        ca.style.display = 'none';
-      }
-    });
-    ca.appendChild(img);
-  }
-
-// Select the bottom-left-square
-const bottomLeftSquare = document.querySelector('.bottom-left-square');
-
-// Create the ca2 area dynamically
-const ca2 = document.createElement('div');
-ca2.id = 'ca2';
-ca2.style.position = 'absolute';
-ca2.style.top = '15vw'; // Adjust vertical position
-ca2.style.left = '40vw'; // Adjust horizontal position
-ca2.style.width = '50vw'; // Set width
-ca2.style.height = '40vw'; // Set height
-ca2.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-ca2.style.display = 'none'; // Initially hidden
-ca2.style.flexWrap = 'wrap';
-ca2.style.gap = '0.8vw'; // Space between images
-ca2.style.justifyContent = 'center';
-ca2.style.alignItems = 'flex-start'; // Align images to the top
-ca2.style.padding = '2vw';
-ca2.style.boxSizing = 'border-box';
-ca2.style.zIndex = '1000';
-ca2.style.overflowY = 'auto';
-ca2.style.borderRadius = '1vw';
-document.body.appendChild(ca2);
-
-// Create and add the close button to the ca2 area
-const ca2CloseButton = document.createElement('button');
-ca2CloseButton.textContent = 'Close';
-ca2CloseButton.style.position = 'absolute';
-ca2CloseButton.style.top = '0.2vw';
-ca2CloseButton.style.right = '1vw';
-ca2CloseButton.style.padding = '0.5vw 1vw';
-ca2CloseButton.style.fontSize = '1vw';
-ca2CloseButton.style.backgroundColor = '#ff0000';
-ca2CloseButton.style.color = '#ffffff';
-ca2CloseButton.style.border = 'none';
-ca2CloseButton.style.borderRadius = '0.5vw';
-ca2CloseButton.style.cursor = 'pointer';
-ca2CloseButton.addEventListener('click', () => {
-  ca2.style.display = 'none'; // Hide the ca2 area when the button is clicked
-});
-ca2.appendChild(ca2CloseButton);
-
-// Add click event to the bottom-left-square to open ca2
-bottomLeftSquare.addEventListener('click', () => {
-  ca2.style.display = 'flex'; // Show the ca2 area
-});
-
-// Populate the ca2 area with images from the champ folder
-for (let i = 1; i <= 60; i++) {
-  const img = document.createElement('img');
-  img.src = `champ/${i}.png`; // Path to the images
-  img.alt = `Image ${i}`;
-  img.style.width = '8vw'; // Set image width
-  img.style.height = '6vw'; // Set image height
-  img.style.objectFit = 'cover';
-  img.style.cursor = 'pointer';
-  img.style.borderRadius = '0.5vw';
-  img.style.transition = 'transform 0.2s ease';
-  img.addEventListener('mouseover', () => {
-    img.style.transform = 'scale(1.1)';
-  });
-  img.addEventListener('mouseout', () => {
-    img.style.transform = 'scale(1)';
-  });
-  img.addEventListener('click', () => {
-    // Set the selected image as the background of the bottom-left-square
-    bottomLeftSquare.style.backgroundImage = `url(${img.src})`;
-    bottomLeftSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
-    bottomLeftSquare.style.backgroundPosition = 'center'; // Center the image
-    bottomLeftSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
-
-    // Hide the ca2 area after selecting an image
-    ca2.style.display = 'none';
-  });
-  ca2.appendChild(img);
-}
   // Select all squares in the itt container
 const ittSquares = document.querySelectorAll('.itt-square');
 
@@ -1399,14 +2053,6 @@ ittSquares.forEach((square) => {
 
 // Add click event to make images in cmpp draggable and use images from the cpd folder
 // Mapping of image numbers to names
-const champNames = [
-  "Alistar", "DrMundo", "Jax", "Kindred", "Kog'Maw", "Morgana", "Nidalee", "Poppy", "Seraphine", "Shaco",
-  "Sylas", "Vi", "Zyra", "Darius", "Ekko", "Graves", "Illaoi", "Jhin", "LeBlanc", "Naafiri",
-  "Rhaast", "Shyvana", "Skarner", "Twisted Fate", "Vayne", "Veigar", "Braum", "Draven", "Elise", "Fiddlesticks",
-  "Galio", "Gragas", "Jarvan IV", "Jinx", "Mordekaiser", "Rengar", "Senna", "Varus", "Yuumi", "Annie",
-  "Aphelios", "Brand", "Cho'Gath", "Leona", "Miss Fortune", "Neeko", "Sejuani", "Vex", "Xayah", "Zed",
-  "Zeri", "Ziggs", "Aurora", "Garen", "Kobuko", "Renekton", "Samira", "Urgot", "Viego", "Zac"
-];
 
 cmpp.addEventListener('click', (event) => {
   if (event.target.tagName === 'IMG') {
@@ -1435,7 +2081,7 @@ if (imgNumber >= 1 && imgNumber <= 13) {
       draggableContainer.style.backgroundColor = '#4b80d6';
     } else if (imgNumber >= 40 && imgNumber <= 52) {
       draggableContainer.style.backgroundColor = 'purple';
-    } else if (imgNumber >= 53 && imgNumber <= 60) {
+    } else if (imgNumber >= 53 && imgNumber <= 64) {
       draggableContainer.style.backgroundColor = 'gold';
     }
 
@@ -1443,7 +2089,7 @@ if (imgNumber >= 1 && imgNumber <= 13) {
     const draggable = document.createElement('div');
     draggable.style.width = `6vw`; // Match the hexagon width
     draggable.style.height = `7vw`; // Match the hexagon height
-    draggable.style.backgroundImage = `url(cpd/${imgNumber}.jpg)`; // Use the corresponding image from the cpd folder
+    draggable.style.backgroundImage = `url(cpd/${imgNumber}.png)`; // Use the corresponding image from the cpd folder
     draggable.style.backgroundSize = 'cover';
     draggable.style.backgroundPosition = 'center';
     draggable.style.backgroundRepeat = 'no-repeat';
@@ -1491,6 +2137,8 @@ cmpp.addEventListener('click', (event) => {
     setTimeout(updateSharedTraits, 100); // Delay to ensure draggable is added
   }
 });
+
+
 
 document.addEventListener('contextmenu', (event) => {
   if (event.target.closest('div[style*="cpd/"]')) {
@@ -1607,45 +2255,63 @@ document.addEventListener('contextmenu', (event) => {
 });
 
 function updateSharedTraits() {
-  const displayedChampions = new Set(); // Store displayed champions on the screen
-  const sharedTraits = {}; // Store shared traits and their counts
-  const traitChampionMap = {}; // Map to track unique champions for each trait
+  const displayedChampions = new Set();
+  const sharedTraits = {};
+  const traitChampionMap = {};
 
-  // Define the required levels for each trait
+  // --- ตรวจสอบ emblem ที่ drag อยู่บนจอ ---
+  const emblemDrags = document.querySelectorAll('div[style*="emblem/"]');
+  emblemDrags.forEach(emblemDiv => {
+    // หา img emblem ใน draggableContainer
+    const img = emblemDiv.querySelector('img');
+    if (!img) return;
+    // ตรวจสอบ Duelist emblem
+    if (img.src.match(/emblem\/1\.png$/)) {
+      if (!traitChampionMap["Duelist"]) traitChampionMap["Duelist"] = new Set();
+      traitChampionMap["Duelist"].add("Emblem");
+    }
+    // ตรวจสอบ Star Guardian emblem (emblem/16.png)
+    if (img.src.match(/emblem\/16\.png$/)) {
+      if (!traitChampionMap["Star Guardian"]) traitChampionMap["Star Guardian"] = new Set();
+      traitChampionMap["Star Guardian"].add("Emblem");
+    }
+    // เพิ่ม logic mapping index เป็น trait ได้ตามต้องการ
+  });
 
   const traitLevels = {
 
-    "Anima Squad": [3, 5, 7, 10],
-    "AMP": [2, 3, 5],
+    "Battle Academia": [3, 5, 7],
+    "Crystal Gambit": [3, 5, 7],
+    "Luchador": [2, 4],
+    "Mentor": [1, 4],
+    "Mighty Mech": [3, 5, 7],
+    "Monster Trainer": [1],
+    "Soul Fighter": [2, 4, 6, 8],
+    "Star Guardian": [1, 4, 6, 10],
+    "Supreme Cells": [2, 3, 4],
+    "The Crew": [1, 2, 3, 4, 5],
+    "Wraith": [2, 4, 6],
     "Bastion": [2, 4, 6],
-    "BoomBot": [2, 4, 6],
-    "Bruiser": [2, 4, 6],
-    "Cyberboss": [2, 3, 4],
-    "Cypher": [3, 4, 5],
-    "Divinicorp": [1, 2, 5],
-    "Dynamo": [2, 3, 4],
-    "Executioner": [2, 3,5],
-    "Exotech": [3, 5, 7, 10],
-    "Golden Ox": [2, 4, 6],
-    "Marksman": [2, 4],
-    "Nitro": [3, 4],
-    "Rapidfire": [2, 4, 6],
-    "Slayer": [2, 4, 6],
-    "Street Demon": [3, 5, 7, 10],
-    "Strategist": [2, 3, 5],
-    "Syndicate": [3, 5, 7],
-    "Techie": [2, 4, 6],
-    "Vanguard": [2, 4, 6],
-    "God of the Net": [1],
-    "Overlord": [1],
-    "Soul Killer": [1],
-    "Virus": [1]
+    "Duelist": [2, 4, 6],
+    "Executioner": [2, 3, 4, 5],
+    "Heavyweight": [2, 4, 6],
+    "Juggernaunt": [2, 4, 6],
+    "Prodigy": [2, 3, 4, 5],
+    "Protector": [2, 4, 6],
+    "Sniper": [2, 3, 3, 5],
+    "Sorcerer": [2, 4, 6],
+    "Strategist": [2, 3, 4, 5],
+    "The Champ": [1],
+    "Stance Master": [1],
+    "Rogue Captain": [1],
+    "Rosemother": [1]
   };
-  // Find all draggable containers on the screen
-  const draggableContainers = document.querySelectorAll('div[style*="cpd/"]');
+
+  
+ const draggableContainers = document.querySelectorAll('div[style*="cpd/"]');
   draggableContainers.forEach((container) => {
     const backgroundImage = container.style.backgroundImage;
-    const match = backgroundImage.match(/cpd\/(\d+)\.jpg/); // Extract the image number
+    const match = backgroundImage.match(/cpd\/(\d+)\.png/); // Extract the image number
     if (match) {
       const imgNumber = parseInt(match[1], 10);
       const champName = champNames[imgNumber - 1];
@@ -1662,9 +2328,15 @@ function updateSharedTraits() {
     }
   });
 
-  // Count unique champions for each trait
+  // --- นับ emblem เพิ่มเข้าไปใน sharedTraits ---
   Object.entries(traitChampionMap).forEach(([trait, champions]) => {
-    sharedTraits[trait] = champions.size; // Count the unique champions for each trait
+    // นับจำนวน champion + จำนวน Emblem (ถ้ามี)
+    let count = 0;
+    champions.forEach(name => {
+      if (name === "Emblem") count += 1;
+      else count += 1;
+    });
+    sharedTraits[trait] = count;
   });
 
   // Filter traits that meet or exceed the minimum required level
@@ -1680,7 +2352,7 @@ function updateSharedTraits() {
 
       // Determine the level image
       let levelImageSrc = '';
-      if (trait === "God of the Net" || trait === "Overlord" || trait === "Soul Killer" || trait === "Virus") {
+      if (trait === "The Champ" || trait === "Rogue Captain" || trait === "Stance Master" || trait === "Rosemother") {
         levelImageSrc = 'level/un.png'; // Use "un.png" for these traits
       } else if ((trait === "Nitro" || trait === "Marksman") && levelIndex === 1) {
         levelImageSrc = 'level/gold.png'; // Use "gold.png" for Nitro and Marksman at level 2
@@ -1702,7 +2374,7 @@ function updateSharedTraits() {
 
   // Sort traits by priority, count, and level
   filteredTraits.sort((a, b) => {
-    const priorityTraits = ["God of the Net", "Overlord", "Soul Killer", "Virus"];
+    const priorityTraits = ["The Champ", "Rogue Captain", "Stance Master", "Rosemother"];
     const aPriority = priorityTraits.includes(a.trait) ? 1 : 0;
     const bPriority = priorityTraits.includes(b.trait) ? 1 : 0;
 
@@ -1745,80 +2417,8 @@ function updateSharedTraits() {
     blueSquare.innerHTML = ''; // Clear the content if no shared traits
   }
 }
-// Select all squares in the aug container
-const augSquares = document.querySelectorAll('.aug .inner-aug');
 
-// Create the ags area dynamically
-const ags = document.createElement('div');
-ags.id = 'ags';
-ags.style.position = 'absolute';
-ags.style.top = '15vw'; // Adjust vertical position
-ags.style.left = '58vw'; // Adjust horizontal position
-ags.style.width = '40vw'; // Set width
-ags.style.height = '40vw'; // Set height
-ags.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-ags.style.display = 'none'; // Initially hidden
-ags.style.flexWrap = 'wrap';
-ags.style.gap = '0.8vw'; // Space between images
-ags.style.justifyContent = 'center';
-ags.style.alignItems = 'flex-start'; // Align images to the top
-ags.style.padding = '2vw';
-ags.style.boxSizing = 'border-box';
-ags.style.zIndex = '1000';
-ags.style.overflowY = 'auto';
-ags.style.borderRadius = '1vw';
-document.body.appendChild(ags);
 
-// Create and add the close button to the ags area
-const agsCloseButton = document.createElement('button');
-agsCloseButton.textContent = 'Close';
-agsCloseButton.style.position = 'absolute';
-agsCloseButton.style.top = '0.2vw';
-agsCloseButton.style.right = '1vw';
-agsCloseButton.style.padding = '0.5vw 1vw';
-agsCloseButton.style.fontSize = '1vw';
-agsCloseButton.style.backgroundColor = '#ff0000';
-agsCloseButton.style.color = '#ffffff';
-agsCloseButton.style.border = 'none';
-agsCloseButton.style.borderRadius = '0.5vw';
-agsCloseButton.style.cursor = 'pointer';
-agsCloseButton.addEventListener('click', () => {
-  ags.style.display = 'none'; // Hide the ags area when the button is clicked
-});
-ags.appendChild(agsCloseButton);
-
-// Create a container for the search box
-const agsSearchContainer = document.createElement('div');
-agsSearchContainer.style.display = 'flex';
-agsSearchContainer.style.justifyContent = 'center';
-agsSearchContainer.style.alignItems = 'center';
-agsSearchContainer.style.marginBottom = '1vw';
-agsSearchContainer.style.width = '100%'; // Ensure it spans the full width
-agsSearchContainer.style.boxSizing = 'border-box';
-
-// Create the search input
-const agsSearchInput = document.createElement('input');
-agsSearchInput.type = 'text';
-agsSearchInput.placeholder = 'Search images...';
-agsSearchInput.style.width = '20vw';
-agsSearchInput.style.padding = '0.5vw';
-agsSearchInput.style.fontSize = '1vw';
-agsSearchInput.style.borderRadius = '0.5vw';
-agsSearchInput.style.border = '1px solid #ccc';
-
-agsSearchContainer.appendChild(agsSearchInput);
-ags.appendChild(agsSearchContainer); // Add the search container to ags
-
-// Create a container for the images
-const agsImagesContainer = document.createElement('div');
-agsImagesContainer.style.display = 'flex';
-agsImagesContainer.style.flexWrap = 'wrap';
-agsImagesContainer.style.gap = '0.8vw'; // Space between images
-agsImagesContainer.style.justifyContent = 'center';
-agsImagesContainer.style.alignItems = 'flex-start';
-agsImagesContainer.style.width = '100%'; // Ensure it spans the full width
-agsImagesContainer.style.boxSizing = 'border-box';
-ags.appendChild(agsImagesContainer); // Add the images container to ags
 
 // Add search functionality
 agsSearchInput.addEventListener('input', () => {
@@ -1835,260 +2435,6 @@ agsSearchInput.addEventListener('input', () => {
   });
 });
 
-// Populate the ags area with images from Tier1, Tier2, and Tier3 folders
-const tiers = [
-{ folder: 'Tier3', count: 127 },
-  { folder: 'Tier2', count: 151 },
-  { folder: 'Tier1', count: 69 }
-];
-
-tiers.forEach(({ folder, count }) => {
-  for (let i = 1; i <= count; i++) {
-    const img = document.createElement('img');
-    img.src = `${folder}/${i}.png`; // Path to the images
-    img.alt = `Image ${i}`;
-    img.style.width = '10vw'; // Set image width
-    img.style.height = '3vw'; // Set image height
-    img.style.objectFit = 'cover';
-    img.style.cursor = 'pointer';
-    img.style.borderRadius = '0.5vw';
-    img.style.transition = 'transform 0.2s ease';
-    img.addEventListener('mouseover', () => {
-      img.style.transform = 'scale(1.1)';
-    });
-    img.addEventListener('mouseout', () => {
-      img.style.transform = 'scale(1)';
-    });
-    img.addEventListener('click', () => {
-      if (selectedAugSquare) {
-        // Set the selected image as the background of the clicked square
-        selectedAugSquare.style.backgroundImage = `url(${img.src})`;
-        selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
-        selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
-        selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
-
-        // Hide the ags area after selecting an image
-        ags.style.display = 'none';
-      }
-    });
-    agsImagesContainer.appendChild(img);
-  }
-});
-
-// Names for Tier1 images
-const tier1Names = [
-  "Adaptive Strikes", "AFK", "Backup", "Band of Thieves I", "Big Friend I", "Blistering Strikes",
-  "Branching Out", "Branching Out+", "Bulky Buddies I", "Button Mash", "Called Shot", "Caretaker's Ally",
-  "Cease and Desist", "Climb The Ladder I", "Component Buffet", "Corrosion", "Crafted Crafting",
-  "Delayed Start", "Diversified Portfolio", "Diversified Portfolio+", "Dummify", "Eye For An Eye",
-  "Eye For An Eye+", "Find Your Center", "Firesale", "Glass Cannon I", "Good for Something I",
-  "Healing Orbs I", "Health is Wealth I", "Iron Assets", "Item Collector I", "Item Grab Bag I",
-  "Kingslayer", "Lategame Specialist", "Latent Forge", "Lineup", "Lunch Money", "Manaflow I",
-  "Mentorship I", "Missed Connections", "One For All I", "One, Two, Five!", "One, Twos, Three",
-  "Over Encumbered", "Pandora's Bench", "Pandora's Items", "Patience Is a Virtue", "Placebo",
-  "Placebo+", "Preparation l", "Pumping Up I", "Recombobulator", "Restart Mission", "Rigged Shop",
-  "Rigged Shop+", "Risky Moves", "Rolling for Days I", "Silver Spoon", "Spoils of War I",
-  "Stand United I", "Support Mining", "Support Mining+", "Survivor", "Team Building", "Teaming Up I",
-  "Titanic Titan", "Underdogs", "Wolf Unchained", "Young and Wild and Free"
-];
-
-// Populate the ags area with Tier1 images
-tier1Names.forEach((name, index) => {
-  const img = document.createElement('img');
-  img.src = `Tier1/${index + 1}.png`; // Path to the images
-  img.alt = name; // Use the name for search functionality
-  img.style.width = '10vw'; // Set image width
-  img.style.height = '3vw'; // Set image height
-  img.style.objectFit = 'cover';
-  img.style.cursor = 'pointer';
-  img.style.borderRadius = '0.5vw';
-  img.style.transition = 'transform 0.2s ease';
-  img.addEventListener('mouseover', () => {
-    img.style.transform = 'scale(1.1)';
-  });
-  img.addEventListener('mouseout', () => {
-    img.style.transform = 'scale(1)';
-  });
-  img.addEventListener('click', () => {
-    if (selectedAugSquare) {
-      // Set the selected image as the background of the clicked square
-      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
-      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
-      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
-      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
-
-      // Hide the ags area after selecting an image
-      ags.style.display = 'none';
-    }
-  });
-  agsImagesContainer.appendChild(img);
-});
-
-// Names for Tier2 images
-const tier2Names = [
-  "10,000 IQ", "10,000 IQ+", "A Golden Find", "All That Shimmers", "All That Shimmers+", "Alter Ego",
-  "A Magic Roll", "Anima Squad Crest", "Ascension", "Bad Luck Protection", "Bastion Crest",
-  "Big Friend II", "Big Grab Bag", "Blazing Soul I", "Board of Directors", "BoomBots Crest", "BRB",
-  "Bronze For Life I", "Bruiser Crest", "Bulky Buddies II", "Calculated Loss", "Capacitor",
-  "Caretaker's Favor", "Category 5", "Clear Mind", "Climb The Ladder II", "Clockwork Accelerator",
-  "Cloning Facility", "Cluttered Mind", "Cognitive Implant", "Cooking Pot", "Cower, Weaklings!",
-  "Crown Guarded", "Crown's Will", "Cutpurse", "Cyberdeck", "Cybernetic Bulk II",
-  "Cybernetic Implants II", "Cybernetic Uplink II", "Cypher Crest", "Divine Ascension",
-  "Divinicorp Crest", "Dummy With A Gun", "Duo Queue", "Dynamo Crest", "Epoch", "Epoch+",
-  "Executioner Crest", "Exotech Crest", "Expensive Taste", "Expensive Taste+", "Flatline",
-  "Forward Thinking", "Freestyling", "Glass Cannon II", "Golden Ox Crest", "Gold For Dummies",
-  "Golemify", "Healing Orbs II", "Health is Wealth II", "Heroic Grab Bag", "Heroic Grab Bag+",
-  "Heroic Grab Bag++", "High Voltage", "Hostile Takeover", "Hunter Killer Missile", "Hustler",
-  "Inspiring Epitaph", "Investment Strategy I", "Item Collector II", "Keep Your Friends Close",
-  "Last Stand", "Lethal Rerouting", "Little Buddies", "Long Distance Pals", "Mace's Will",
-  "Malicious Monetization", "Manaflow II", "Marksman Crest", "Memory Bank", "Mentorship II",
-  "Moonlight", "New High Score", "Noble Sacrifice", "NO SCOUT NO PIVOT", "Not Today", "One For All II",
-  "Overclocked", "Overheal", "Pair of Fours", "Pandora's Items II", "Patient Study", "Piercing Lotus I",
-  "Pilfer", "Polished Chrome", "Portable Forge", "Power Leveling", "Preparation II", "Prizefighter",
-  "Pumping Up II", "Pyromaniac", "Raining Gold", "Raining Gold+", "Rapidfire Crest", "Reactive Shell",
-  "Reinforcing Skeleture", "ReinFOURcement", "Replication", "Salvage Bin", "Salvage Bin+",
-  "Sated Spellweaver", "Scapegoat", "Scavenger", "Scoreboard Scrapper", "Self-Destruct", "Shop Glitch",
-  "Slammin", "Slammin+", "Slayer Crest", "Spare Parts", "Spear's Will", "Speed Kills", "Spirit Link",
-  "Spoils of War II", "Starry Night", "Starry Night+", "Strategist Crest", "Street Demon Crest",
-  "Support Cache", "Support Spire", "Syndicate Crest", "Tagging Spree", "Teaming Up II", "Techie Crest",
-  "The Chug Bug", "The Chug Bug+", "Thorn-Plated Armor", "Tomb Raider I", "Tower Defense",
-  "Trade Sector", "Trait Tracker", "Transference", "Transistor", "Trial Run", "Trifecta I",
-  "Two Much Value", "Vampiric Vitality", "Vanguard Crest", "Wandering Trainer I", "Warpath",
-  "Worth the Wait I"
-];
-
-// Populate the ags area with Tier2 images
-tier2Names.forEach((name, index) => {
-  const img = document.createElement('img');
-  img.src = `Tier2/${index + 1}.png`; // Path to the images
-  img.alt = name; // Use the name for search functionality
-  img.style.width = '10vw'; // Set image width
-  img.style.height = '3vw'; // Set image height
-  img.style.objectFit = 'cover';
-  img.style.cursor = 'pointer';
-  img.style.borderRadius = '0.5vw';
-  img.style.transition = 'transform 0.2s ease';
-  img.addEventListener('mouseover', () => {
-    img.style.transform = 'scale(1.1)';
-  });
-  img.addEventListener('mouseout', () => {
-    img.style.transform = 'scale(1)';
-  });
-  img.addEventListener('click', () => {
-    if (selectedAugSquare) {
-      // Set the selected image as the background of the clicked square
-      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
-      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
-      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
-      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
-
-      // Hide the ags area after selecting an image
-      ags.style.display = 'none';
-    }
-  });
-  agsImagesContainer.appendChild(img);
-});
-
-// Names for Tier3 images
-const tier3Names = [
-  "An Exalted Adventure", "Anger Issues", "Anima Squad Circlet", "Anima Squad Circlet", "Axiom Arc III",
-  "Bastion Circlet", "Bastion Crown", "Belt Overflow", "Binary Airdrop", "Birthday Present",
-  "Blazing Soul II", "Blinding Speed", "Blue Battery III", "BoomBots Circlet", "BoomBots Crown",
-  "Bronze For Life II", "Bruiser Circlet", "Bruiser Crown", "Build a Bud!", "Bulky Buddies III",
-  "Buried Treasures III", "Calculated Enhancement", "Call to Chaos", "Caretaker's Chosen",
-  "Chemtech Overdrive", "Coronation", "Cruel Pact", "Cursed Crown", "Cybernetic Bulk III",
-  "Cybernetic Implants III", "Cybernetic Uplink III", "Cypher Crown", "Dark Alley Dealings",
-  "Divinicorp Circlet", "Divinicorp Crown", "Dominance", "Double Trouble III", "Dual Purpose",
-  "Dynamo Circlet", "Dynamo Crown", "Endless Horde+", "Endless Hordes", "Executioner Circlet",
-  "Executioner Crown", "Exotech Circlet", "Exotech Crown", "Expected Unexpectedness",
-  "Final Ascension", "Final Polish", "Final Reserves", "Flexible", "Flurry of Blows",
-  "Future Sight II", "Gargantuan Resolve", "Going Long", "Golden Ox Circlet", "Golden Ox Crown",
-  "Greater Moonlight", "Hard Commit", "Hedge Fund", "High End Shopping II", "Immovable Object",
-  "I'm the Carry now", "Invested+", "Invested++", "Investment Strategy II", "Level Up!",
-  "Lifelong Learning", "Living Forge", "Lucky Gloves", "Lucky Gloves+", "Luden's Echo III",
-  "Marksman Circlet", "Marksman Crown", "Max Cap", "One Buff, Two Buff", "Pandora's Items III",
-  "Phreaky Friday", "Phreaky Friday+", "Piercing Lotus II", "Pirates", "Prismatic Pipeline",
-  "Prismatic Ticket", "Pumping Up III", "Quality Over Quantity", "Radiant Refactor", "Radiant Relics",
-  "Rapidfire Circlet", "Rapidfire Crown", "Roll The Dice", "Scoped Weapons II", "Share the Spotlight",
-  "Shimmerscale Essence", "Shock Treatment", "Shock Treatment+", "Shopping Spree", "Slayer Circlet",
-  "Slayer Crown", "Spoils of War III", "Sponging", "Strategist Circlet", "Strategist Crown",
-  "Street Demon Circlet", "Street Demon Crown", "Subscription Service", "Sword Overflow",
-  "Syndicate Circlet", "Syndicate Crown", "Tactician's Kitchen", "Techie Circlet", "Techie Crown",
-  "The Golden Egg", "Think Fast", "Tiniest Titan", "Tiniest Titan+", "Tomb Raider II", "Trifecta II",
-  "Unstable Evolution", "Upward Mobility", "Vanguard Circlet", "Vanguard Crown", "Void Swarm",
-  "Wandering Trainer II", "Wand Overflow", "Wise Spending", "Woodland Charm", "Worth the Wait II"
-];
-
-// Populate the ags area with Tier3 images
-tier3Names.forEach((name, index) => {
-  const img = document.createElement('img');
-  img.src = `Tier3/${index + 1}.png`; // Path to the images
-  img.alt = name; // Use the name for search functionality
-  img.style.width = '10vw'; // Set image width
-  img.style.height = '3vw'; // Set image height
-  img.style.objectFit = 'cover';
-  img.style.cursor = 'pointer';
-  img.style.borderRadius = '0.5vw';
-  img.style.transition = 'transform 0.2s ease';
-  img.addEventListener('mouseover', () => {
-    img.style.transform = 'scale(1.1)';
-  });
-  img.addEventListener('mouseout', () => {
-    img.style.transform = 'scale(1)';
-  });
-  img.addEventListener('click', () => {
-    if (selectedAugSquare) {
-      // Set the selected image as the background of the clicked square
-      selectedAugSquare.style.backgroundImage = `url(${img.src})`;
-      selectedAugSquare.style.backgroundSize = 'contain'; // Ensure the image fits within the square
-      selectedAugSquare.style.backgroundPosition = 'center'; // Center the image
-      selectedAugSquare.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
-
-      // Hide the ags area after selecting an image
-      ags.style.display = 'none';
-    }
-  });
-  agsImagesContainer.appendChild(img);
-});
-
-// Add click event to each square in the aug container
-let selectedAugSquare = null;
-augSquares.forEach((square) => {
-  square.addEventListener('click', () => {
-    selectedAugSquare = square; // Set the clicked square as the selected square
-    ags.style.display = 'flex'; // Show the ags area
-  });
-});
-
-// Select the hide button and the .cd element
-const hideButton = document.getElementById('hideButton');
-const cdElement = document.querySelector('.cd');
-
-// Function to hide the button and .cd
-hideButton.addEventListener('click', () => {
-  hideButton.style.display = 'none'; // Hide the button
-  cdElement.style.display = 'none'; // Hide the .cd element
-});
-
-// Function to bring back the button and .cd when something is edited
-function bringBackUI() {
-  hideButton.style.display = 'block'; // Show the button
-  cdElement.style.display = 'flex'; // Show the .cd element
-}
-
-// Add event listeners for interactions that bring back the UI
-document.addEventListener('mousemove', (event) => {
-  if (event.target.closest('div[style*="cpd/"]')) {
-    bringBackUI(); // Bring back the UI when a draggable image is moved
-  }
-});
-
-document.addEventListener('click', (event) => {
-  if (event.target.closest('.ags img')) {
-    bringBackUI(); // Bring back the UI when an image in ags is selected
-  }
-});
 </script>
-
 </body>
 </html>
