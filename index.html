@@ -770,7 +770,7 @@ function renderEmblemPickerList() {
         
           // Emblem image
           const dragImg = document.createElement('img');
-          dragImg.src = `emblempic/${idx + 1}.png`;
+          dragImg.src = `emblem/${idx + 1}.png`;
           dragImg.alt = name;
           dragImg.style.width = '90%';
           dragImg.style.height = '90%';
@@ -2259,25 +2259,6 @@ function updateSharedTraits() {
   const sharedTraits = {};
   const traitChampionMap = {};
 
-  // --- ตรวจสอบ emblem ที่ drag อยู่บนจอ ---
-  const emblemDrags = document.querySelectorAll('div[style*="emblem/"]');
-  emblemDrags.forEach(emblemDiv => {
-    // หา img emblem ใน draggableContainer
-    const img = emblemDiv.querySelector('img');
-    if (!img) return;
-    // ตรวจสอบ Duelist emblem
-    if (img.src.match(/emblem\/1\.png$/)) {
-      if (!traitChampionMap["Duelist"]) traitChampionMap["Duelist"] = new Set();
-      traitChampionMap["Duelist"].add("emblem");
-    }
-    // ตรวจสอบ Star Guardian emblem (emblem/16.png)
-    if (img.src.match(/emblem\/16\.png$/)) {
-      if (!traitChampionMap["Star Guardian"]) traitChampionMap["Star Guardian"] = new Set();
-      traitChampionMap["Star Guardian"].add("emblem");
-    }
-    // เพิ่ม logic mapping index เป็น trait ได้ตามต้องการ
-  });
-
   const traitLevels = {
 
     "Battle Academia": [3, 5, 7],
@@ -2295,7 +2276,7 @@ function updateSharedTraits() {
     "Duelist": [2, 4, 6],
     "Executioner": [2, 3, 4, 5],
     "Heavyweight": [2, 4, 6],
-    "Juggernaunt": [2, 4, 6],
+    "Juggernaut": [2, 4, 6],
     "Prodigy": [2, 3, 4, 5],
     "Protector": [2, 4, 6],
     "Sniper": [2, 3, 3, 5],
