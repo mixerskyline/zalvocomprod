@@ -426,7 +426,7 @@
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Prevent image repetition */
 }
-.bottom-left-blue-square {
+.trait-square {
   position: absolute;
   top: 36.5vw; /* Adjust distance from the bottom */
   left: 4vw; /* Adjust distance from the left */
@@ -523,6 +523,7 @@
     <div class="ps-circle" id="psc3"></div>
   </div>
   <div class="cd">
+    <div class="diffbut" id="starbut" style="background-color: gold; color: #222; font-weight: bold;">3*</div>
     <div class="diffbut" id="emblemBut">emblem</div>
     <div class="diffbut" id="diffbut1">Easy</div>
     <div class="diffbut" id="diffbut2">Medium</div>
@@ -621,7 +622,7 @@
 <div class="ps-rect" id="ps2"></div>
 <div class="ps-rect" id="ps3"></div>
 <div class="bottom-left-square" id="itemp"></div>
-<div class="bottom-left-blue-square"></div>
+<div class="trait-square"></div>
 <div class="itt">
   <div class="itt-square" id="itt1"></div>
   <div class="itt-square" id="itt2"></div>
@@ -636,6 +637,9 @@
 </div>
 
 <script>
+
+
+
 
 
 // --- Emblem Picker ---
@@ -749,6 +753,17 @@ function renderEmblemPickerList() {
 
     div.appendChild(img);
     div.appendChild(label);
+
+  function addEmblemTrait(traitName) {
+  traitCount[traitName] = (traitCount[traitName] || 0) + 1;
+  updateTraitSquare();
+}
+
+// ฟังก์ชันลด trait จาก Emblem
+function removeEmblemTrait(traitName) {
+  traitCount[traitName] = Math.max(0, (traitCount[traitName] || 0) - 1);
+  updateTraitSquare();
+}
 
         
         div.addEventListener('click', () => {
@@ -867,14 +882,16 @@ function renderEmblemPickerList() {
               // --- END SNAP LOGIC ---
             }
           });
-        
-          // Right-click to remove
-          draggableContainer.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            draggableContainer.remove();
-          });
-        });
-        
+  addEmblemTrait(name); // เพิ่ม trait emblem
+
+  // Right-click to remove
+  draggableContainer.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    draggableContainer.remove();
+    removeEmblemTrait(name); // ลด trait emblem
+  });
+});
+
     emblemPickerList.appendChild(div);
   });
 }
@@ -890,6 +907,118 @@ document.getElementById('emblemBut').addEventListener('click', () => {
   renderEmblemPickerList();
 });
 
+
+document.getElementById('starbut').addEventListener('click', () => {
+  const starbut = document.getElementById('starbut');
+
+  // สร้าง draggable image 3star.png
+  const draggableContainer = document.createElement('div');
+  draggableContainer.className = 'star-draggable';
+  draggableContainer.style.position = 'absolute';
+  draggableContainer.style.left = '50vw';
+  draggableContainer.style.top = '10vw';
+  draggableContainer.style.width = '7vw';
+  draggableContainer.style.height = '3vw';
+  draggableContainer.style.zIndex = '2000';
+  draggableContainer.style.cursor = 'grab';
+
+  const img = document.createElement('img');
+  img.src = '3star/3star.png';
+  img.alt = '3 Star';
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'contain';
+  img.style.pointerEvents = 'none';
+
+  draggableContainer.appendChild(img);
+  document.body.appendChild(draggableContainer);
+
+  // --- SNAP LOGIC: set initial position to nearest hexagon ---
+  let closestHexagon = null;
+  let closestDistance = Infinity;
+  const hexagons = document.querySelectorAll('.comp .hexagon');
+  hexagons.forEach((hexagon) => {
+    const hexRect = hexagon.getBoundingClientRect();
+    const hexCenterX = hexRect.left + hexRect.width / 2;
+    const hexCenterY = hexRect.top + hexRect.height / 2;
+    // Use window center for initial position
+    const starCenterX = window.innerWidth * 0.5;
+    const starCenterY = window.innerWidth * 0.1;
+    const distance = Math.sqrt(
+      Math.pow(starCenterX - hexCenterX, 2) +
+      Math.pow(starCenterY - hexCenterY, 2)
+    );
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestHexagon = hexagon;
+    }
+  });
+  if (closestHexagon) {
+    const closestRect = closestHexagon.getBoundingClientRect();
+    const hexCenterX = closestRect.left + closestRect.width / 2;
+    const hexCenterY = closestRect.top + closestRect.height / 2;
+    // เยื้องขึ้นไปข้างบน hex ประมาณ 2vw
+    draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+    draggableContainer.style.top = `calc(${hexCenterY - draggableContainer.offsetHeight / 2}px - 2vw)`;
+  }
+  // --- END SNAP LOGIC ---
+
+  // Drag logic
+  let isDragging = false, offsetX = 0, offsetY = 0;
+  draggableContainer.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - draggableContainer.getBoundingClientRect().left;
+    offsetY = e.clientY - draggableContainer.getBoundingClientRect().top;
+    draggableContainer.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      draggableContainer.style.left = `${e.clientX - offsetX}px`;
+      draggableContainer.style.top = `${e.clientY - offsetY}px`;
+    }
+  });
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      draggableContainer.style.cursor = 'grab';
+
+      // --- SNAP LOGIC: snap to nearest hexagon after drag ---
+      let closestHexagon = null;
+      let closestDistance = Infinity;
+      hexagons.forEach((hexagon) => {
+        const hexRect = hexagon.getBoundingClientRect();
+        const hexCenterX = hexRect.left + hexRect.width / 2;
+        const hexCenterY = hexRect.top + hexRect.height / 2;
+        const draggableRect = draggableContainer.getBoundingClientRect();
+        const draggableCenterX = draggableRect.left + draggableRect.width / 2;
+        const draggableCenterY = draggableRect.top + draggableRect.height / 2;
+        const distance = Math.sqrt(
+          Math.pow(draggableCenterX - hexCenterX, 2) +
+          Math.pow(draggableCenterY - hexCenterY, 2)
+        );
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestHexagon = hexagon;
+        }
+      });
+      if (closestHexagon) {
+        const closestRect = closestHexagon.getBoundingClientRect();
+        const hexCenterX = closestRect.left + closestRect.width / 2;
+        const hexCenterY = closestRect.top + closestRect.height / 2;
+        // เยื้องขึ้นไปข้างบน hex ประมาณ 2vw
+        draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+        draggableContainer.style.top = `calc(${hexCenterY - draggableContainer.offsetHeight / 2}px - 3vw)`;
+      }
+      // --- END SNAP LOGIC ---
+    }
+  });
+
+  // คลิกขวาเพื่อลบ
+  draggableContainer.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    draggableContainer.remove();
+  });
+});
 
 const champNames = [
   "Aatrox",
@@ -1402,7 +1531,7 @@ document.addEventListener('click', (event) => {
   
 const championTraits = {
   "Aatrox": ["Mighty Mech", "Juggernaut", "Heavyweight"],
-  "Ezreal": ["Battle Academia", "Protector"],
+  "Ezreal": ["Battle Academia", "Prodigy"],
   "Garen": ["Battle Academia", "Bastion"],
   "Gnar": ["Luchador", "Sniper"],
   "Kalista": ["Soul Fighter", "Executioner"],
@@ -1424,7 +1553,7 @@ const championTraits = {
   "Lux": ["Soul Fighter", "Sorcerer"],
   "Mundo": ["Luchador", "Juggernaut"],
   "Rakan": ["Battle Academia", "Protector"],
-  "Shen": ["The Crew", "Bastion"],
+  "Shen": ["The Crew", "Bastion", "Edgelord"],
   "Vi": ["Crystal Gambit", "Juggernaut"],
   "Xayah": ["Star Guardian", "Edgelord"],
   "Xin Zhao": ["Soul Fighter", "Bastion"],
@@ -1467,7 +1596,53 @@ const championTraits = {
   "Zyra": ["Crystal Gambit", "Rosemother"]
 };
 
+const traitLevels = {
+  "Battle Academia": [3, 5, 7],
+  "Crystal Gambit": [3, 5, 7],
+  "Edgelord": [2, 4, 6],
+  "Luchador": [2, 4],
+  "Mentor": [1, 4],
+  "Mighty Mech": [3, 5, 7],
+  "Monster Trainer": [1],
+  "Soul Fighter": [2, 4, 6, 8],
+  "Star Guardian": [1, 4, 6, 8],
+  "Supreme Cells": [2, 3, 4],
+  "The Crew": [1, 3, 4, 5],
+  "Wraith": [2, 4, 6],
+  "Bastion": [2, 4, 6],
+  "Duelist": [2, 4, 6],
+  "Executioner": [2, 3, 5],
+  "Heavyweight": [2, 4, 6],
+  "Juggernaut": [2, 4, 6],
+  "Prodigy": [2, 3, 5],
+  "Protector": [2, 4, 6],
+  "Sniper": [2, 3, 5],
+  "Sorcerer": [2, 4, 6],
+  "Strategist": [2, 3, 5],
+  "The Champ": [1],
+  "Stance Master": [1],
+  "Rogue Captain": [1],
+  "Rosemother": [1]
+};
 
+function getTraitLevelIcon(trait, count) {
+  const levels = traitLevels[trait];
+  if (!levels) return '';
+  let levelIcon = '';
+  if (levels.length === 1) levelIcon = 'un.png';
+  else if (count >= (levels[3] || 999)) levelIcon = 'pris.png';
+  else if (count >= (levels[2] || 999)) levelIcon = 'gold.png';
+  else if (count >= (levels[1] || 999)) levelIcon = 'silver.png';
+  else if (count >= (levels[0] || 999)) levelIcon = 'bronze.png';
+
+  // ใช้ span ซ้อนภาพ trait logo กึ่งกลาง level icon
+  return `
+    <span style="display:inline-block;position:relative;width:2vw;height:2vw;vertical-align:middle;margin-right:0.5vw;">
+      <img src="Level/${levelIcon}" style="position:absolute;left:0;top:0;width:2vw;height:2vw;">
+      <img src="Trait/${trait}.png" style="position:absolute;left:50%;top:50%;width:1.5vw;height:1.5vw;transform:translate(-50%,-50%);">
+    </span>
+  `;
+}
 
 const hexagonsInComp = document.querySelectorAll('.comp .hexagon');
 
@@ -1713,6 +1888,8 @@ ci.style.display = 'none'; // Hide the ci area when the button is clicked
 si1Squares.forEach(sq => sq.classList.remove('selected'));
 });
 ci.appendChild(ciCloseButton);
+
+
 
 // Select all squares in si1
 const si1Squares = document.querySelectorAll('#si1 .inner-square'); // Select all squares in si1
@@ -2051,19 +2228,217 @@ ittSquares.forEach((square) => {
   });
 });
 
-// Add click event to make images in cmpp draggable and use images from the cpd folder
-// Mapping of image numbers to names
+
+const traitCount = {};
+
+function updateTraitSquare() {
+  const traitSquare = document.querySelector('.trait-square');
+  const traitsToShow = [];
+
+  Object.entries(traitCount).forEach(([trait, count]) => {
+    const levels = traitLevels[trait];
+    if (!levels) return;
+    if (count >= levels[0]) {
+      let level = 'bronze';
+      if (levels.length === 1) level = 'un';
+      else if (count >= (levels[3] || 999)) level = 'pris';
+      else if (count >= (levels[2] || 999)) level = 'gold';
+      else if (count >= (levels[1] || 999)) level = 'silver';
+      traitsToShow.push({
+        trait,
+        count,
+        html: `${getTraitLevelIcon(trait, count)}${count} ${trait}<br>`,
+        level
+      });
+    }
+  });
+
+  const levelOrder = { un: 0, pris: 1, gold: 2, silver: 3, bronze: 4 };
+  traitsToShow.sort((a, b) => levelOrder[a.level] - levelOrder[b.level]);
+
+  // ปรับขนาดถ้ามีมากกว่า 8 trait
+  if (traitsToShow.length > 8) {
+    traitSquare.style.fontSize = '1.2vw';
+    traitSquare.querySelectorAll('img').forEach(img => {
+      img.style.height = '1.2vw';
+      img.style.marginRight = '0.3vw';
+    });
+  } else {
+    traitSquare.style.fontSize = '1.6vw';
+    traitSquare.querySelectorAll('img').forEach(img => {
+      img.style.height = '2vw';
+      img.style.marginRight = '0.5vw';
+    });
+  }
+
+  traitSquare.innerHTML = traitsToShow.map(t => t.html).join('');
+const mmCount = traitCount['Mighty Mech'] || 0;
+const existingMM = document.querySelector('.mm-draggable');
+if (mmCount >= 3 && !existingMM) {
+  // สร้าง draggable hexagon mm emblem
+  const draggableContainer = document.createElement('div');
+  draggableContainer.className = 'mm-draggable';
+  draggableContainer.style.position = 'absolute';
+  draggableContainer.style.width = `6.7vw`;
+  draggableContainer.style.height = `7.8vw`;
+  draggableContainer.style.zIndex = '998';
+  draggableContainer.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+  draggableContainer.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+  draggableContainer.style.display = 'flex';
+  draggableContainer.style.justifyContent = 'center';
+  draggableContainer.style.alignItems = 'center';
+  draggableContainer.style.backgroundColor = '#ffffff';
+
+  // Hexagon image
+  const draggable = document.createElement('div');
+  draggable.style.width = `6vw`;
+  draggable.style.height = `7vw`;
+  draggable.style.backgroundImage = `url(mm/mm.png)`;
+  draggable.style.backgroundSize = 'cover';
+  draggable.style.backgroundPosition = 'center';
+  draggable.style.backgroundRepeat = 'no-repeat';
+  draggable.style.cursor = 'grab';
+  draggable.style.zIndex = '999';
+  draggable.style.clipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+  draggable.style.webkitClipPath = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+
+  // Label
+  const label = document.createElement('div');
+  label.textContent = 'Mighty Mech';
+  label.style.position = 'absolute';
+  label.style.top = '50%';
+  label.style.left = '50%';
+  label.style.transform = 'translate(-50%, -50%)';
+  label.style.color = 'white';
+  label.style.textShadow = `1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black`;
+  label.style.pointerEvents = 'none';
+  label.style.whiteSpace = 'nowrap';
+  label.style.fontSize = '1.2vw';
+
+  draggable.appendChild(label);
+  draggableContainer.appendChild(draggable);
+  document.body.appendChild(draggableContainer);
+
+  // Snap to nearest hexagon
+  let closestHexagon = null;
+  let closestDistance = Infinity;
+  const hexagons = document.querySelectorAll('.comp .hexagon');
+  hexagons.forEach((hexagon) => {
+    const hexRect = hexagon.getBoundingClientRect();
+    const hexCenterX = hexRect.left + hexRect.width / 2;
+    const hexCenterY = hexRect.top + hexRect.height / 2;
+    const mmCenterX = window.innerWidth * 0.6;
+    const mmCenterY = window.innerWidth * 0.1;
+    const distance = Math.sqrt(
+      Math.pow(mmCenterX - hexCenterX, 2) +
+      Math.pow(mmCenterY - hexCenterY, 2)
+    );
+    if (distance < closestDistance) {
+      closestDistance = distance;
+      closestHexagon = hexagon;
+    }
+  });
+  if (closestHexagon) {
+    const closestRect = closestHexagon.getBoundingClientRect();
+    const hexCenterX = closestRect.left + closestRect.width / 2;
+    const hexCenterY = closestRect.top + closestRect.height / 2;
+    draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+    draggableContainer.style.top = `${hexCenterY - draggableContainer.offsetHeight / 2}px`;
+  }
+
+  // Drag logic
+  let isDragging = false, offsetX = 0, offsetY = 0;
+  draggableContainer.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - draggableContainer.getBoundingClientRect().left;
+    offsetY = e.clientY - draggableContainer.getBoundingClientRect().top;
+    draggable.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      draggableContainer.style.left = `${e.clientX - offsetX}px`;
+      draggableContainer.style.top = `${e.clientY - offsetY}px`;
+    }
+  });
+  document.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      draggable.style.cursor = 'grab';
+
+      // Snap to nearest hexagon after drag
+      let closestHexagon = null;
+      let closestDistance = Infinity;
+      hexagons.forEach((hexagon) => {
+        const hexRect = hexagon.getBoundingClientRect();
+        const hexCenterX = hexRect.left + hexRect.width / 2;
+        const hexCenterY = hexRect.top + hexRect.height / 2;
+        const draggableRect = draggableContainer.getBoundingClientRect();
+        const draggableCenterX = draggableRect.left + draggableRect.width / 2;
+        const draggableCenterY = draggableRect.top + draggableRect.height / 2;
+        const distance = Math.sqrt(
+          Math.pow(draggableCenterX - hexCenterX, 2) +
+          Math.pow(draggableCenterY - hexCenterY, 2)
+        );
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestHexagon = hexagon;
+        }
+      });
+      if (closestHexagon) {
+        const closestRect = closestHexagon.getBoundingClientRect();
+        const hexCenterX = closestRect.left + closestRect.width / 2;
+        const hexCenterY = closestRect.top + closestRect.height / 2;
+        draggableContainer.style.left = `${hexCenterX - draggableContainer.offsetWidth / 2}px`;
+        draggableContainer.style.top = `${hexCenterY - draggableContainer.offsetHeight / 2}px`;
+      }
+    }
+  });
+
+  // Right-click to remove mm emblem
+  draggableContainer.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    draggableContainer.remove();
+  });
+}
+// ถ้า Mighty Mech < 3 ให้ลบ mm emblem ออก
+if (mmCount < 3 && existingMM) {
+  existingMM.remove();
+}
+}
+
+// ฟังก์ชันเพิ่ม trait
+function addTraits(champName) {
+  const traits = championTraits[champName] || [];
+  traits.forEach(trait => {
+    traitCount[trait] = (traitCount[trait] || 0) + 1;
+  });
+  updateTraitSquare();
+}
+
+// ฟังก์ชันลด trait
+function removeTraits(champName) {
+  const traits = championTraits[champName] || [];
+  traits.forEach(trait => {
+    traitCount[trait] = Math.max(0, (traitCount[trait] || 0) - 1);
+  });
+  updateTraitSquare();
+}
 
 cmpp.addEventListener('click', (event) => {
   if (event.target.tagName === 'IMG') {
     const img = event.target;
+    const imgNumber = parseInt(img.src.match(/(\d+)\.png$/)[1], 10);
+    const champName = champNames[imgNumber - 1];
 
-    // Extract the image number from the clicked image's src
-    const imgNumber = parseInt(img.src.match(/(\d+)\.png$/)[1], 10); // Extract the number from the filename
-    const champName = champNames[imgNumber - 1]; // Get the corresponding name
+  // เช็คว่ามี draggable champion นี้อยู่แล้วหรือยัง
+    const alreadyExists = Array.from(document.querySelectorAll('.champ-draggable'))
+      .some(div => div.getAttribute('data-champ') === champName);
+    if (alreadyExists) return; // ถ้ามีอยู่แล้ว ไม่ต้องเพิ่ม trait และไม่สร้าง draggable
 
     // Create the draggable container
     const draggableContainer = document.createElement('div');
+    draggableContainer.className = 'champ-draggable';
+    draggableContainer.setAttribute('data-champ', champName);
     draggableContainer.style.position = 'absolute';
     draggableContainer.style.width = `6.7vw`; // Slightly larger than the hexagon width
     draggableContainer.style.height = `7.8vw`; // Slightly larger than the hexagon height
@@ -2073,6 +2448,9 @@ cmpp.addEventListener('click', (event) => {
     draggableContainer.style.display = 'flex'; // Use flexbox to center the child
     draggableContainer.style.justifyContent = 'center'; // Center horizontally
     draggableContainer.style.alignItems = 'center'; // Center vertically
+
+
+    
 if (imgNumber >= 1 && imgNumber <= 14) {
       draggableContainer.style.backgroundColor = 'gray';
     } else if (imgNumber >= 15 && imgNumber <= 27) {
@@ -2131,20 +2509,6 @@ document.body.appendChild(draggableContainer);
     let offsetY = 0;
 
 
-// Call updateSharedTraits where necessary
-cmpp.addEventListener('click', (event) => {
-  if (event.target.tagName === 'IMG') {
-    setTimeout(updateSharedTraits, 100); // Delay to ensure draggable is added
-  }
-});
-
-
-
-document.addEventListener('contextmenu', (event) => {
-  if (event.target.closest('div[style*="cpd/"]')) {
-    setTimeout(updateSharedTraits, 100); // Delay to ensure draggable is removed
-  }
-});
 
     // Find the nearest hexagon in the .comp area
     let closestHexagon = null;
@@ -2246,158 +2610,18 @@ document.addEventListener('contextmenu', (event) => {
       }
     });
 
+    addTraits(champName); // เพิ่ม trait เมื่อสร้าง draggable
+
     // Right-click to remove the draggable container
     draggableContainer.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       draggableContainer.remove();
+      removeTraits(champName); // ลด trait เมื่อ remove
     });
+
+    document.body.appendChild(draggableContainer);
   }
 });
-
-function updateSharedTraits() {
-  const displayedChampions = new Set();
-  const sharedTraits = {};
-  const traitChampionMap = {};
-
-  const traitLevels = {
-
-    "Battle Academia": [3, 5, 7],
-    "Crystal Gambit": [3, 5, 7],
-    "Luchador": [2, 4],
-    "Mentor": [1, 4],
-    "Mighty Mech": [3, 5, 7],
-    "Monster Trainer": [1],
-    "Soul Fighter": [2, 4, 6, 8],
-    "Star Guardian": [1, 4, 6, 10],
-    "Supreme Cells": [2, 3, 4],
-    "The Crew": [1, 2, 3, 4, 5],
-    "Wraith": [2, 4, 6],
-    "Bastion": [2, 4, 6],
-    "Duelist": [2, 4, 6],
-    "Executioner": [2, 3, 4, 5],
-    "Heavyweight": [2, 4, 6],
-    "Juggernaut": [2, 4, 6],
-    "Prodigy": [2, 3, 4, 5],
-    "Protector": [2, 4, 6],
-    "Sniper": [2, 3, 3, 5],
-    "Sorcerer": [2, 4, 6],
-    "Strategist": [2, 3, 4, 5],
-    "The Champ": [1],
-    "Stance Master": [1],
-    "Rogue Captain": [1],
-    "Rosemother": [1]
-  };
-
-  
- const draggableContainers = document.querySelectorAll('div[style*="cpd/"]');
-  draggableContainers.forEach((container) => {
-    const backgroundImage = container.style.backgroundImage;
-    const match = backgroundImage.match(/cpd\/(\d+)\.png/); // Extract the image number
-    if (match) {
-      const imgNumber = parseInt(match[1], 10);
-      const champName = champNames[imgNumber - 1];
-      displayedChampions.add(champName);
-
-      // Add traits of the champion to the sharedTraits object
-      const traits = championTraits[champName] || [];
-      traits.forEach((trait) => {
-        if (!traitChampionMap[trait]) {
-          traitChampionMap[trait] = new Set(); // Initialize a set for each trait
-        }
-        traitChampionMap[trait].add(champName); // Add the champion to the trait's set
-      });
-    }
-  });
-
-  // --- นับ emblem เพิ่มเข้าไปใน sharedTraits ---
-  Object.entries(traitChampionMap).forEach(([trait, champions]) => {
-    // นับจำนวน champion + จำนวน Emblem (ถ้ามี)
-    let count = 0;
-    champions.forEach(name => {
-      if (name === "emblem") count += 1;
-      else count += 1;
-    });
-    sharedTraits[trait] = count;
-  });
-
-  // Filter traits that meet or exceed the minimum required level
-  const filteredTraits = Object.entries(sharedTraits)
-    .filter(([trait, count]) => {
-      const levels = traitLevels[trait] || [];
-      return levels.some(level => count >= level); // Check if the count meets or exceeds any level
-    })
-    .map(([trait, count]) => {
-      const levels = traitLevels[trait] || [];
-      let levelIndex = levels.findIndex(level => count < level) - 1;
-      if (levelIndex === -2) levelIndex = levels.length - 1; // If count exceeds all levels, use the highest level
-
-      // Determine the level image
-      let levelImageSrc = '';
-      if (trait === "The Champ" || trait === "Rogue Captain" || trait === "Stance Master" || trait === "Rosemother") {
-        levelImageSrc = 'level/un.png'; // Use "un.png" for these traits
-      } else if ((trait === "Nitro" || trait === "Marksman") && levelIndex === 1) {
-        levelImageSrc = 'level/gold.png'; // Use "gold.png" for Nitro and Marksman at level 2
-      } else {
-        if (levelIndex === 0) levelImageSrc = 'level/bronze.png';
-        else if (levelIndex === 1) levelImageSrc = 'level/silver.png';
-        else if (levelIndex === 2) levelImageSrc = 'level/gold.png';
-        else if (levelIndex >= 3) levelImageSrc = 'level/pris.png';
-      }
-
-      // Determine the trait logo image
-      const traitLogoSrc = `trait/${trait}.png`;
-
-      // Replace "AMP" with "A.M.P" for display
-      const displayTrait = trait === "AMP" ? "A.M.P" : trait;
-
-      return { trait: displayTrait, count, levelImageSrc, traitLogoSrc };
-    });
-
-  // Sort traits by priority, count, and level
-  filteredTraits.sort((a, b) => {
-    const priorityTraits = ["The Champ", "Rogue Captain", "Stance Master", "Rosemother"];
-    const aPriority = priorityTraits.includes(a.trait) ? 1 : 0;
-    const bPriority = priorityTraits.includes(b.trait) ? 1 : 0;
-
-    if (aPriority !== bPriority) {
-      return bPriority - aPriority; // Priority traits come first
-    }
-
-    if (b.count !== a.count) {
-      return b.count - a.count; // Sort by count in descending order
-    }
-
-    // If counts are equal, sort by level (higher level first)
-    const levelOrder = ["bronze.png", "silver.png", "gold.png", "pris.png", "un.png"];
-    const aLevelIndex = levelOrder.indexOf(a.levelImageSrc.split('/').pop());
-    const bLevelIndex = levelOrder.indexOf(b.levelImageSrc.split('/').pop());
-    return bLevelIndex - aLevelIndex; // Higher level comes first
-  });
-
-  // Update the bottom-left blue square with shared traits, one per row
-  const blueSquare = document.querySelector('.bottom-left-blue-square');
-  if (filteredTraits.length > 0) {
-    // Adjust font size and image size dynamically
-    const fontSize = filteredTraits.length >= 8 ? '1.2vw' : '1.8vw';
-    const imageSize = filteredTraits.length >= 8 ? '1.5vw' : '2vw';
-    const logoSize = filteredTraits.length >= 8 ? '1.05vw' : '1.4vw';
-
-    blueSquare.innerHTML = filteredTraits.map(({ trait, count, levelImageSrc, traitLogoSrc }) => `
-      <div style="display: flex; align-items: center; margin-bottom: 0.5vw;">
-        <div style="position: relative; width: ${imageSize}; height: ${imageSize}; margin-right: 0.5vw;">
-          <img src="${levelImageSrc}" alt="Level" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
-          <img src="${traitLogoSrc}" alt="${trait}" style="width: ${logoSize}; height: ${logoSize}; position: absolute; top: 15%; left: 15%;">
-        </div>
-        <span style="font-size: ${fontSize};">${count} ${trait}</span>
-      </div>
-    `).join('');
-
-    // Apply the font size to the blue square
-    blueSquare.style.fontSize = fontSize;
-  } else {
-    blueSquare.innerHTML = ''; // Clear the content if no shared traits
-  }
-}
 
 
 
@@ -2415,6 +2639,7 @@ agsSearchInput.addEventListener('input', () => {
     }
   });
 });
+
 
 </script>
 </body>
