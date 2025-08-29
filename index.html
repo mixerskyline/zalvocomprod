@@ -22,6 +22,7 @@
       font-family: 'CustomFont', sans-serif; /* Use the new font */
       overflow-y: auto; /* Enable vertical scrolling */
     }
+
     .tb {
       position: absolute; /* Use fixed positioning to keep it consistent across screen sizes */
       top: 2.5vw; /* Position relative to the viewport height */
@@ -1634,13 +1635,13 @@ function getTraitLevelIcon(trait, count) {
   else if (count >= (levels[1] || 999)) levelIcon = 'silver.png';
   else if (count >= (levels[0] || 999)) levelIcon = 'bronze.png';
 
-  // ใช้ span ซ้อนภาพ trait logo กึ่งกลาง level icon
-  return `
-    <span style="display:inline-block;position:relative;width:2vw;height:2vw;vertical-align:middle;margin-right:0.5vw;">
-      <img src="level/${levelIcon}" style="position:absolute;left:0;top:0;width:2vw;height:2vw;">
-      <img src="trait/${trait}.png" style="position:absolute;left:50%;top:50%;width:1.5vw;height:1.5vw;transform:translate(-50%,-50%);">
-    </span>
-  `;
+  // ให้ LevelIcon และ TraitIcon ซ้อนตรงกลางพอดี
+return `
+  <span style="display:inline-block;position:relative;width:2vw;height:2vw;vertical-align:middle;margin-right:0.1vw;top:-0.1vw;">
+    <img src="level/${levelIcon}" style="position:absolute;left:50%;top:50%;max-width:2vw;max-height:2vw;transform:translate(-50%,-50%);object-fit:contain;">
+    <img src="trait/${trait}.png" style="position:absolute;left:50%;top:50%;width:1.5vw;height:1.5vw;transform:translate(-50%,-50%);">
+  </span>
+`;
 }
 
 const hexagonsInComp = document.querySelectorAll('.comp .hexagon');
@@ -2621,6 +2622,8 @@ document.body.appendChild(draggableContainer);
     document.body.appendChild(draggableContainer);
   }
 });
+
+
 
 // Add search functionality
 agsSearchInput.addEventListener('input', () => {
